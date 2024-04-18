@@ -35,7 +35,7 @@ const SignUpForm = props => {
                 type="text"
                 text="Họ"
                 onInput={inputHandler}
-                errorText="Invalid email!"
+                errorText="Hãy nhập vào mục này"
                 validators={[VALIDATOR_REQUIRE()]}>
             </Input>
             <Input
@@ -44,7 +44,7 @@ const SignUpForm = props => {
                 type="text"
                 text="Tên"
                 onInput={inputHandler}
-                errorText="Invalid email!"
+                errorText="Hãy nhập vào mục này"
                 validators={[VALIDATOR_REQUIRE()]}>
             </Input>
         </div>
@@ -63,7 +63,7 @@ const SignUpForm = props => {
             type="text"
             text="Số điện thoại"
             onInput={inputHandler}
-            errorText="Invalid email!"
+            errorText="Invalid sđt!"
             validators={[VALIDATOR_REQUIRE()]}>
         </Input>
         <Input
@@ -72,7 +72,7 @@ const SignUpForm = props => {
             type="text"
             text="Mật khẩu"
             onInput={inputHandler}
-            errorText="Invalid email!"
+            errorText="Invalid password!"
             validators={[VALIDATOR_REQUIRE()]}>
         </Input>
         <Input
@@ -81,7 +81,7 @@ const SignUpForm = props => {
             type="text"
             text="Nhập lại mật khẩu"
             onInput={inputHandler}
-            errorText="Invalid email!"
+            errorText="Invalid enter the password!"
             validators={[VALIDATOR_REQUIRE()]}>
         </Input>
         <div className="signup-form--footer">
