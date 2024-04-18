@@ -1,0 +1,41 @@
+.signup-form {
+    width: 50%;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 40px 10px 60px 50px;
+    position: absolute;
+    right: 0;
+    top: 55%;
+    transform: translateY(-50%);
+    margin-right: 50px;
+    box-sizing: border-box;
+}
+
+.name-field {
+    display: flex;
+    flex-direction: row;
+    width: 84%;
+    justify-content: space-between;
+}
+
+.name-field div {
+    width: 50%;
+}
+
+.name-field input {
+    width: 90%;
+}
+
+.signup-form--footer {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.signup-button {
+    width: 25%;
+}
+
+.signup-button button {
+    margin: 0;
+}

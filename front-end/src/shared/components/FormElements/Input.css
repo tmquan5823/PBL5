@@ -1,0 +1,33 @@
+.form-control {
+    margin: 0.5rem 0;
+}
+
+.form-control label,
+.form-control input,
+.form-control textarea {
+    display: block;
+}
+
+.form-control label {
+    opacity: 80%;
+    margin-bottom: 2px;
+}
+
+.form-control input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: solid 1px rgba(102, 102, 102, 0.3490196078);
+}
+
+.form-control--invalid p {
+    color: red;
+    margin: 0;
+}
+
+.form-control--invalid input,
+.form-control--invalid textarea {
+    border-color: red;
+    background: #ffd1d1;
+}

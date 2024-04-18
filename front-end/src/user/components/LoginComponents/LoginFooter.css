@@ -1,0 +1,16 @@
+.login-footer {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-footer a {
+    color: #000;
+    font-size: 20px;
+}
+
+.login-footer p {
+    opacity: 80%;
+}
