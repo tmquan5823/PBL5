@@ -1,0 +1,10 @@
+.home-header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    display: flex;
+    background-color: #24b6b7;
+    justify-content: space-between;
+    padding: 0px 50px;
+    box-sizing: border-box;
+}

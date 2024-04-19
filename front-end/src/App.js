@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import Login from "./user/pages/Login";
 import SignUp from "./user/pages/SignUp";
+import Home from "./user/pages/Home";
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
         <Route path="/signup" exact>
           <SignUp></SignUp>
         </Route>
-        <Redirect to="/login" />
+        <Route path="/home" exact>
+          <Home></Home>
+        </Route>
+        <Redirect to="/home" />
       </Switch>
     </Router>
   );
