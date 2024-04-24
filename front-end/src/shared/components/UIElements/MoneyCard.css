@@ -1,0 +1,35 @@
+.money-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.money-card__title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.card__money-text {
+    font-size: 20px;
+    padding-left: 5px;
+    margin: 0;
+    margin-top: 10px;
+}
+
+.money-text--red {
+    color: red;
+}
+
+.money-text--green {
+    color: green;
+}
+
+.money-text--teal {
+    color: #24B6B7;
+}
