@@ -10,7 +10,7 @@ const BudgetCard = props => {
             {props.wallet}
         </p>
         <p className="budget__money-left">
-            
+            {props.moneyLeft}
         </p>
     </div>
 };
