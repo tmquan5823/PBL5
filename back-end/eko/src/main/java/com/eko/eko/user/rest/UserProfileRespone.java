@@ -1,4 +1,4 @@
-package com.eko.eko.user;
+package com.eko.eko.user.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
