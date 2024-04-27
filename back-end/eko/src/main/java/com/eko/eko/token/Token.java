@@ -2,7 +2,6 @@ package com.eko.eko.token;
 
 import com.eko.eko.user.User;
 
-import ch.qos.logback.core.subst.Token.Type;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

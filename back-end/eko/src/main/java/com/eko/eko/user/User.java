@@ -41,6 +41,7 @@ public class User implements UserDetails {
     private String telephone;
     private String address;
     private boolean status;
+    private String avatarUrl;
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -17,6 +17,7 @@ import com.eko.eko.token.TokenType;
 import com.eko.eko.user.Role;
 import com.eko.eko.user.User;
 import com.eko.eko.user.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +35,14 @@ public class AuthenticationService {
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
 
-        public AuthenticationRespone register(RegisterRequest request) {
+        public AuthenticationRespone register(RegisterRequest request) throws JsonProcessingException {
+                boolean existedUser = repository.findByEmail(request.getEmail())
+                                .isEmpty();
+                if (existedUser == false) {
+                        return AuthenticationRespone.builder()
+                                        .message("User with this email already exists")
+                                        .build();
+                }
                 var user = User.builder()
                                 .address(request.getAddress())
                                 .email(request.getEmail())
@@ -42,6 +50,7 @@ public class AuthenticationService {
                                 .password(passwordEncoder.encode(request.getPassword()))
                                 .telephone(request.getTelephone())
                                 .status(false)
+                                .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
                                 .firstname(request.getFirstname())
                                 .lastname(request.getLastname())
                                 .role(Role.USER)
@@ -53,6 +62,8 @@ public class AuthenticationService {
                 return AuthenticationRespone.builder()
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
+                                .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
+                                .id(user.getId())
                                 .build();
         }
 
@@ -75,11 +86,14 @@ public class AuthenticationService {
                                 .orElseThrow();
                 var jwtToken = jwtService.generateToken(user);
                 var jwtRefreshToken = jwtService.generateRefreshToken(user);
+                System.out.println(user.getId());
                 revokeAllUserTokens(user);
                 saveUserToken(user, jwtToken);
                 return AuthenticationRespone.builder()
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
+                                .avatarUrl(user.getAvatarUrl())
+                                .id(user.getId())
                                 .build();
         }
 
