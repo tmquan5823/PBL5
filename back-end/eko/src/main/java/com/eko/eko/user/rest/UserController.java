@@ -39,7 +39,6 @@ public class UserController {
             @RequestParam("user_id") String id,
             @RequestParam("image") MultipartFile image,
             HttpServletRequest request) throws IOException {
-        System.out.println("HELLO");
         return service.updateAvatar(Integer.parseInt(id), image, request);
     }
 

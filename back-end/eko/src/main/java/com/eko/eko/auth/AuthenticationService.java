@@ -79,7 +79,6 @@ public class AuthenticationService {
         }
 
         public AuthenticationRespone authenticate(AuthenticationRequest request) {
-                System.out.println(request.getEmail());
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
                 var user = repository.findByEmail(request.getEmail())
@@ -155,5 +154,32 @@ public class AuthenticationService {
                                 new ObjectMapper().writeValue(response.getOutputStream(), responeMessage);
                         }
                 }
+        }
+
+        public AuthenticationRespone loginGoogle(GuestRequest request) {
+                boolean isUserExisted = repository.findByEmail(request.getEmail()).isPresent();
+                if (isUserExisted == false) {
+                        var userTemp = User.builder()
+                                        .email(request.getEmail())
+                                        .isDelete(false)
+                                        .status(false)
+                                        .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
+                                        .firstname(request.getFirstname())
+                                        .lastname(request.getLastname())
+                                        .role(Role.USER)
+                                        .build();
+                        repository.save(userTemp);
+                }
+                var user = repository.findByEmail(request.getEmail()).orElseThrow();
+                var jwtToken = jwtService.generateToken(user);
+                var jwtRefreshToken = jwtService.generateRefreshToken(user);
+                revokeAllUserTokens(user);
+                saveUserToken(user, jwtToken);
+                return AuthenticationRespone.builder()
+                                .accessToken(jwtToken)
+                                .refreshToken(jwtRefreshToken)
+                                .avatarUrl(user.getAvatarUrl())
+                                .id(user.getId())
+                                .build();
         }
 }
