@@ -12,10 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eko.eko.auth.GuestRequest;
 
 @RestController
-<<<<<<< HEAD
-=======
-@RequestMapping("/")
->>>>>>> Truong
 public class DemoController {
     @GetMapping
     public ResponseEntity<String> sayHello() {
