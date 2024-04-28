@@ -1,10 +1,11 @@
 package com.eko.eko.auth;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/auth")
@@ -32,6 +34,34 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationRespone> authenticate(
             @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+
+    // verify-email
+
+    // refresh-verifyj
+
+    // login-google
+    // @GetMapping("/logingoogle")
+    // public Map<String, Object> currentUser(OAuth2AuthenticationToken
+    // oAuth2AuthenticationToken) {
+    // return oAuth2AuthenticationToken.getPrincipal().getAttributes();
+    // }
+
+    @GetMapping("/logingoogle")
+    public GuestRequest currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+        GuestRequest guestRequest = toGuest(oAuth2AuthenticationToken.getPrincipal().getAttributes());
+        return guestRequest;
+    }
+
+    public GuestRequest toGuest(Map<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
+        GuestRequest guest = new GuestRequest();
+        guest.setEmail((String) map.get("email"));
+        guest.setFirstname((String) map.get("given_name"));
+        guest.setLastname((String) map.get("family_name"));
+        return guest;
     }
 
     @PostMapping("/refresh-token")
