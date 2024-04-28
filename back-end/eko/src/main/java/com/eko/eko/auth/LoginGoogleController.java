@@ -2,12 +2,20 @@ package com.eko.eko.auth;
 
 import java.util.Map;
 
+<<<<<<< HEAD
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> 4e47077510a589ea52239da60771a33c10c9b3ae
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.PostMapping;
+>>>>>>> 4e47077510a589ea52239da60771a33c10c9b3ae
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
