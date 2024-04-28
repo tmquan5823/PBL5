@@ -7,3 +7,5 @@ Connection URL: mysql://u6qc94pvwfupcsck:5VrAOfDhP9xvZzTU2W7F@b0hbbnrvj770tl5tmu
 MySQL SLI: mysql -h b0hbbnrvj770tl5tmu4a-mysql.services.clever-cloud.com -P 3306 -u u6qc94pvwfupcsck -p b0hbbnrvj770tl5tmu4a
 
 default image url: http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg
+client-id: 568994842976-5i56j833sp6eq0tv6298hnui5t2mj1g5.apps.googleusercontent.com
+client-secret: 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
