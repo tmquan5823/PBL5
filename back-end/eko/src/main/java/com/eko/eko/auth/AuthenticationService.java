@@ -79,7 +79,6 @@ public class AuthenticationService {
         }
 
         public AuthenticationRespone authenticate(AuthenticationRequest request) {
-                System.out.println(request.getEmail());
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
                 var user = repository.findByEmail(request.getEmail())
@@ -140,6 +139,9 @@ public class AuthenticationService {
                 final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                 final String token;
                 final String userEmail;
+                // Cookie cookie = new Cookie("access_token", null);
+                // cookie.setMaxAge(0);
+                // response.addCookie(cookie);
                 if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                         return;
                 }
@@ -155,5 +157,35 @@ public class AuthenticationService {
                                 new ObjectMapper().writeValue(response.getOutputStream(), responeMessage);
                         }
                 }
+        }
+
+        public AuthenticationRespone loginGoogle(GuestRequest request, String googleAccessToken) {
+                boolean isUserExisted = repository.findByEmail(request.getEmail()).isPresent();
+                if (isUserExisted == false) {
+                        var userTemp = User.builder()
+                                        .email(request.getEmail())
+                                        .isDelete(false)
+                                        .status(false)
+                                        .password(passwordEncoder.encode("123456"))
+                                        .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
+                                        .firstname(request.getFirstname())
+                                        .lastname(request.getLastname())
+                                        .role(Role.USER)
+                                        .build();
+                        repository.save(userTemp);
+                }
+
+                var user = repository.findByEmail(request.getEmail()).orElseThrow();
+                var jwtToken = jwtService.generateToken(user);
+                var jwtRefreshToken = jwtService.generateRefreshToken(user);
+                revokeAllUserTokens(user);
+                saveUserToken(user, jwtToken);
+                return AuthenticationRespone.builder()
+                                .accessToken(jwtToken)
+                                .refreshToken(jwtRefreshToken)
+                                .avatarUrl(user.getAvatarUrl())
+                                .googleToken(googleAccessToken)
+                                .id(user.getId())
+                                .build();
         }
 }

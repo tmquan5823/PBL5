@@ -16,10 +16,12 @@ public class AuthenticationRespone {
     private String accessToken;
     @JsonProperty("refresh_token")
     private String refreshToken;
-    @JsonProperty("message")
-    private String message;
+    @JsonProperty("googleToken")
+    private String googleToken;
     @JsonProperty("avatar_url")
     private String avatarUrl;
+    @JsonProperty("message")
+    private String message;
     @JsonProperty("user_id")
     private Integer id;
 }
