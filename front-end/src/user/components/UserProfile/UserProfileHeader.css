@@ -1,0 +1,47 @@
+.user-profile-header {
+    padding: 20px 0;
+    border-bottom: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-profile-header .user-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #fff;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar img {
+    width: 100%;
+    /* Đảm bảo hình ảnh lấp đầy phần tử cha */
+    height: 100%;
+    object-fit: cover;
+    /* Chống hình ảnh bị méo khi co giãn */
+}
+
+.avatar-btn__container {
+    padding: 0 20px;
+}
+
+.new-avatar__btn {
+    width: 150px;
+    padding: 15px 0;
+    margin-right: 20px;
+    background-color: #24B6B7;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+
+.delete-avatar__btn {
+    width: 150px;
+    padding: 15px 0;
+    background-color: #fff;
+    color: #24B6B7;
+    border: 1px solid #24B6B7;
+    border-radius: 10px;
+}

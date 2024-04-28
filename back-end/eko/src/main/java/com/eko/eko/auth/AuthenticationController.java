@@ -1,8 +1,12 @@
 package com.eko.eko.auth;
 
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
+=======
+import org.springframework.web.bind.annotation.CrossOrigin;
+>>>>>>> 66dfde337216b16b837f9614b0bd037e1cd730ff
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +34,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<AuthenticationRespone> authenticate(
             @RequestBody AuthenticationRequest request) {
+        System.out.println("request" + request);
         return ResponseEntity.ok(service.authenticate(request));
     }
 
