@@ -2,12 +2,20 @@ package com.eko.eko.auth;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -16,11 +24,16 @@ import lombok.RequiredArgsConstructor;
 public class LoginGoogleController {
 
     private final AuthenticationService service;
+    private final OAuth2AuthorizedClientService clientService;
 
     @GetMapping("/login")
-    public ResponseEntity<AuthenticationRespone> currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
-        GuestRequest guestRequest = toGuest(oAuth2AuthenticationToken.getPrincipal().getAttributes());
-        return ResponseEntity.ok(service.loginGoogle(guestRequest));
+    public ResponseEntity<AuthenticationRespone> loginGoogle(HttpServletRequest request,
+            OAuth2AuthenticationToken token) {
+        GuestRequest guestRequest = toGuest(token.getPrincipal().getAttributes());
+        OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(token.getAuthorizedClientRegistrationId(),
+                token.getName());
+        String accessToken = client.getAccessToken().getTokenValue();
+        return ResponseEntity.ok(service.loginGoogle(guestRequest, accessToken));
     }
 
     public GuestRequest toGuest(Map<String, Object> map) {
@@ -32,6 +45,20 @@ public class LoginGoogleController {
         guest.setFirstname((String) map.get("given_name"));
         guest.setLastname((String) map.get("family_name"));
         return guest;
+    }
+
+    @GetMapping("/logout/{accessToken}")
+    public ResponseEntity<String> logout(@PathVariable String accessToken, HttpServletRequest request,
+            HttpServletResponse response) {
+        revokeToken(accessToken);
+        request.getSession().invalidate();
+        return ResponseEntity.ok().body("Logged out successfully");
+    }
+
+    private void revokeToken(String accessToken) {
+        String url = "https://oauth2.googleapis.com/revoke?token=" + accessToken;
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(url, null, String.class);
     }
 
 }
