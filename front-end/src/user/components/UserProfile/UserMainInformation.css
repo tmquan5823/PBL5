@@ -1,0 +1,41 @@
+.main-infor {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #000;
+}
+
+.main-infor label {
+    color: #24B6B7;
+    font-weight: 500;
+}
+
+.main-infor__row {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+}
+
+.buttons-container {
+    width: 90%;
+    display: flex;
+    justify-content: end;
+}
+
+.save-btn {
+    width: 150px;
+    padding: 15px 0;
+    background-color: #24B6B7;
+    color: #fff;
+    font-weight: 500;
+    border: 1px solid #fff;
+    margin-right: 20px;
+}
+
+.cancel-btn {
+    width: 150px;
+    padding: 15px 0;
+    background-color: #fff;
+    color: #24B6B7;
+    font-weight: 500;
+    border: 1px solid #24B6B7;
+}

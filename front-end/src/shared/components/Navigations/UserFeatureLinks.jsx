@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 const UserFeatureLinks = props => {
     return <ul className="user-features">
         <li>
-            <NavLink activeClassName="active_navlink" to="/users/overview">
+            <NavLink activeClassName="active_navlink" to="/user/overview">
                 <div className="user-feature__item">
                     <img src="/images/analysis.png" alt="" />
                     Tổng quan
@@ -13,7 +13,7 @@ const UserFeatureLinks = props => {
             </NavLink>
         </li>
         <li>
-            <NavLink activeClassName="active_navlink" to="/users/budget">
+            <NavLink activeClassName="active_navlink" to="/user/budget">
                 <div className="user-feature__item">
                     <img src="/images/budget.png" alt="" />
                     Ngân sách
@@ -21,7 +21,7 @@ const UserFeatureLinks = props => {
             </NavLink>
         </li>
         <li>
-            <NavLink activeClassName="active_navlink" to="/users/transaction">
+            <NavLink activeClassName="active_navlink" to="/user/transaction">
                 <div className="user-feature__item">
                     <img src="/images/money-transfer.png" alt="" />
                     Giao dịch
@@ -29,7 +29,7 @@ const UserFeatureLinks = props => {
             </NavLink>
         </li>
         <li>
-            <NavLink activeClassName="active_navlink" to="/users/chart">
+            <NavLink activeClassName="active_navlink" to="/user/chart">
                 <div className="user-feature__item">
                     <img src="/images/bar-chart.png" alt="" />
                     Biểu đồ
@@ -37,7 +37,7 @@ const UserFeatureLinks = props => {
             </NavLink>
         </li>
         <li>
-            <NavLink activeClassName="active_navlink" to="/users/information">
+            <NavLink activeClassName="active_navlink" to="/user/information">
                 <div className="user-feature__item">
                     <img src="/images/account-settings.png" alt="" />
                     Hồ sơ
