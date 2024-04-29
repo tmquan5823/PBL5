@@ -2,20 +2,15 @@ package com.eko.eko.auth;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -47,18 +42,19 @@ public class LoginGoogleController {
         return guest;
     }
 
-    @GetMapping("/logout/{accessToken}")
-    public ResponseEntity<String> logout(@PathVariable String accessToken, HttpServletRequest request,
-            HttpServletResponse response) {
-        revokeToken(accessToken);
-        request.getSession().invalidate();
-        return ResponseEntity.ok().body("Logged out successfully");
-    }
+    // @GetMapping("/logout/{accessToken}")
+    // public ResponseEntity<String> logout(@PathVariable String accessToken,
+    // HttpServletRequest request,
+    // HttpServletResponse response) {
+    // revokeToken(accessToken);
+    // request.getSession().invalidate();
+    // return ResponseEntity.ok().body("Logged out successfully");
+    // }
 
-    private void revokeToken(String accessToken) {
-        String url = "https://oauth2.googleapis.com/revoke?token=" + accessToken;
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForEntity(url, null, String.class);
-    }
+    // private void revokeTokenGoogle(String googleToken) {
+    // String url = "https://oauth2.googleapis.com/revoke?token=" + googleToken;
+    // RestTemplate restTemplate = new RestTemplate();
+    // restTemplate.postForEntity(url, null, String.class);
+    // }
 
 }

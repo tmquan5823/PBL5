@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.eko.eko.config.JwtService;
 import com.eko.eko.token.Token;
@@ -22,7 +23,6 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -135,20 +135,27 @@ public class AuthenticationService {
                 }
         }
 
-        public void revokeToken(HttpServletRequest request, HttpServletResponse response)
+        private void revokeTokenGoogle(String googleToken) {
+                String url = "https://oauth2.googleapis.com/revoke?token=" + googleToken;
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.postForEntity(url, null, String.class);
+        }
+
+        public void revokeToken(HttpServletRequest request, HttpServletResponse response, String googleToken)
                         throws StreamWriteException, DatabindException, IOException {
                 final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                 final String token;
                 final String userEmail;
-                // Cookie cookie = new Cookie("access_token", null);
-                // cookie.setMaxAge(0);
-                // response.addCookie(cookie);
                 if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                         return;
                 }
                 token = authHeader.substring(7);
                 userEmail = jwtService.extractUsername(token);
                 if (userEmail != null) {
+                        if (!googleToken.isEmpty()) {
+                                revokeTokenGoogle(googleToken);
+                                request.getSession().invalidate();
+                        }
                         var user = this.repository.findByEmail(userEmail)
                                         .orElseThrow();
                         if (jwtService.isTokenValid(token, user)) {
