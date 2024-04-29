@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-EkoApplication<eko>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.eko.eko.EkoApplication",
+            "projectName": "eko",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

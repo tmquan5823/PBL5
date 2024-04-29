@@ -39,6 +39,10 @@ const Input = props => {
         dispatch({ type: 'TOUCH' })
     }
 
+    const myStyle={
+        width: props.width
+    }
+
     const element = props.element === 'input'
         ? <input
             id={props.id}
@@ -56,7 +60,7 @@ const Input = props => {
             onBlur={touchHandler}
         />
 
-    return <div className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>
+    return <div style={myStyle} className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>
         <label htmlFor={props.id}>{props.text}</label>
         {element}
         {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}

@@ -36,7 +36,8 @@ const SignUpForm = props => {
                 text="Họ"
                 onInput={inputHandler}
                 errorText="Invalid email!"
-                validators={[VALIDATOR_REQUIRE()]}>
+                validators={[VALIDATOR_REQUIRE()]}
+                width="45%">
             </Input>
             <Input
                 id="last_name"
@@ -45,7 +46,8 @@ const SignUpForm = props => {
                 text="Tên"
                 onInput={inputHandler}
                 errorText="Invalid email!"
-                validators={[VALIDATOR_REQUIRE()]}>
+                validators={[VALIDATOR_REQUIRE()]}
+                width="45%">
             </Input>
         </div>
         <Input

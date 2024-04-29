@@ -1,15 +1,18 @@
 import React from "react";
 import "./UserInformation.css";
-import InfoHeader from "../../shared/components/UIElements/InfoHeader";
+import PageContent from "../../shared/components/UIElements/PageContent";
+import UserProfileHeader from "../components/UserProfile/UserProfileHeader";
+import UserMainInformation from "../components/UserProfile/UserMainInformation";
+import UserProfilePassword from "../components/UserProfile/UserProfilePassword";
 
 const UserInformation = props => {
     return <React.Fragment>
-        <InfoHeader title="Hồ sơ người dùng" />
-        <div className="user-information">
-
-        </div>
+        <PageContent title='Hồ sơ người dùng' >
+            <UserProfileHeader />
+            <UserMainInformation />
+            <UserProfilePassword />
+        </PageContent>
     </React.Fragment>
-
 };
 
 export default UserInformation;
