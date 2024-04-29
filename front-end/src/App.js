@@ -10,6 +10,7 @@ import UserBudget from "./user/pages/UserBudget";
 import UserTransaction from "./user/pages/UserTransaction";
 import UserChart from "./user/pages/UserChart";
 import UserInformation from "./user/pages/UserInformation";
+import UserBudgetDetail from "./user/pages/UserBudgetDetail";
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
@@ -54,6 +55,9 @@ function App() {
           </Route>
           <Route path="/user/budget" exact>
             <UserBudget />
+          </Route>
+          <Route path="/user/budget/:budgetID">
+            <UserBudgetDetail />
           </Route>
           <Route path="/user/transaction" exact>
             <UserTransaction />

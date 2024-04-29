@@ -13,6 +13,7 @@
 
 .budget__title {
     margin: 0;
+    color: #000;
 }
 
 .budget__wallet {
@@ -33,6 +34,7 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
+    color: #000;
 }
 
 .budget__money-left p {
@@ -48,8 +50,13 @@
 .budget__date {
     display: flex;
     justify-content: space-between;
+    color: #000;
 }
 
 .budget__date p {
     margin: 0;
+}
+
+a {
+    text-decoration: none;
 }

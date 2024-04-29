@@ -1,0 +1,60 @@
+.transaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.transaction-header .add-transaction__btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    background-color: #24B6B7;
+}
+
+.transaction-header .calendar-container {
+    margin: 0;
+    display: flex;
+    height: 100%;
+}
+
+.transaction-header .calendar-container button {
+    padding: 10px;
+    height: 100%;
+    border: none;
+    background-color: #fff;
+    color: #000;
+}
+
+.transaction-header .calendar-container span {
+    padding: 10px;
+    min-width: 300px;
+    display: inline-block;
+    background-color: #fff;
+    margin: 0 10px;
+}
+
+.transaction-filter {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 20px;
+}
+
+.transaction-filter__container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.transaction-filter__item {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.transaction-filter__item p {
+    margin: 5px 0;
+}

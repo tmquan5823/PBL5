@@ -1,11 +1,11 @@
 .money-card {
-    width: 100%;
+    width: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     background-color: #fff;
     border-radius: 15px;
-    padding: 20px;
+    padding: 20px 10px 20px 20px;
     box-sizing: border-box;
 }
 
