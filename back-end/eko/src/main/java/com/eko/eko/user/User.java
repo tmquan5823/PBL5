@@ -43,6 +43,7 @@ public class User implements UserDetails {
     private String address;
     private String avatarUrl;
     private boolean isVerify;
+    private boolean canResetPassword;
     private String otp;
     private LocalDateTime otpGenerateTime;
 
