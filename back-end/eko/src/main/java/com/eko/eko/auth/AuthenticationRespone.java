@@ -24,4 +24,6 @@ public class AuthenticationRespone {
     private String message;
     @JsonProperty("user_id")
     private Integer id;
+    @JsonProperty("role")
+    private String role;
 }

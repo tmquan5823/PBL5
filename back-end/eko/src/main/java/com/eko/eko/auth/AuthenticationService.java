@@ -64,6 +64,7 @@ public class AuthenticationService {
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
                                 .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
+                                .role(Role.USER.name())
                                 .id(user.getId())
                                 .build();
         }
@@ -94,6 +95,7 @@ public class AuthenticationService {
                                 .refreshToken(jwtRefreshToken)
                                 .avatarUrl(user.getAvatarUrl())
                                 .id(user.getId())
+                                .role(user.getRole().name())
                                 .build();
         }
 
@@ -169,6 +171,7 @@ public class AuthenticationService {
 
         public AuthenticationRespone loginGoogle(GuestRequest request, String googleAccessToken) {
                 boolean isUserExisted = repository.findByEmail(request.getEmail()).isPresent();
+                String message = new String();
                 if (isUserExisted == false) {
                         var userTemp = User.builder()
                                         .email(request.getEmail())
@@ -181,6 +184,7 @@ public class AuthenticationService {
                                         .role(Role.USER)
                                         .build();
                         repository.save(userTemp);
+                        message = "The default password is `123456` need to change";
                 }
 
                 var user = repository.findByEmail(request.getEmail()).orElseThrow();
@@ -194,6 +198,8 @@ public class AuthenticationService {
                                 .avatarUrl(user.getAvatarUrl())
                                 .googleToken(googleAccessToken)
                                 .id(user.getId())
+                                .role(user.getRole().name())
+                                .message(message)
                                 .build();
         }
 }
