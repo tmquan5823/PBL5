@@ -1,5 +1,6 @@
 package com.eko.eko.user;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -40,8 +41,11 @@ public class User implements UserDetails {
     private boolean isDelete;
     private String telephone;
     private String address;
-    private boolean status;
     private String avatarUrl;
+    private boolean isVerify;
+    private boolean canResetPassword;
+    private String otp;
+    private LocalDateTime otpGenerateTime;
 
     @Enumerated(EnumType.STRING)
     private Role role;
