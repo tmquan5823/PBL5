@@ -1,0 +1,28 @@
+.add-transaction {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    width: 100%;
+    padding: 10px;
+}
+
+.add-transaction__header {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.add-transaction__item {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-transaction__item label {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.add-transaction__item input {
+    padding: 5px;
+    border-radius: 10px;
+}
