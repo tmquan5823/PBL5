@@ -6,11 +6,13 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.eko.eko.cloudinary.CloudinaryService;
 import com.eko.eko.config.JwtService;
+import com.eko.eko.token.TokenRepository;
 import com.eko.eko.user.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,15 +26,19 @@ public class UserService {
     private final UserRepository repository;
     private final JwtService jwtService;
     private final CloudinaryService cloudinaryService;
+    private final PasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
 
     public boolean isValidUser(String authHeader, Integer id) {
 
         String jwt = authHeader.substring(7);
         String userEmail = jwtService.extractUsername(jwt);
         var user = repository.findByEmail(userEmail).orElseThrow();
+        var token = tokenRepository.findByToken(jwt).orElseThrow();
+        boolean isTokenValid = token.isExpired();
         if (user.getRole().equals("ADMIN"))
             return true;
-        return (id == user.getId());
+        return (id == user.getId() && !isTokenValid);
     }
 
     public boolean isValidUser(String authHeader, String email) {
@@ -40,9 +46,11 @@ public class UserService {
         String jwt = authHeader.substring(7);
         String userEmail = jwtService.extractUsername(jwt);
         var user = repository.findByEmail(userEmail).orElseThrow();
+        var token = tokenRepository.findByToken(jwt).orElseThrow();
+        boolean isTokenValid = token.isExpired();
         if (user.getRole().equals("ADMIN"))
             return true;
-        return (email.equals(userEmail));
+        return (email.equals(userEmail) && !isTokenValid);
     }
 
     public UserProfileRespone getProfileById(Integer id, HttpServletRequest request) {
@@ -88,8 +96,25 @@ public class UserService {
 
     public ResponseEntity<Map<String, String>> changePassword(ChangePasswordRequest requestUser,
             HttpServletRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'changePassword'");
+        String authHeader = request.getHeader("Authorization");
+        int id = requestUser.getId();
+        Map<String, String> responseMap = new HashMap<>();
+        if (isValidUser(authHeader, id) == false) {
+            responseMap.put("message", "Can't change another user's password or token is expired!!");
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
+        } else {
+            var user = repository.findById(id).orElseThrow();
+            boolean isCorrect = passwordEncoder.matches(requestUser.getCurrentPassword(), user.getPassword());
+            if (isCorrect == false) {
+                responseMap.put("message", "The current password is not correct!!");
+                return new ResponseEntity<>(responseMap, HttpStatus.OK);
+            } else {
+                user.setPassword(passwordEncoder.encode(requestUser.getNewPassword()));
+                repository.save(user);
+                responseMap.put("message", "Change password success!!");
+                return new ResponseEntity<>(responseMap, HttpStatus.OK);
+            }
+        }
     }
 
     public ResponseEntity<Map<String, String>> deleteAvatar(Integer id, HttpServletRequest request) throws IOException {
@@ -97,7 +122,7 @@ public class UserService {
         Map<String, String> responseMap = new HashMap<>();
         if (isValidUser(authHeader, id) == false) {
             new UserProfileRespone();
-            responseMap.put("message", "Can't delete another user's avatar!!");
+            responseMap.put("message", "Can't delete another user's avatar or token is expired!!");
             return new ResponseEntity<>(responseMap, HttpStatus.OK);
         } else {
             var user = repository.findById(id).orElseThrow();
@@ -119,8 +144,7 @@ public class UserService {
         String authHeader = request.getHeader("Authorization");
         Map<String, String> responseMap = new HashMap<>();
         if (isValidUser(authHeader, id) == false) {
-            new UserProfileRespone();
-            responseMap.put("message", "Can't update another user's avatar!!");
+            responseMap.put("message", "Can't update another user's avatar or token is expired!!");
             return new ResponseEntity<>(responseMap, HttpStatus.OK);
         } else {
             var user = repository.findById(id).orElseThrow();
