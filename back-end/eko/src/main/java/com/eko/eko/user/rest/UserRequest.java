@@ -1,5 +1,7 @@
 package com.eko.eko.user.rest;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,6 @@ public class UserRequest {
     private String lastname;
     private String telephone;
     private String address;
-    // private String dateOfBirth;
+    private String dateOfBirth;
 
 }
