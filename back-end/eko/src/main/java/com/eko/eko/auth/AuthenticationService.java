@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,11 +48,11 @@ public class AuthenticationService {
         private final OtpUtil otpUtil;
         private final EmailUtil emailUtil;
 
-        public AuthenticationRespone register(RegisterRequest request) throws JsonProcessingException {
+        public AuthenticationResponse register(RegisterRequest request) throws JsonProcessingException {
                 boolean existedUser = repository.findByEmail(request.getEmail())
                                 .isEmpty();
                 if (existedUser == false) {
-                        return AuthenticationRespone.builder()
+                        return AuthenticationResponse.builder()
                                         .message("User with this email already exists!!!")
                                         .build();
                 }
@@ -71,7 +73,7 @@ public class AuthenticationService {
                 var jwtToken = jwtService.generateToken(user);
                 var jwtRefreshToken = jwtService.generateRefreshToken(user);
                 saveUserToken(user, jwtToken);
-                return AuthenticationRespone.builder()
+                return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
                                 .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
@@ -92,13 +94,24 @@ public class AuthenticationService {
                 tokenRepository.save(token);
         }
 
-        public AuthenticationRespone authenticate(AuthenticationRequest request) {
-                authenticationManager.authenticate(
-                                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+                try {
+                        authenticationManager.authenticate(
+                                        new UsernamePasswordAuthenticationToken(request.getEmail(),
+                                                        request.getPassword()));
+                } catch (BadCredentialsException ex) {
+                        // Xử lý khi xác thực thất bại (sai email hoặc mật khẩu)
+                        return AuthenticationResponse.builder()
+                                        .message("Sai mật khẩu hoặc mail!!")
+                                        .state(false)
+                                        .build();
+                }
+
                 var user = repository.findByEmail(request.getEmail())
                                 .orElseThrow();
                 if (user.isVerify() == false) {
-                        return AuthenticationRespone.builder()
+                        return AuthenticationResponse.builder()
                                         .message("Need to verify!!!")
                                         .build();
                 }
@@ -107,13 +120,14 @@ public class AuthenticationService {
                 System.out.println(user.getId());
                 revokeAllUserTokens(user);
                 saveUserToken(user, jwtToken);
-                return AuthenticationRespone.builder()
+                return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
                                 .avatarUrl(user.getAvatarUrl())
                                 .id(user.getId())
                                 .role(user.getRole().name())
                                 .message("Login success!!!")
+                                .state(true)
                                 .build();
         }
 
@@ -146,7 +160,7 @@ public class AuthenticationService {
                                 var accessToken = jwtService.generateToken(user);
                                 revokeAllUserTokens(user);
                                 saveUserToken(user, accessToken);
-                                var authResponse = AuthenticationRespone.builder()
+                                var authResponse = AuthenticationResponse.builder()
                                                 .accessToken(accessToken)
                                                 .refreshToken(refreshToken)
                                                 .build();
@@ -187,7 +201,7 @@ public class AuthenticationService {
                 }
         }
 
-        public AuthenticationRespone loginGoogle(GuestRequest request, String googleAccessToken) {
+        public AuthenticationResponse loginGoogle(GuestRequest request, String googleAccessToken) {
                 boolean isUserExisted = repository.findByEmail(request.getEmail()).isPresent();
                 String message = new String("Login success!!!");
                 if (isUserExisted == false) {
@@ -211,7 +225,7 @@ public class AuthenticationService {
                 var jwtRefreshToken = jwtService.generateRefreshToken(user);
                 revokeAllUserTokens(user);
                 saveUserToken(user, jwtToken);
-                return AuthenticationRespone.builder()
+                return AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
                                 .avatarUrl(user.getAvatarUrl())
@@ -222,47 +236,82 @@ public class AuthenticationService {
                                 .build();
         }
 
-        public String verifyAccount(String email, String otp) {
-                User user = repository.findByEmail(email)
-                                .orElseThrow(() -> new RuntimeException(
-                                                "User not found with this email: " + email + "!!!"));
-                if (user.getOtp().equals(otp) && Duration.between(user.getOtpGenerateTime(),
-                                LocalDateTime.now()).getSeconds() < (1 * 300)) {
-                        user.setVerify(true);
-                        repository.save(user);
-                        return "OTP verified you can login!!!";
+        public ResponseEntity<Map<String, Object>> verifyAccount(String email, String otp) {
+                Map<String, Object> responseMap = new HashMap<>();
+
+                Optional<User> userOptional = repository.findByEmail(email);
+                if (userOptional.isPresent()) {
+                        User user = userOptional.get();
+                        if (user.getOtp().equals(otp)
+                                        && Duration.between(user.getOtpGenerateTime(), LocalDateTime.now())
+                                                        .getSeconds() < (1 * 300)) {
+                                user.setVerify(true);
+                                repository.save(user);
+                                responseMap.put("message", "OTP verified. You can login !!!");
+                                responseMap.put("state", true);
+                                return ResponseEntity.ok(responseMap);
+                        }
+                        responseMap.put("message", "Please regenerate OTP and try again!!!");
+                        responseMap.put("state", false);
+                        return ResponseEntity.ok(responseMap);
                 }
-                return "Please regenerate otp and try again!!!";
+
+                // Trả về map mới nếu không tìm thấy người dùng
+                responseMap.put("message", "User not found with this email: " + email);
+                responseMap.put("state", false);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
-        public String verifyPassword(String email, String otp) {
-                User user = repository.findByEmail(email)
-                                .orElseThrow(() -> new RuntimeException(
-                                                "User not found with this email: " + email + "!!!"));
-                if (user.getOtp().equals(otp) && Duration.between(user.getOtpGenerateTime(),
-                                LocalDateTime.now()).getSeconds() < (1 * 300)) {
-                        user.setVerify(true);
-                        user.setCanResetPassword(true);
-                        repository.save(user);
-                        return "OTP verified you can reset password!!!";
+        public ResponseEntity<Map<String, Object>> verifyPassword(String email, String otp) {
+                Map<String, Object> responseMap = new HashMap<>();
+
+                Optional<User> userOptional = repository.findByEmail(email);
+                if (userOptional.isPresent()) {
+                        User user = userOptional.get();
+                        if (user.getOtp().equals(otp)
+                                        && Duration.between(user.getOtpGenerateTime(), LocalDateTime.now())
+                                                        .getSeconds() < (1 * 300)) {
+                                user.setCanResetPassword(true);
+                                repository.save(user);
+                                responseMap.put("message", "OTP verified. You can change password!!!");
+                                responseMap.put("state", true);
+                                return ResponseEntity.ok(responseMap);
+                        }
+                        responseMap.put("message", "Please regenerate OTP and try again!!!");
+                        responseMap.put("state", false);
+                        return ResponseEntity.ok(responseMap);
                 }
-                return "Please regenerate otp and try again!!!";
+
+                // Trả về map mới nếu không tìm thấy người dùng
+                responseMap.put("message", "User not found with this email: " + email);
+                responseMap.put("state", false);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
-        public String regenerateOtp(String email) {
-                User user = repository.findByEmail(email)
-                                .orElseThrow(() -> new RuntimeException(
-                                                "User not found with this email: " + email + "!!!"));
-                String otp = otpUtil.generateOtp();
-                try {
-                        emailUtil.sendOtpEmail(email, otp);
-                } catch (MessagingException e) {
-                        throw new RuntimeException("Unable to send otp please try again!!!");
+        public ResponseEntity<Map<String, Object>> regenerateOtp(String email) {
+                Map<String, Object> responseMap = new HashMap<>();
+                Optional<User> userOptional = repository.findByEmail(email);
+                if (userOptional.isPresent()) {
+                        User user = userOptional.get();
+                        String otp = otpUtil.generateOtp();
+                        try {
+                                emailUtil.sendOtpEmail(email, otp);
+                        } catch (MessagingException e) {
+                                responseMap.put("message", "Unable to send otp please try again!!!");
+                                responseMap.put("state", false);
+                                return ResponseEntity.ok(responseMap);
+
+                        }
+                        user.setOtp(otp);
+                        user.setOtpGenerateTime(LocalDateTime.now());
+                        repository.save(user);
+                        responseMap.put("message", "Otp just regenerated please verify in 1 minute!!!");
+                        responseMap.put("state", true);
+                        return ResponseEntity.ok(responseMap);
                 }
-                user.setOtp(otp);
-                user.setOtpGenerateTime(LocalDateTime.now());
-                repository.save(user);
-                return "Email sent... please verify account within 1 minute!!!";
+                responseMap.put("message", "User not found with this email: " + email);
+                responseMap.put("state", false);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
         public Map<String, String> resetPassword(AuthenticationRequest request) {
@@ -278,5 +327,4 @@ public class AuthenticationService {
                 responseMap.put("message", "Reset password success!!");
                 return responseMap;
         }
-
 }

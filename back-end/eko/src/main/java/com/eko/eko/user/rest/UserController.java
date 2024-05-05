@@ -18,34 +18,33 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api/")
 @RequiredArgsConstructor
 public class UserController {
 
     public final UserService service;
 
-    @GetMapping("/user/{id}")
-    public UserProfileRespone getProfile(@PathVariable Integer id, HttpServletRequest request) {
-        return service.getProfileById(id, request);
+    @GetMapping("/user")
+    public UserProfileResponse getProfile(HttpServletRequest request) {
+        return service.getProfile(request);
     }
 
     @PutMapping("/user")
-    public UserProfileRespone getProfile(@RequestBody UserRequest requestUser, HttpServletRequest request) {
+    public UserProfileResponse getProfile(@RequestBody UserRequest requestUser, HttpServletRequest request) {
         return service.updateProfile(requestUser, request);
     }
 
     @PutMapping("/user/avatar")
     public ResponseEntity<Map<String, String>> updateAvatar(
-            @RequestParam("user_id") String id,
             @RequestParam("image") MultipartFile image,
             HttpServletRequest request) throws IOException {
-        return service.updateAvatar(Integer.parseInt(id), image, request);
+        return service.updateAvatar(image, request);
     }
 
-    @DeleteMapping("/user/avatar/{id}")
-    public ResponseEntity<Map<String, String>> deleteAvatar(@PathVariable Integer id, HttpServletRequest request)
+    @DeleteMapping("/user/avatar")
+    public ResponseEntity<Map<String, String>> deleteAvatar(HttpServletRequest request)
             throws IOException {
-        return service.deleteAvatar(id, request);
+        return service.deleteAvatar(request);
     }
 
     @PutMapping("/user/password")

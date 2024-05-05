@@ -1,5 +1,8 @@
 package com.eko.eko.user.rest;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProfileRespone {
+public class UserProfileResponse {
     @JsonProperty("first_name")
     private String firstname;
     @JsonProperty("last_name")
@@ -22,4 +25,12 @@ public class UserProfileRespone {
     private String phoneNum;
     @JsonProperty("address")
     private String address;
+    @JsonProperty("avatar_url")
+    private String avatar_url;
+    @JsonProperty("date_of_birth")
+    private LocalDateTime dateOfBirth;
+    @JsonProperty("message")
+    private String message;
+    @JsonProperty("state")
+    private boolean state;
 }

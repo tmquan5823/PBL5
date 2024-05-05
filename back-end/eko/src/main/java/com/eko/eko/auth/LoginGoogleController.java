@@ -22,7 +22,7 @@ public class LoginGoogleController {
     private final OAuth2AuthorizedClientService clientService;
 
     @GetMapping("/login")
-    public ResponseEntity<AuthenticationRespone> loginGoogle(HttpServletRequest request,
+    public ResponseEntity<AuthenticationResponse> loginGoogle(HttpServletRequest request,
             OAuth2AuthenticationToken token) {
         GuestRequest guestRequest = toGuest(token.getPrincipal().getAttributes());
         OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(token.getAuthorizedClientRegistrationId(),

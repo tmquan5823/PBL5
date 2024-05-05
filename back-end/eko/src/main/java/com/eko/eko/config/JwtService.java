@@ -10,13 +10,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.eko.eko.token.TokenRepository;
+import com.eko.eko.user.User;
+import com.eko.eko.user.UserRepository;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${application.security.jwt.secret-key}")
@@ -25,6 +31,31 @@ public class JwtService {
     private long jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
+    private final UserRepository repository;
+    private final TokenRepository tokenRepository;
+
+    public User getUserFromAuthHeader(String authHeader) {
+        String token = this.extractToken(authHeader);
+        if (this.CheckUserExistedAndValidToken(token)) {
+            String email = this.extractUsername(token);
+            return repository.findByEmail(email).orElse(null);
+        } else {
+            return null;
+        }
+    }
+
+    public boolean CheckUserExistedAndValidToken(String token) {
+        String email = this.extractUsername(token);
+        var user = repository.findByEmail(email);
+        if (user.isPresent()) {
+            return isTokenValid(token, user.get()) && !(tokenRepository.findByToken(token).orElseThrow().isExpired());
+        } else
+            return false;
+    }
+
+    public String extractToken(String authHeader) {
+        return authHeader.substring(7);
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

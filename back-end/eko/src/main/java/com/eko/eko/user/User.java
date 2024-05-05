@@ -2,6 +2,7 @@ package com.eko.eko.user;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -45,6 +46,7 @@ public class User implements UserDetails {
     private boolean isVerify;
     private boolean canResetPassword;
     private String otp;
+    private LocalDateTime dateOfBirth;
     private LocalDateTime otpGenerateTime;
 
     @Enumerated(EnumType.STRING)

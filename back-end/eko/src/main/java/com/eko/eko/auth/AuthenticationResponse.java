@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRespone {
+public class AuthenticationResponse {
     @JsonProperty("access_token")
     private String accessToken;
     @JsonProperty("refresh_token")
@@ -26,4 +26,6 @@ public class AuthenticationRespone {
     private Integer id;
     @JsonProperty("role")
     private String role;
+    @JsonProperty("state")
+    private boolean state;
 }

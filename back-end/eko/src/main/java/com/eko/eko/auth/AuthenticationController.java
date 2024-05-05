@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,14 +25,14 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationRespone> register(
+    public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request) throws JsonProcessingException {
 
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationRespone> authenticate(
+    public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(service.authenticate(request));
     }
@@ -53,25 +52,26 @@ public class AuthenticationController {
         service.revokeToken(request, response, googleToken);
     }
 
-    @PutMapping("/verify-account")
-    public ResponseEntity<String> verifyAccount(@RequestParam String email,
+    @PostMapping("/verify-account")
+    public ResponseEntity<Map<String, Object>> verifyAccount(@RequestParam String email,
             @RequestParam String otp) {
-        return new ResponseEntity<>(service.verifyAccount(email, otp), HttpStatus.OK);
+        return service.verifyAccount(email, otp);
     }
 
-    @PutMapping("/verify-password")
-    public ResponseEntity<String> verifyPassword(@RequestParam String email,
+    @PostMapping("/verify-password")
+    public ResponseEntity<Map<String, Object>> verifyPassword(@RequestParam String email,
             @RequestParam String otp) {
-        return new ResponseEntity<>(service.verifyPassword(email, otp), HttpStatus.OK);
+        return service.verifyPassword(email, otp);
     }
 
-    @PutMapping("/reset-password")
+    @PostMapping("/reset-password")
     public ResponseEntity<Map<String, String>> resetPassword(@RequestBody AuthenticationRequest request) {
         return new ResponseEntity<>(service.resetPassword(request), HttpStatus.OK);
     }
 
-    @PutMapping("/regenerate-otp")
-    public ResponseEntity<String> regenerateOtp(@RequestParam String email) {
-        return new ResponseEntity<>(service.regenerateOtp(email), HttpStatus.OK);
+    @PostMapping("/regenerate-otp")
+    public ResponseEntity<Map<String, Object>> regenerateOtp(@RequestParam String email) {
+        return service.regenerateOtp(email);
     }
+
 }
