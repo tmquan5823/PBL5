@@ -28,7 +28,7 @@ public class UserProfileResponse {
     @JsonProperty("avatar_url")
     private String avatar_url;
     @JsonProperty("date_of_birth")
-    private LocalDateTime dateOfBirth;
+    private String dateOfBirth;
     @JsonProperty("message")
     private String message;
     @JsonProperty("state")
