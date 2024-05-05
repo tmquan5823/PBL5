@@ -33,3 +33,13 @@
     border-color: red;
     background: #ffd1d1;
 }
+
+.input-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-header img {
+    width: 25px;
+    opacity: 50%;
+}

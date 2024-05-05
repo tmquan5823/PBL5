@@ -34,6 +34,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 40px;
 }
 
 .add-budget__button button {
@@ -44,4 +45,39 @@
     border: none;
     border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
+}
+
+.budget-period__date {
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+}
+
+.budget-period__date .date-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 100px;
+}
+
+.budget-period__date .date-container label {
+    font-size: 14px;
+    opacity: 80%;
+}
+
+.budget-period__date .date-container input {
+    padding: 7px;
+    border-radius: 10px;
+    border: #24B6B7 1px solid;
+}
+
+.budget-state--isvalid button {
+    background-color: #e5ebee;
+    color: #7b93a4;
+    cursor: default;
+}
+
+.date-invalid {
+    color: rgb(255, 110, 110);
+    font-size: 12px !important;
 }

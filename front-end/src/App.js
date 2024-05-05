@@ -3,14 +3,15 @@ import { BrowserRouter, Route, Redirect, Switch, useLocation } from "react-route
 import Login from "./user/pages/Login";
 import SignUp from "./user/pages/SignUp";
 import Home from "./user/pages/Home";
-import { AuthContext } from "./shared/context/auth-context";
+import { AuthContext, updateAvatarURL } from "./shared/context/auth-context";
 import UserSideBar from "./shared/components/Navigations/UserSideBar";
 import UserOverview from "./user/pages/UserOverview";
 import UserBudget from "./user/pages/UserBudget";
 import UserTransaction from "./user/pages/UserTransaction";
-import UserChart from "./user/pages/UserChart";
 import UserInformation from "./user/pages/UserInformation";
 import UserBudgetDetail from "./user/pages/UserBudgetDetail";
+import VerifyPage from "./user/pages/VerifyPage";
+import UserWalletDetail from "./user/pages/UserWalletDetail";
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
@@ -29,7 +30,13 @@ function App() {
     setLoginState(false);
     setUserID(null);
     setToken(null);
-  }, [])
+  }, []);
+
+  function updateAvatarURL(url) {
+    setAvatarUrl(url);
+    setUserID(preval => preval + 1);
+  };
+
 
   let routes;
   if (!token) {
@@ -43,9 +50,12 @@ function App() {
       <Route path="/signup" exact>
         <SignUp />
       </Route>
+      <Route path="/verify/:email" exact>
+        <VerifyPage />
+      </Route>
       <Redirect to="/" />
     </Switch>)
-  } if (1 > 0) {
+  } else {
     routes = <Switch>
       <Route path="/user">
         <div className="users-routes" >
@@ -62,8 +72,8 @@ function App() {
           <Route path="/user/transaction" exact>
             <UserTransaction />
           </Route>
-          <Route path="/user/chart" exact>
-            <UserChart />
+          <Route path="/user/wallet-detail" exact>
+            <UserWalletDetail />
           </Route>
           <Route path="/user/information" exact>
             <UserInformation />
@@ -75,7 +85,7 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn: !!token, userID: userID, avatarURL: avatarURL, token: token, login: login, logout: logout }}>
+    <AuthContext.Provider value={{ isLoggedIn: !!token, userID: userID, avatarURL: avatarURL, token: token, login: login, logout: logout, updateAvt: updateAvatarURL }}>
       <BrowserRouter>
         {routes}
       </BrowserRouter>

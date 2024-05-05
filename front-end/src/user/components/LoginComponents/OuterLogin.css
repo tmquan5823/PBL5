@@ -5,3 +5,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.outer-login-container form {
+    width: 100%;
+}
