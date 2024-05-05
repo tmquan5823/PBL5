@@ -2,51 +2,47 @@ import React, { useState } from 'react';
 import './BudgetPeriodList.css'; // Import CSS file for styling
 
 function BudgetPeriodList(props) {
+    const [selectedValue, setSelectedValue] = useState(null);
+    const periods = [{
+        title: "Một lần",
+        value: "once"
+    },
+    {
+        title: "Hàng ngày",
+        value: "everyday"
+    },
+    {
+        title: "Hàng tuần",
+        value: "everyweek"
+    },
+    {
+        title: "Hàng tháng",
+        value: "everymonth"
+    },];
+
+    function handleInputChange(event) {
+        setSelectedValue(event.target.value);
+        if (props.onChange) {
+            props.onChange(event.target.value);
+        }
+    }
+
     return (
         <div>
             <label>Lặp lại</label>
             <div className="radio-buttons-container">
-                <label className="radio-button">
-                    <input
-                        className="radio-button__input"
-                        type="radio"
-                        value="option1"
-                        checked={props.value === "option1"}
-                        onChange={props.onChange}
-                    />
-                    Một lần
-                </label>
-                <label className="radio-button">
-                    <input
-                        className="radio-button__input"
-                        type="radio"
-                        value="option2"
-                        checked={props.value === "option2"}
-                        onChange={props.onChange}
-                    />
-                    Hàng ngày
-                </label>
-                <label className="radio-button">
-                    <input
-                        className="radio-button__input"
-                        type="radio"
-                        value="option3"
-                        checked={props.value === "option3"}
-                        onChange={props.onChange}
-                    />
-                    Hàng tuần
-                </label>
-                <label id='option4' className="radio-button1">
-                    <input
-                        for="option4"
-                        className="radio-button__input1"
-                        type="radio"
-                        value="option4"
-                        checked={props.value === "option4"}
-                        onChange={props.onChange}
-                    />
-                    Hàng tuần
-                </label>
+                {periods.map((item) => (
+                    <label key={item.value} className={`radio-button ${selectedValue === item.value && 'radio-button--active'}`}>
+                        <input
+                            className={`radio-button__input`}
+                            type="radio"
+                            value={item.value}
+                            checked={props.value === item.value}
+                            onChange={handleInputChange}
+                        />
+                        {item.title}
+                    </label>)
+                )}
             </div>
         </div>
     );

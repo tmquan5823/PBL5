@@ -5,7 +5,7 @@ const Wallet = props => {
     return <div className="wallet">
         <h2>Ví</h2>
         <div className="wallet__content">
-            <img src="/images/wallet.png" alt="" />
+            <img src="/images/wallet.gif" alt="" />
             <div className="wallet__info">
                 <p>Ví tiền mặt</p>
                 <p className="fade-text">Tiền mặt</p>

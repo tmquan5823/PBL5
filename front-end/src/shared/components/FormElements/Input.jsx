@@ -2,6 +2,8 @@ import React, { useState, useReducer, useEffect } from "react";
 
 import "./Input.css";
 import { validate } from "../../util/validators";
+import Button from "./Button";
+import DatePicker from 'react-datepicker';
 
 function inputReducer(state, action) {
     switch (action.type) {
@@ -22,46 +24,80 @@ function inputReducer(state, action) {
 }
 
 const Input = props => {
-    const [inputState, dispatch] = useReducer(inputReducer, { value: props.value || "", isValid: props.isValid || false, isTouched: false });
+    const [inputState, dispatch] = useReducer(inputReducer, { value: props.value || "", isValid: props.initialIsValid || false, isTouched: false });
+    const [showPassword, setShowPassword] = useState(false);
 
     const { id, onInput } = props;
     const { value, isValid } = inputState;
+
+    const style = {
+        magrin: props.magrin,
+    }
 
     useEffect(() => {
         onInput(id, value, isValid);
     }, [id, value, isValid])
 
     function changeHandler(event) {
+        if (props.numberOnly && isNaN(event.target.value)) {
+            return;
+        }
         dispatch({ type: 'CHANGE', val: event.target.value, validators: props.validators });
+    }
+
+    function dateChangeHandler(date) {
+        dispatch({ type: 'CHANGE', val: date, validators: props.validators });
     }
 
     function touchHandler(event) {
         dispatch({ type: 'TOUCH' })
     }
 
-    const myStyle={
+    const myStyle = {
         width: props.width
     }
 
-    const element = props.element === 'input'
-        ? <input
-            id={props.id}
-            value={inputState.value}
-            type={props.type}
-            placeholder={props.placeholder}
-            onChange={changeHandler}
-            onBlur={touchHandler}
-        />
-        : <textarea
+    function showPasswordHandler() {
+        setShowPassword(!showPassword);
+    }
+
+    let element = <input
+        id={props.id}
+        value={inputState.value}
+        type={showPassword ? 'text' : props.type}
+        placeholder={props.placeholder}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        style={style}
+        disabled={props.disabled}
+    />
+    if (props.element === 'textarea') {
+        element = <textarea
             id={props.id}
             value={inputState.value}
             rows={props.rows || 3}
             onChange={changeHandler}
             onBlur={touchHandler}
+            style={style}
         />
+    }
+
+    if (props.element === 'datepicker') {
+        element = <DatePicker
+            id={props.id}
+            selected={props.value || (inputState.value && new Date(inputState.value))}
+            onChange={dateChangeHandler}
+            dateFormat="dd/MM/yyyy"
+            showYearDropdown
+            shouldCloseOnSelect
+        />
+    }
 
     return <div style={myStyle} className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>
-        <label htmlFor={props.id}>{props.text}</label>
+        <div className="input-header">
+            <label htmlFor={props.id}>{props.text}</label>
+            {props.type === "password" && <img onClick={showPasswordHandler} src={`/images/${showPassword ? 'view.png' : 'hide.png'}`} alt="" />}
+        </div>
         {element}
         {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>

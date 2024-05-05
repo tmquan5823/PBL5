@@ -1,0 +1,54 @@
+.state-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.state-card .exit-btn {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.state-card .exit-btn button {
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    cursor: pointer;
+}
+
+.state-card img {
+    width: 200px;
+    margin-top: 20px;
+}
+
+.state-card h2 {
+    margin: 15px;
+    letter-spacing: 12px;
+}
+
+.state-card p {
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+
+.state-card--fail {
+    background-color: rgb(255, 200, 0);
+    color: #fff;
+}
+
+.state-card--error {
+    background-color: rgb(246, 36, 71);
+    color: #fff;
+}
+
+.state-card--success {
+    background-color: #FFAB00;
+    color: #fff;
+}

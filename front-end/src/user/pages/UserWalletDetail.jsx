@@ -1,8 +1,8 @@
 import React from "react";
-import "./UserChart.css";
+import "./UserWalletDetail.css";
 import InfoHeader from "../../shared/components/UIElements/InfoHeader";
 
-const UserChart = props => {
+const UserWalletDetail = props => {
     return <React.Fragment>
         <InfoHeader title="Biểu đồ" />
         <div className="user-chart">
@@ -12,4 +12,4 @@ const UserChart = props => {
 
 };
 
-export default UserChart;
+export default UserWalletDetail;

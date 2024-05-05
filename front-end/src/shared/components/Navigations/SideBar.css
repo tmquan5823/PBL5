@@ -27,6 +27,7 @@
     border-radius: 30px;
     border: 1px solod #384D6C;
     cursor: pointer;
+    background-color: transparent;
 }
 
 .signout-btn p {
@@ -35,6 +36,7 @@
 
 .signout-btn img {
     width: 17px;
+
 }
 
 .signout-btn__content {
@@ -43,6 +45,7 @@
     justify-content: space-around;
     font-size: 20px;
     color: #384D6C;
+
 }
 
 .side-bar__help {

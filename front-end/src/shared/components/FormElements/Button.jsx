@@ -10,6 +10,7 @@ const Button = props => {
                     'button--inverse'} ${props.danger && 'button--danger'} 
                     ${props.whilte && 'button--whilte'}`}
                 href={props.href}
+                onClick={props.onClick}
             >
                 <img className='button--image' src={props.image} alt="" />
                 {props.children}

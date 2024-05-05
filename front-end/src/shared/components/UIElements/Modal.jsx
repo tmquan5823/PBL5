@@ -5,9 +5,14 @@ import { CSSTransition } from "react-transition-group";
 import Backdrop from "./Backdrop";
 
 const ModalOverlay = props => {
+    const style = {
+        width: props.width,
+        top: props.top,
+    }
     const content = (
-        <div className="modal">
+        <div className={`modal ${props.center && 'modal--center'}`} style={style}>
             {props.content}
+            {props.children}
         </div>
     );
     return ReactDOM.createPortal(content, document.getElementById("modal-hook"));

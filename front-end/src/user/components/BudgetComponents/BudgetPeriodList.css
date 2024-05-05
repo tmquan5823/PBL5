@@ -1,5 +1,6 @@
 .radio-buttons-container {
     display: flex;
+    margin-top: 5px;
 }
 
 .radio-button {
@@ -15,9 +16,7 @@
     display: none;
 }
 
-.radio-button__input1:active+.radio-button1 {
+.radio-button--active {
     background-color: #24B6B7;
     color: #fff;
-    border: 1px solid #007bff;
-    display: block;
 }

@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
+import axios from "axios"
 
 export const useHttpClient = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -12,32 +13,22 @@ export const useHttpClient = () => {
             'User-agent': 'Quan'
         }) => {
             setIsLoading(true);
-            const test = {
-                "email": "vvt14102003@gmail.com",
-                "password": "14102003"
+            const config = {
+                method,
+                url,
+                data: body,
+                headers,
             };
             try {
-                const response = await fetch(url, {
-                    method,
-                    headers,
-                    body,
-                    // signal: httpAbortCtrl.signal
-                });
-                const responseData = await response.json();
-
+                const response = await axios(config);
                 // activeHttpRequests.current = activeHttpRequests.current.filter(
                 //     reqCtrl => reqCtrl !== httpAbortCtrl
                 // );
-
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                }
-
                 setIsLoading(false);
-                console.log(responseData);
-                return responseData;
+                console.log(response);
+                return response.data;
             } catch (err) {
-                console.log(err);
+                console.log("Error: " + err);
                 setError(err.message);
                 setIsLoading(false);
                 throw err;
