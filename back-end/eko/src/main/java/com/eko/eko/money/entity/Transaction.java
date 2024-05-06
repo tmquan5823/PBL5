@@ -1,5 +1,7 @@
 package com.eko.eko.money.entity;
 
+import java.time.LocalDateTime;
+
 import com.eko.eko.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,6 +28,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private LocalDateTime dateTransaction;
+    private float amount;
+    private LocalDateTime cycle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")

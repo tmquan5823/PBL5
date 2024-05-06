@@ -31,8 +31,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String name;
+    private String content;
+    private String iconUrl;
+    private String iconColor;
+    private boolean isIncome;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wallet_id")
