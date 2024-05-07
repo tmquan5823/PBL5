@@ -12,12 +12,15 @@ import UserInformation from "./user/pages/UserInformation";
 import UserBudgetDetail from "./user/pages/UserBudgetDetail";
 import VerifyPage from "./user/pages/VerifyPage";
 import UserWalletDetail from "./user/pages/UserWalletDetail";
+import ForgotPassword from "./user/pages/ForgotPassword";
+import RecoverPassword from "./user/pages/RecoverPassword";
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
   const [token, setToken] = useState(null);
   const [userID, setUserID] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
+
 
   const login = useCallback((uid, token, url) => {
     setLoginState(true);
@@ -43,6 +46,12 @@ function App() {
     routes = (<Switch>
       <Route path="/" exact>
         <Home />
+      </Route>
+      <Route path="/forgotpassword" exact>
+        <ForgotPassword />
+      </Route>
+      <Route path="/recoverpassword" exact>
+        <RecoverPassword />
       </Route>
       <Route path="/login" exact>
         <Login />
