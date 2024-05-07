@@ -34,4 +34,9 @@ public class WalletController {
         return service.createWallet(request, walletRequest);
     }
 
+    @DeleteMapping("/wallet/{walletId}")
+    public ResponseEntity<WalletResponse> deleteWallet(HttpServletRequest request,
+            @PathVariable int walletId) {
+        return service.deleteWallet(request, walletId);
+    }
 }
