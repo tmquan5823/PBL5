@@ -14,13 +14,14 @@ import VerifyPage from "./user/pages/VerifyPage";
 import UserWalletDetail from "./user/pages/UserWalletDetail";
 import ForgotPassword from "./user/pages/ForgotPassword";
 import RecoverPassword from "./user/pages/RecoverPassword";
+import WalletSetting from "./user/pages/WalletSetting";
+import WalletCategory from "./user/pages/WalletCategory";
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
   const [token, setToken] = useState(null);
   const [userID, setUserID] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
-
 
   const login = useCallback((uid, token, url) => {
     setLoginState(true);
@@ -39,6 +40,10 @@ function App() {
     setAvatarUrl(url);
     setUserID(preval => preval + 1);
   };
+
+  function setUserWallet(id) {
+    setWallet(id);
+  }
 
 
   let routes;
@@ -64,7 +69,7 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } else {
+  } if (true) {
     routes = <Switch>
       <Route path="/user">
         <div className="users-routes" >
@@ -81,7 +86,13 @@ function App() {
           <Route path="/user/transaction" exact>
             <UserTransaction />
           </Route>
-          <Route path="/user/wallet-detail" exact>
+          <Route path="/user/wallet/setting" exact>
+            <WalletSetting />
+          </Route>
+          <Route path="/user/wallet/category" exact>
+            <WalletCategory />
+          </Route>
+          <Route path="/user/wallet/:id" exact>
             <UserWalletDetail />
           </Route>
           <Route path="/user/information" exact>
@@ -94,7 +105,17 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn: !!token, userID: userID, avatarURL: avatarURL, token: token, login: login, logout: logout, updateAvt: updateAvatarURL }}>
+    <AuthContext.Provider value={{
+      isLoggedIn: !!token,
+      userID: userID,
+      avatarURL: avatarURL,
+      token: token,
+      login: login,
+      logout: logout,
+      updateAvt: updateAvatarURL,
+      wallet: wallet,
+      setWallet: setUserWallet
+    }}>
       <BrowserRouter>
         {routes}
       </BrowserRouter>

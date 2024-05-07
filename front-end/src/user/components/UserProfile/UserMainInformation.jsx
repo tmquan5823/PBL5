@@ -95,7 +95,9 @@ const UserMainInformation = props => {
     }, []);
 
     function inputChangeHandler(id, value, isValid) {
-        setUpdateState(true);
+        if (formState !== userinfo) {
+            setUpdateState(true);
+        }
         inputHandler(id, value, isValid);
     }
 
