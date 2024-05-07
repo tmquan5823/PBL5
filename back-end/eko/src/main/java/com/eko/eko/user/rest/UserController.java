@@ -35,20 +35,20 @@ public class UserController {
     }
 
     @PutMapping("/user/avatar")
-    public ResponseEntity<Map<String, String>> updateAvatar(
+    public ResponseEntity<Map<String, Object>> updateAvatar(
             @RequestParam("image") MultipartFile image,
             HttpServletRequest request) throws IOException {
         return service.updateAvatar(image, request);
     }
 
     @DeleteMapping("/user/avatar")
-    public ResponseEntity<Map<String, String>> deleteAvatar(HttpServletRequest request)
+    public ResponseEntity<Map<String, Object>> deleteAvatar(HttpServletRequest request)
             throws IOException {
         return service.deleteAvatar(request);
     }
 
     @PutMapping("/user/password")
-    public ResponseEntity<Map<String, String>> changePassword(@RequestBody ChangePasswordRequest requestUser,
+    public ResponseEntity<Map<String, Object>> changePassword(@RequestBody ChangePasswordRequest requestUser,
             HttpServletRequest request) {
         return service.changePassword(requestUser, request);
     }

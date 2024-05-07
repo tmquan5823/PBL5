@@ -7,5 +7,7 @@ export const AuthContext = createContext({
     avatarURL: null,
     login: () => { },
     logout: () => { },
-    updateAvt: () => { }
+    updateAvt: () => { },
+    wallet: null,
+    setWallet: () => { }
 })

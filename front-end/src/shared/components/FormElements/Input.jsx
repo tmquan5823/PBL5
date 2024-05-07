@@ -38,6 +38,13 @@ const Input = props => {
         onInput(id, value, isValid);
     }, [id, value, isValid])
 
+    useEffect(() => {
+        if (props.numberOnly && isNaN(props.value)) {
+            return;
+        }
+        dispatch({ type: 'CHANGE', val: props.value, validators: props.validators });
+    }, [props.value]);
+
     function changeHandler(event) {
         if (props.numberOnly && isNaN(event.target.value)) {
             return;
@@ -70,7 +77,9 @@ const Input = props => {
         onBlur={touchHandler}
         style={style}
         disabled={props.disabled}
+        text={inputState.value}
     />
+
     if (props.element === 'textarea') {
         element = <textarea
             id={props.id}
@@ -91,6 +100,24 @@ const Input = props => {
             showYearDropdown
             shouldCloseOnSelect
         />
+    }
+
+    if (props.element === 'select') {
+        element = <select
+            id={props.id}
+            value={inputState.value}
+            onChange={changeHandler}
+        >
+            {props.options.map(option => (
+                <option
+                    key={option.value}
+                    value={option.value}
+                    selected={inputState.value === option.value}
+                >
+                    <span>{option.label}</span>
+                </option>
+            ))}
+        </select>
     }
 
     return <div style={myStyle} className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>

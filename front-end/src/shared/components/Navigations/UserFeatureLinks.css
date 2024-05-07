@@ -16,20 +16,20 @@
     position: relative;
 }
 
-.user-features li:hover {
-    background-color: #E4E4E4;
+.user-features .user-features__li:hover {
+    background-color: rgba(36, 182, 183, 0.25);
 }
 
 .user-features li a {
     text-decoration: none;
-    color: #000000;
+    color: #717171;
     display: block;
     width: 100%;
     height: 100%;
     padding: 10px 20px;
     box-sizing: border-box;
     line-height: 100%;
-    font-weight: bold;
+    font-weight: 400;
 }
 
 .user-features li a:hover::before {
@@ -43,7 +43,7 @@
 }
 
 .user-features li img {
-    width: 30px;
+    width: 20px;
     margin-right: 20px;
 }
 
@@ -64,15 +64,54 @@
 }
 
 .active_navlink {
-    background-color: #E4E4E4;
+    background-color: rgba(36, 182, 183, 0.3);
 }
 
 .user-features__wallet {
     width: 100%;
-    background-color: rgba(36, 182, 183, 0.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* padding: 20px 10px; */
+    animation: slideDown 0.6s forwards;
+}
+
+.user-features__wallet::before,
+.user-features__wallet::after {
+    content: "";
+    width: 100%;
+    display: block;
+}
+
+.user-features__wallet::before {
+    /* padding-top: 10px; */
+    border-top: 1px solid #717171;
+    margin-top: 10px;
+}
+
+.user-features__wallet::after {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #717171;
+    margin-bottom: 10px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .user-features__wallet li a {
     padding: 10px 30px;
+}
+
+.user-feature__wallet h3 {
+    margin: 0;
+    text-align: start;
+    color: #717171;
+    padding: 15px 10px;
+    font-weight: 500;
 }
