@@ -12,6 +12,8 @@ import UserInformation from "./user/pages/UserInformation";
 import UserBudgetDetail from "./user/pages/UserBudgetDetail";
 import VerifyPage from "./user/pages/VerifyPage";
 import UserWalletDetail from "./user/pages/UserWalletDetail";
+import ForgotPassword from "./user/pages/ForgotPassword";
+import RecoverPassword from "./user/pages/RecoverPassword";
 import WalletSetting from "./user/pages/WalletSetting";
 import WalletCategory from "./user/pages/WalletCategory";
 
@@ -20,7 +22,6 @@ function App() {
   const [token, setToken] = useState(null);
   const [userID, setUserID] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
-  const [wallet, setWallet] = useState(null);
 
   const login = useCallback((uid, token, url) => {
     setLoginState(true);
@@ -50,6 +51,12 @@ function App() {
     routes = (<Switch>
       <Route path="/" exact>
         <Home />
+      </Route>
+      <Route path="/forgotpassword" exact>
+        <ForgotPassword />
+      </Route>
+      <Route path="/recoverpassword" exact>
+        <RecoverPassword />
       </Route>
       <Route path="/login" exact>
         <Login />
