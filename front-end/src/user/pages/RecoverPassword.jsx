@@ -4,7 +4,7 @@ import "./SignUp.css";
 import RecoverPasswordContainer from "../../user/components/RecoverPassword/RecoverPasswordContainer"
 const RecoverPassword = props => {
   
-    return <div class='singup-page'>
+    return <div class='recoverPass-page'>
             <RecoverPasswordContainer />
       </div>  
 

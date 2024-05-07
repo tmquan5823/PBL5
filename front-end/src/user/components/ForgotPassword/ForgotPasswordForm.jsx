@@ -32,10 +32,10 @@ const ForgotPasswordForm = () => {
 
   return (
     <form className='forgotpass-form' onSubmit={handleSubmit}>
-      <div className='frame'>
+      <div className='frameFg'>
         <h1>Quên mật khẩu</h1>
-        <p className='note'>Điền email gắn với tài khoản của bạn để nhận đường dẫn thay đổi mật khẩu</p>
-        <div className='field'>
+        <p>Điền email gắn với tài khoản của bạn để nhận đường dẫn thay đổi mật khẩu</p>
+        <div className='fieldFg'>
           <label>Email đăng nhập</label>
           <input
             id='text'
@@ -47,7 +47,7 @@ const ForgotPasswordForm = () => {
           />
           <p style={{ margin: '0px' }} className='error'>{emailError}</p> {/* Display email error */}
           <button id='button' type='submit'>Xác nhận</button>
-          <Link className='link' to='/'>Quay lại đăng nhập</Link>
+          <Link  to='/'>Quay lại đăng nhập</Link>
         </div>
       </div>
     </form>
