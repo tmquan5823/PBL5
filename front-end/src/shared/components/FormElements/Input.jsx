@@ -77,7 +77,6 @@ const Input = props => {
         onBlur={touchHandler}
         style={style}
         disabled={props.disabled}
-        text={inputState.value}
     />
 
     if (props.element === 'textarea') {

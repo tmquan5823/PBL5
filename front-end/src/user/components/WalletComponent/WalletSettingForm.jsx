@@ -41,61 +41,65 @@ const WalletSettingForm = props => {
             isValid: false
         }
     }, false);
-    return <div className="wallet-setting-form">
-        <h3>Thông tin chung</h3>
-        <div className="wallet-form__row">
-            <Input id="wallet_name"
-                text="Tên"
-                element="input"
-                type="text"
-                value={formState.inputs.wallet_name.value}
-                onInput={inputHandler}
-                validators={[VALIDATOR_REQUIRE()]}
-                width="48%"
-            />
-            <Input id="money_source"
-                text="Nguồn tiền"
-                element="select"
-                value={formState.inputs.money_source.value}
-                onInput={inputHandler}
-                width="48%"
-                options={money_sources}
-            />
+    
+    return <div className="wallet-setting-container">
+        <div className="wallet-setting-form">
+            <h3>Thông tin chung</h3>
+            <div className="wallet-form__row">
+                <Input id="wallet_name"
+                    text="Tên"
+                    element="input"
+                    type="text"
+                    value={formState.inputs.wallet_name.value}
+                    onInput={inputHandler}
+                    validators={[VALIDATOR_REQUIRE()]}
+                    width="48%"
+                />
+                <Input id="money_source"
+                    text="Nguồn tiền"
+                    element="select"
+                    value={formState.inputs.money_source.value}
+                    onInput={inputHandler}
+                    width="48%"
+                    options={money_sources}
+                />
+            </div>
+            <div className="wallet-form__row">
+                <Input id="initial_money"
+                    text="Số dư ban đầu"
+                    element="input"
+                    type="text"
+                    numberOnly
+                    value={formState.inputs.initial_money.value}
+                    onInput={inputHandler}
+                    validators={[VALIDATOR_REQUIRE()]}
+                    width="48%"
+                />
+                <Input id="currency"
+                    text="Đơn vị tiền tệ"
+                    element="select"
+                    value={formState.inputs.currency.value}
+                    onInput={inputHandler}
+                    options={currency}
+                    width="48%"
+                    initialIsValid={true}
+                />
+            </div>
+            <div className="update-wallet__buttons">
+                <button className="wallet-form__save-btn">Cập nhật ví</button>
+                <button className="wallet-form__cancel-btn">Hủy</button>
+            </div>
+            <h3>Thành viên ví</h3>
+            <div className="wallet-form__row">
+                <UserCard
+                    image={auth.avatarURL}
+                    name="Trần Minh Quân"
+                    email="tmquan5823@gmail.com"
+                    role="Chủ sở hữu"
+                />
+            </div>
         </div>
-        <div className="wallet-form__row">
-            <Input id="initial_money"
-                text="Số dư ban đầu"
-                element="input"
-                type="text"
-                numberOnly
-                value={formState.inputs.initial_money.value}
-                onInput={inputHandler}
-                validators={[VALIDATOR_REQUIRE()]}
-                width="48%"
-            />
-            <Input id="currency"
-                text="Đơn vị tiền tệ"
-                element="select"
-                value={formState.inputs.currency.value}
-                onInput={inputHandler}
-                options={currency}
-                width="48%"
-                initialIsValid={true}
-            />
-        </div>
-        <h3>Thành viên ví</h3>
-        <div className="wallet-form__row">
-            <UserCard
-                image={auth.avatarURL}
-                name="Trần Minh Quân"
-                email="tmquan5823@gmail.com"
-                role="Chủ sở hữu"
-            />
-        </div>
-        <div className="update-wallet__buttons">
-            <button className="wallet-form__save-btn">Cập nhật ví</button>
-            <button className="wallet-form__cancel-btn">Hủy</button>
-        </div>
+        <h3 className="wallet-setting__delete"><a href="">Xóa ví</a></h3>
     </div>
 };
 

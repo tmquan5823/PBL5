@@ -22,6 +22,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [userID, setUserID] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
+  const [wallet, setWallet] = useState(null);
 
   const login = useCallback((uid, token, url) => {
     setLoginState(true);
@@ -74,30 +75,32 @@ function App() {
       <Route path="/user">
         <div className="users-routes" >
           <UserSideBar />
-          <Route path="/user/overview" exact>
-            <UserOverview />
-          </Route>
-          <Route path="/user/budget" exact>
-            <UserBudget />
-          </Route>
-          <Route path="/user/budget/:budgetID">
-            <UserBudgetDetail />
-          </Route>
-          <Route path="/user/transaction" exact>
-            <UserTransaction />
-          </Route>
-          <Route path="/user/wallet/setting" exact>
-            <WalletSetting />
-          </Route>
-          <Route path="/user/wallet/category" exact>
-            <WalletCategory />
-          </Route>
-          <Route path="/user/wallet/:id" exact>
-            <UserWalletDetail />
-          </Route>
-          <Route path="/user/information" exact>
-            <UserInformation />
-          </Route>
+          <Switch>
+            <Route path="/user/overview" exact>
+              <UserOverview />
+            </Route>
+            <Route path="/user/budget" exact>
+              <UserBudget />
+            </Route>
+            <Route path="/user/budget/:budgetID">
+              <UserBudgetDetail />
+            </Route>
+            <Route path="/user/transaction" exact>
+              <UserTransaction />
+            </Route>
+            <Route path="/user/wallet/setting" exact>
+              <WalletSetting />
+            </Route>
+            <Route path="/user/wallet/category" exact>
+              <WalletCategory />
+            </Route>
+            <Route path="/user/wallet/:id" exact>
+              <UserWalletDetail />
+            </Route>
+            <Route path="/user/information" exact>
+              <UserInformation />
+            </Route>
+          </Switch>
         </div>
       </Route>
       <Redirect to="/user/overview" />
