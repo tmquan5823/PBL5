@@ -3,6 +3,7 @@ package com.eko.eko.money.entity;
 import java.util.List;
 
 import com.eko.eko.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -32,12 +33,15 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String walletName;
+    private float moneyAtFirst;
+    private float moneyLeft;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Category> categories;
-
 }
