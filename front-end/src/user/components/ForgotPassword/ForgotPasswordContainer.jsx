@@ -5,7 +5,7 @@ import "./ForgotPasswordContainer.css";
 
 function ForgotPasswordContainer(props) {
   return (
-    <div className="container">
+    <div className="containerFg">
       <div >
         <img src="/images/logo.png" alt="Logo" className="logo" />
       </div>

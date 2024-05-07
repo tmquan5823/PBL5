@@ -39,12 +39,12 @@ const RecoverPasswordForm = () => {
 
   return (
     <form className='recoverpass-form' onSubmit={handleSubmit}>
-      <div className='frame'>
+      <div className='frameRe'>
         <h1>Khôi phục mật khẩu</h1>
-        <div className='field'>
+        <div className='fieldRe'>
           <label htmlFor='email'>Email đăng nhập</label>
           <input
-            id='email'
+            id='emailRe'
             type='text'
             value={email}
             onChange={(e) => handleChange(e, setEmail)}
@@ -54,7 +54,7 @@ const RecoverPasswordForm = () => {
           <p style={{ margin: '0px' }} className='error'>{emailError}</p> {/* Display email error */}
           <label id='pass' htmlFor='password'>Mật khẩu</label>
           <input
-            id='password'
+            id='passwordRe'
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => handleChange(e, setPassword)}
@@ -63,7 +63,7 @@ const RecoverPasswordForm = () => {
           />
           <label id='pass' htmlFor='confirmPassword'>Nhập lại mật khẩu</label>
           <input
-            id='confirmPassword'
+            id='confirmPasswordRe'
             type={showPassword ? 'text' : 'password'}
             value={confirmPassword}
             onChange={(e) => handleChange(e, setConfirmPassword)}

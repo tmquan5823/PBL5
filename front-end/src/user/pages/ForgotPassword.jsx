@@ -6,7 +6,7 @@ import ForgotPasswordContainer from "../components/ForgotPassword/ForgotPassword
 
 const ForgotPassword = props => {
 
-    return <div class='singup-page'>
+    return <div class='forgotPass-page'>
             <ForgotPasswordNavigation />
             <ForgotPasswordContainer />
       </div>  
