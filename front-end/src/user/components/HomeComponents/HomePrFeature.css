@@ -1,0 +1,19 @@
+.feature-container {
+    margin: 100px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feature__title {}
+
+.feature__row {
+    display: flex;
+    margin: 20px;
+    justify-content: space-around;
+}
+
+.teal-color {
+    color: #24B6B7;
+    display: inline;
+}

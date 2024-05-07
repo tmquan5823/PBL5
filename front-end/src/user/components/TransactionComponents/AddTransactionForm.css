@@ -1,0 +1,147 @@
+    .add-transaction {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        width: 100%;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .add-transaction__header {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        margin-bottom: 10px;
+    }
+
+    .add-transaction__item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .add-transaction__item .dropdown__currency {
+        padding: 7px;
+    }
+
+    .add-transaction__item label {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.5);
+    }
+
+    .add-transaction__item input {
+        padding: 7px;
+        border-radius: 10px;
+        height: 100%;
+        border: 1px solid #000;
+        overflow: hidden;
+    }
+
+    .add-transaction__category {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border: 1px solid #000;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+
+    .up-down-img {
+        width: 10px;
+        opacity: 0.5;
+    }
+
+    .add-transaction__category button:hover img {
+        opacity: 1;
+    }
+
+    .category-active {
+        opacity: 1;
+    }
+
+    .rotateAnimation {
+        animation: rotateAnimation .5s forwards;
+    }
+
+    .rotateAnimation2 {
+        animation: rotateAnimation2 .5s forwards;
+    }
+
+    @keyframes rotateAnimation {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(180deg);
+        }
+    }
+
+    @keyframes rotateAnimation2 {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(180deg);
+        }
+    }
+
+    .add-transaction__category button {
+        border: none;
+        background-color: #fff;
+    }
+
+    .add-transaction__category-field {
+        display: flex;
+        padding: 5px;
+        align-items: center;
+    }
+
+    .add-transaction__category-field img {
+        width: 20px;
+        margin-right: 5px;
+    }
+
+    .add-transaction__category-field span {
+        min-width: 150px;
+        overflow: hidden;
+    }
+
+    .add-transaction__category-container {
+        position: relative;
+        width: 100%;
+    }
+
+    .add-transaction__footer {
+        display: flex;
+        justify-content: end;
+        align-items: end;
+    }
+
+    .add-transaction__footer .add-btn {
+        padding: 9px 15px;
+        cursor: pointer;
+        margin: 0 15px;
+        border-radius: 5px;
+        background-color: #e5ebee;
+        color: #7b93a4;
+        border: none;
+        box-sizing: content-box;
+        font-weight: 500;
+    }
+
+    .add-transaction__footer .camera-btn {
+        height: 30px;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        margin-right: 20px;
+    }
+
+    .add-transaction__footer .camera-img {
+        width: 100%;
+        object-fit: cover;
+        opacity: 0.8;
+    }

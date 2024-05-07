@@ -1,0 +1,16 @@
+.modal {
+    z-index: 102;
+    position: fixed;
+    top: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 8px;
+}
+
+.modal--center {
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -1,0 +1,104 @@
+.calendar-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.calendar-container button {
+    padding: 10px;
+    height: 100%;
+    border: none;
+    background-color: #fff;
+}
+
+.calendar-container span {
+    padding: 10px;
+    min-width: 300px;
+    display: inline-block;
+    background-color: #fff;
+    margin: 0 10px;
+}
+
+.budget-detail__header {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #fff;
+    padding: 5px 20px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.budget-detail__header-link {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.budget-detail__header-link span {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+.budget-detail__title {
+    color: #000;
+}
+
+.budget-detail__info h3,
+h4 {
+    margin: 0;
+}
+
+.budget-detail__info h4 {
+    margin: 5px 0;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.budget-detail__update-btn {
+    padding: 10px;
+    background-color: rgba(36, 182, 183, 20%);
+    color: #24B6B7;
+    border-radius: 10px;
+    height: fit-content;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.budget-detail__progress {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.budget-detail__progress-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.budget-detail__progress-content h3 {
+    margin-bottom: 20px;
+}
+
+.progress-bar__container {
+    width: 60%;
+}
+
+.progress-bar__container .progress-bar {
+    height: 50px;
+}
+
+.progress-bar__time {
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress-bar__time p {
+    margin: 0;
+}

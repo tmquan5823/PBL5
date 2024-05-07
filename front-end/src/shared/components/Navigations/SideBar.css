@@ -1,0 +1,68 @@
+.side-bar {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 220px;
+    background-color: rgba(36, 182, 183, 0.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.users-routes {
+    margin-left: 220px;
+}
+
+.signout-btn {
+    width: 80%;
+}
+
+.signout-btn button {
+    width: 100%;
+    padding: 15px 0;
+    border-radius: 30px;
+    border: 1px solod #384D6C;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.signout-btn p {
+    margin: 0 10px;
+}
+
+.signout-btn img {
+    width: 17px;
+
+}
+
+.signout-btn__content {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    color: #384D6C;
+
+}
+
+.side-bar__help {
+    text-decoration: none;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.side-bar__help div {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 40px;
+}
+
+.side-bar__help img {
+    width: 19px;
+    margin-right: 15px;
+}

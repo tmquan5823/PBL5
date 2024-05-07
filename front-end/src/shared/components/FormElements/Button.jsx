@@ -7,8 +7,10 @@ const Button = props => {
         return (
             <a
                 className={`button button--${props.size || 'default'} ${props.inverse &&
-                    'button--inverse'} ${props.danger && 'button--danger'} ${props.whilte && 'button--whilte'}`}
+                    'button--inverse'} ${props.danger && 'button--danger'} 
+                    ${props.whilte && 'button--whilte'}`}
                 href={props.href}
+                onClick={props.onClick}
             >
                 <img className='button--image' src={props.image} alt="" />
                 {props.children}
@@ -19,7 +21,8 @@ const Button = props => {
         return (
             <a
                 className={`button button--${props.size || 'default'} ${props.inverse &&
-                    'button--inverse'} ${props.danger && 'button--danger'}`}
+                    'button--inverse'} ${props.danger && 'button--danger'} 
+                    ${props.whilte && 'button--whilte'}`}
                 href={props.href}
             >
                 {props.children}
@@ -32,7 +35,8 @@ const Button = props => {
                 to={props.to}
                 exact={props.exact}
                 className={`button button--${props.size || 'default'} ${props.inverse &&
-                    'button--inverse'} ${props.danger && 'button--danger'}`}
+                    'button--inverse'} ${props.danger && 'button--danger'} ${props.confirm && 'button--confirm'} 
+                    ${props.whilte && 'button--whilte'}`}
             >
                 {props.children}
             </Link>
@@ -41,7 +45,8 @@ const Button = props => {
     return (
         <button
             className={`button button--${props.size || 'default'} ${props.inverse &&
-                'button--inverse'} ${props.danger && 'button--danger'} ${props.confirm && 'button--confirm'}`}
+                'button--inverse'} ${props.danger && 'button--danger'} ${props.confirm && 'button--confirm'} 
+                 ${props.whilte && 'button--whilte'}`}
             type={props.type}
             onClick={props.onClick}
             disabled={props.disabled}

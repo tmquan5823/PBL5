@@ -1,0 +1,22 @@
+.radio-buttons-container {
+    display: flex;
+    margin-top: 5px;
+}
+
+.radio-button {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 8px 15px;
+    background-color: #e5ebee;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.radio-button__input {
+    display: none;
+}
+
+.radio-button--active {
+    background-color: #24B6B7;
+    color: #fff;
+}

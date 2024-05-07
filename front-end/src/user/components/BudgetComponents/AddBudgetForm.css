@@ -1,0 +1,83 @@
+.add-budget-form {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+
+.add-budget-form h2 {
+    text-align: center;
+}
+
+.budget-form__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.eneral-info input {}
+
+.budget-form__content .form-row {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+}
+
+.budget-form__content .form-row div {
+    margin-right: 20px;
+}
+
+.add-budget__button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.add-budget__button button {
+    width: 50%;
+    padding: 10px;
+    color: #fff;
+    background-color: #24B6B7;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.budget-period__date {
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+}
+
+.budget-period__date .date-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 100px;
+}
+
+.budget-period__date .date-container label {
+    font-size: 14px;
+    opacity: 80%;
+}
+
+.budget-period__date .date-container input {
+    padding: 7px;
+    border-radius: 10px;
+    border: #24B6B7 1px solid;
+}
+
+.budget-state--isvalid button {
+    background-color: #e5ebee;
+    color: #7b93a4;
+    cursor: default;
+}
+
+.date-invalid {
+    color: rgb(255, 110, 110);
+    font-size: 12px !important;
+}

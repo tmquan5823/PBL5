@@ -2,7 +2,7 @@
     width: 50%;
     background-color: #fff;
     border-radius: 20px;
-    padding: 40px 10px 60px 50px;
+    padding: 40px 50px 60px 50px;
     position: absolute;
     right: 0;
     top: 55%;
@@ -14,16 +14,12 @@
 .name-field {
     display: flex;
     flex-direction: row;
-    width: 84%;
+    width: 100%;
     justify-content: space-between;
 }
 
 .name-field div {
     width: 50%;
-}
-
-.name-field input {
-    width: 90%;
 }
 
 .signup-form--footer {
@@ -38,4 +34,13 @@
 
 .signup-button button {
     margin: 0;
+}
+
+.signup-form 
+
+.confirm-password--invalid {
+    margin: 0;
+    color: red;
+    font-size: 14px;
+    opacity: 70%;
 }

@@ -1,0 +1,74 @@
+.prPoint-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    margin: 50px 0;
+}
+
+.prPoint__table {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    width: 60%;
+    box-sizing: border-box;
+}
+
+.prPoint__table table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.prPoint__table table img {
+    width: 50px;
+}
+
+.prPoint__table table th,
+td {
+    margin-left: 10px;
+    text-align: center;
+}
+
+.prPoint__table table td,
+th {
+    font-size: 24px;
+}
+
+.prPoint__table table th {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.prPoint__table table td {
+    padding: 20px 0;
+}
+
+.prPoint__content {
+    padding: 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.prPoint__content h2 {
+    margin: 0;
+    text-align: left;
+    font-size: 2.5rem;
+}
+
+.prPoint__content p {
+    margin-top: 30px;
+    font-size: 1.5rem;
+}
+
+.green-color {
+    color: #2CB64B;
+}
+
+.red-color {
+    color: #ff0000;
+}
+
+.teal-color {
+    color: #24B6B7;
+}

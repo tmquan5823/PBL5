@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./SignUpForm.css";
 import Input from "../../../shared/components/FormElements/Input";
-import { VALIDATOR_REQUIRE } from "../../../shared/util/validators";
+import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from "../../../shared/util/validators";
 import { useForm } from "../../../shared/hooks/form-hook";
 import Button from "../../../shared/components/FormElements/Button";
-
+import { useHistory } from 'react-router-dom';
+import { useHttpClient } from "../../../shared/hooks/http-hook";
+import { AuthContext } from "../../../shared/context/auth-context";
+import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 
 const SignUpForm = props => {
-    const [formState, inputHandler] = useForm({
+    const [passwordState, setPasswordState] = useState(true);
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const auth = useContext(AuthContext);
+    const [signupFormState, setSignupFormState] = useState(false);
+    const history = useHistory();
+
+    const [formState, inputHandler, setFormData] = useForm({
         first_name: {
             value: "",
             isValid: false
@@ -17,6 +26,14 @@ const SignUpForm = props => {
             isValid: false
         },
         email: {
+            value: "",
+            isValid: false
+        },
+        password: {
+            value: "",
+            isValid: false
+        },
+        password_confirm: {
             value: "",
             isValid: false
         },
@@ -35,7 +52,7 @@ const SignUpForm = props => {
                 type="text"
                 text="Họ"
                 onInput={inputHandler}
-                errorText="Hãy nhập vào mục này"
+                errorText="Invalid email!"
                 validators={[VALIDATOR_REQUIRE()]}>
             </Input>
             <Input
@@ -44,7 +61,7 @@ const SignUpForm = props => {
                 type="text"
                 text="Tên"
                 onInput={inputHandler}
-                errorText="Hãy nhập vào mục này"
+                errorText="Invalid email!"
                 validators={[VALIDATOR_REQUIRE()]}>
             </Input>
         </div>
@@ -63,7 +80,7 @@ const SignUpForm = props => {
             type="text"
             text="Số điện thoại"
             onInput={inputHandler}
-            errorText="Invalid sđt!"
+            errorText="Invalid email!"
             validators={[VALIDATOR_REQUIRE()]}>
         </Input>
         <Input
@@ -72,7 +89,7 @@ const SignUpForm = props => {
             type="text"
             text="Mật khẩu"
             onInput={inputHandler}
-            errorText="Invalid password!"
+            errorText="Invalid email!"
             validators={[VALIDATOR_REQUIRE()]}>
         </Input>
         <Input
@@ -81,7 +98,7 @@ const SignUpForm = props => {
             type="text"
             text="Nhập lại mật khẩu"
             onInput={inputHandler}
-            errorText="Invalid enter the password!"
+            errorText="Invalid email!"
             validators={[VALIDATOR_REQUIRE()]}>
         </Input>
         <div className="signup-form--footer">

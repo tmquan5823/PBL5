@@ -1,0 +1,38 @@
+.contact-links {
+    display: flex;
+
+}
+
+.contact-links li {
+    list-style: none;
+    margin: 0 10px;
+}
+
+
+.contact-links li img {
+    width: 30px;
+}
+
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-container ul {
+    padding: 0;
+}
+
+.contact-container h2 {
+    margin: 0;
+}
+
+.hot-contact {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hot-contact p {
+    padding: 0 10px;
+}

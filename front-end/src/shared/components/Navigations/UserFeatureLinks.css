@@ -1,0 +1,78 @@
+.user-features {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.user-features li {
+    width: 100%;
+    position: relative;
+}
+
+.user-features li:hover {
+    background-color: #E4E4E4;
+}
+
+.user-features li a {
+    text-decoration: none;
+    color: #000000;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    line-height: 100%;
+    font-weight: bold;
+}
+
+.user-features li a:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #24B6B7;
+}
+
+.user-features li img {
+    width: 30px;
+    margin-right: 20px;
+}
+
+.user-feature__item {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.active_navlink::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #24B6B7;
+}
+
+.active_navlink {
+    background-color: #E4E4E4;
+}
+
+.user-features__wallet {
+    width: 100%;
+    background-color: rgba(36, 182, 183, 0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-features__wallet li a {
+    padding: 10px 30px;
+}

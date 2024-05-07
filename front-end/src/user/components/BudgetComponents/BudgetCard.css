@@ -1,0 +1,62 @@
+.budget-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: #fff;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    width: 350px;
+    height: 230px;
+    box-sizing: border-box;
+}
+
+.budget__title {
+    margin: 0;
+    color: #000;
+}
+
+.budget__wallet {
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+}
+
+.budget__money-left {
+    width: 100%;
+    font-size: 26px;
+    color: #000;
+    margin: 0;
+    font-weight: bold;
+}
+
+.budget__money {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.budget__money-left p {
+    margin: 0;
+    display: inline;
+}
+
+.budget__money p {
+    margin: 0;
+    display: inline;
+}
+
+.budget__date {
+    display: flex;
+    justify-content: space-between;
+    color: #000;
+}
+
+.budget__date p {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}

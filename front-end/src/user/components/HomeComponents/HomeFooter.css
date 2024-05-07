@@ -1,0 +1,19 @@
+.home-footer {
+    width: 100%;
+    background-color: #24b6b7;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    box-sizing: border-box;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-footer img {
+    width: 300px;
+    height: auto;
+}
