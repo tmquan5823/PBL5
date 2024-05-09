@@ -41,3 +41,8 @@
     background-color: #e5ebee !important;
     color: #7b93a4 !important;
 }
+
+.wallet-form--invalid {
+    background-color: #e5ebee !important;
+    color: #7b93a4 !important;
+}

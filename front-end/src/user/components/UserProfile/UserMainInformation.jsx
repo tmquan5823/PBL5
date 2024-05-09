@@ -11,7 +11,6 @@ import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner
 const UserMainInformation = props => {
     const auth = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const [birthDay, setBirthDay] = useState(new Date());
     const [userinfo, setUserinfo] = useState();
     const [updateState, setUpdateState] = useState(false);
     const [formState, inputHandler, setFormData] = useForm({
@@ -50,13 +49,38 @@ const UserMainInformation = props => {
                 });
 
             if (responseData.state) {
-                setUserinfo(responseData);
                 let birthday;
                 if (!responseData.date_of_birth) {
                     birthday = new Date();
                 } else {
                     birthday = new Date(responseData.date_of_birth);
                 }
+                setUserinfo({
+                    first_name: {
+                        value: responseData.first_name,
+                        isValid: true
+                    },
+                    last_name: {
+                        value: responseData.last_name,
+                        isValid: true
+                    },
+                    email: {
+                        value: responseData.email,
+                        isValid: true
+                    },
+                    phone_num: {
+                        value: responseData.phone_num || "",
+                        isValid: true
+                    },
+                    date_of_birth: {
+                        value: birthday,
+                        isValid: true
+                    },
+                    address: {
+                        value: responseData.address || "",
+                        isValid: true
+                    },
+                });
                 setFormData({
                     first_name: {
                         value: responseData.first_name,
@@ -94,38 +118,41 @@ const UserMainInformation = props => {
         fetchData();
     }, []);
 
-    function inputChangeHandler(id, value, isValid) {
-        if (formState !== userinfo) {
+    useEffect(() => {
+        if (JSON.stringify(formState.inputs) !== JSON.stringify(userinfo)) {
             setUpdateState(true);
+        } else {
+            setUpdateState(false);
         }
+    }, [formState]);
+
+    function inputChangeHandler(id, value, isValid) {
         inputHandler(id, value, isValid);
     }
 
     function cancelUpdateHandler(event) {
         event.preventDefault();
         let birthday;
-        if (!userinfo.date_of_birth) {
+        if (!userinfo.date_of_birth.value) {
             birthday = new Date();
         } else {
-            birthday = new Date(userinfo.date_of_birth);
+            birthday = new Date(userinfo.date_of_birth.value);
         }
-
-        setUpdateState(false);
         setFormData({
             first_name: {
-                value: userinfo.first_name,
+                value: userinfo.first_name.value,
                 isValid: true
             },
             last_name: {
-                value: userinfo.last_name,
+                value: userinfo.last_name.value,
                 isValid: true
             },
             email: {
-                value: userinfo.email,
+                value: userinfo.email.value,
                 isValid: true
             },
             phone_num: {
-                value: userinfo.phone_num || "",
+                value: userinfo.phone_num.value || "",
                 isValid: true
             },
             date_of_birth: {
@@ -133,10 +160,11 @@ const UserMainInformation = props => {
                 isValid: true
             },
             address: {
-                value: userinfo.address || "",
+                value: userinfo.address.value || "",
                 isValid: true
             },
         }, false);
+        setUpdateState(false);
     }
 
     async function submitUpdateHandler(event) {
@@ -208,14 +236,6 @@ const UserMainInformation = props => {
                     width="48%"
                     value={formState.inputs.date_of_birth.value}
                     initialIsValid={true} />
-                {/* <div className="pickdate-container">
-                    <label htmlFor="">Ngày sinh</label>
-                    <DatePicker
-                        selected={birthDay}
-                        onChange={birthDayChangeHandler}
-                        dateFormat="dd/MM/yyyy"
-                    />
-                </div> */}
                 <Input id="phone_num"
                     text="Số điện thoại"
                     element="input"

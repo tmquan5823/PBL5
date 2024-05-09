@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Route, Redirect, Switch, useLocation } from "react-router-dom";
 import Login from "./user/pages/Login";
 import SignUp from "./user/pages/SignUp";
@@ -16,35 +16,46 @@ import ForgotPassword from "./user/pages/ForgotPassword";
 import RecoverPassword from "./user/pages/RecoverPassword";
 import WalletSetting from "./user/pages/WalletSetting";
 import WalletCategory from "./user/pages/WalletCategory";
+import Cookies from 'js-cookie';
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
   const [token, setToken] = useState(null);
-  const [userID, setUserID] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
   const [wallet, setWallet] = useState(null);
 
-  const login = useCallback((uid, token, url) => {
+  const login = useCallback((token, url) => {
     setLoginState(true);
-    setUserID(uid);
     setToken(token);
     setAvatarUrl(url);
+    Cookies.set("token", token);
+    Cookies.set("url", url);
   }, [])
 
   const logout = useCallback(() => {
     setLoginState(false);
-    setUserID(null);
     setToken(null);
+    setAvatarUrl(null);
   }, []);
 
   function updateAvatarURL(url) {
     setAvatarUrl(url);
-    setUserID(preval => preval + 1);
   };
 
   function setUserWallet(id) {
     setWallet(id);
   }
+
+  useEffect(() => {
+    const storedToken = Cookies.get("token");
+    const storedURL = Cookies.get("url");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+    if (storedURL) {
+      setAvatarUrl(storedURL);
+    }
+  }, []);
 
 
   let routes;
@@ -70,7 +81,7 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } if (true) {
+  } else {
     routes = <Switch>
       <Route path="/user">
         <div className="users-routes" >
@@ -110,7 +121,6 @@ function App() {
   return (
     <AuthContext.Provider value={{
       isLoggedIn: !!token,
-      userID: userID,
       avatarURL: avatarURL,
       token: token,
       login: login,

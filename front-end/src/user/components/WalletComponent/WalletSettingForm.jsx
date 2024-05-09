@@ -1,14 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./WalletSettingForm.css";
 import { useForm } from "../../../shared/hooks/form-hook";
 import Input from "../../../shared/components/FormElements/Input";
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../../shared/util/validators";
 import UserCard from "../../../shared/components/UIElements/UserCard";
 import { AuthContext } from "../../../shared/context/auth-context";
+import { useHttpClient } from "../../../shared/hooks/http-hook";
+import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
+import StateModalCard from "../../../shared/components/UIElements/StateModalCard";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const WalletSettingForm = props => {
     const auth = useContext(AuthContext);
-
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const [deleteFail, setDeleteFail] = useState();
+    const [showModal, setShowModal] = useState();
+    const [message, setMessage] = useState();
+    const history = useHistory();
     const money_sources = [{
         label: "Tiền mặt",
         value: "cash",
@@ -25,7 +33,7 @@ const WalletSettingForm = props => {
 
     const [formState, inputHandler] = useForm({
         wallet_name: {
-            value: "",
+            value: auth.wallet.walletName || "",
             isValid: false
         },
         money_source: {
@@ -33,7 +41,7 @@ const WalletSettingForm = props => {
             isValid: false
         },
         initial_money: {
-            value: "",
+            value: auth.wallet.moneyAtFirst.toString() || "",
             isValid: false
         },
         currency: {
@@ -41,66 +49,99 @@ const WalletSettingForm = props => {
             isValid: false
         }
     }, false);
-    
-    return <div className="wallet-setting-container">
-        <div className="wallet-setting-form">
-            <h3>Thông tin chung</h3>
-            <div className="wallet-form__row">
-                <Input id="wallet_name"
-                    text="Tên"
-                    element="input"
-                    type="text"
-                    value={formState.inputs.wallet_name.value}
-                    onInput={inputHandler}
-                    validators={[VALIDATOR_REQUIRE()]}
-                    width="48%"
-                />
-                <Input id="money_source"
-                    text="Nguồn tiền"
-                    element="select"
-                    value={formState.inputs.money_source.value}
-                    onInput={inputHandler}
-                    width="48%"
-                    options={money_sources}
-                />
+
+    function closeModalHandler() {
+        setShowModal(false);
+        clearError();
+    }
+
+    async function deleteHandler() {
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/wallet/" + auth.wallet.id, "DELETE", null, {
+                'Authorization': "Bearer " + auth.token
+            });
+            if (!resData.state) {
+                setDeleteFail(true);
+            } else {
+                auth.setWallet(null);
+                history.push("/user/overview");
+            }
+            setMessage(resData.message || "");
+            setShowModal(true);
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return <React.Fragment>
+        {isLoading && <LoadingSpinner asOverlay />}
+        <StateModalCard
+            show={showModal || deleteFail}
+            onCancel={closeModalHandler}
+            state={error ? 'error' : (deleteFail ? 'fail' : 'success')}
+            message={message}
+        />
+        <div className="wallet-setting-container">
+            <div className="wallet-setting-form">
+                <h3>Thông tin chung</h3>
+                <div className="wallet-form__row">
+                    <Input id="wallet_name"
+                        text="Tên"
+                        element="input"
+                        type="text"
+                        value={formState.inputs.wallet_name.value}
+                        onInput={inputHandler}
+                        validators={[VALIDATOR_REQUIRE()]}
+                        width="48%"
+                    />
+                    <Input id="money_source"
+                        text="Nguồn tiền"
+                        element="select"
+                        value={formState.inputs.money_source.value}
+                        onInput={inputHandler}
+                        width="48%"
+                        options={money_sources}
+                    />
+                </div>
+                <div className="wallet-form__row">
+                    <Input id="initial_money"
+                        text="Số dư ban đầu"
+                        element="input"
+                        type="text"
+                        numberOnly
+                        value={formState.inputs.initial_money.value}
+                        onInput={inputHandler}
+                        validators={[VALIDATOR_REQUIRE()]}
+                        width="48%"
+                    />
+                    <Input id="currency"
+                        text="Đơn vị tiền tệ"
+                        element="select"
+                        value={formState.inputs.currency.value}
+                        onInput={inputHandler}
+                        options={currency}
+                        width="48%"
+                        initialIsValid={true}
+                    />
+                </div>
+                <div className="update-wallet__buttons">
+                    <button className="wallet-form__save-btn">Cập nhật ví</button>
+                    <button className="wallet-form__cancel-btn">Hủy</button>
+                </div>
+                <h3>Thành viên ví</h3>
+                <div className="wallet-form__row">
+                    <UserCard
+                        image={auth.avatarURL}
+                        name="Trần Minh Quân"
+                        email="tmquan5823@gmail.com"
+                        role="Chủ sở hữu"
+                    />
+                </div>
             </div>
-            <div className="wallet-form__row">
-                <Input id="initial_money"
-                    text="Số dư ban đầu"
-                    element="input"
-                    type="text"
-                    numberOnly
-                    value={formState.inputs.initial_money.value}
-                    onInput={inputHandler}
-                    validators={[VALIDATOR_REQUIRE()]}
-                    width="48%"
-                />
-                <Input id="currency"
-                    text="Đơn vị tiền tệ"
-                    element="select"
-                    value={formState.inputs.currency.value}
-                    onInput={inputHandler}
-                    options={currency}
-                    width="48%"
-                    initialIsValid={true}
-                />
-            </div>
-            <div className="update-wallet__buttons">
-                <button className="wallet-form__save-btn">Cập nhật ví</button>
-                <button className="wallet-form__cancel-btn">Hủy</button>
-            </div>
-            <h3>Thành viên ví</h3>
-            <div className="wallet-form__row">
-                <UserCard
-                    image={auth.avatarURL}
-                    name="Trần Minh Quân"
-                    email="tmquan5823@gmail.com"
-                    role="Chủ sở hữu"
-                />
-            </div>
+            <h3 className="wallet-setting__delete"><a onClick={deleteHandler} href="#">Xóa ví</a></h3>
         </div>
-        <h3 className="wallet-setting__delete"><a href="">Xóa ví</a></h3>
-    </div>
+    </React.Fragment>
 };
 
 export default WalletSettingForm;
