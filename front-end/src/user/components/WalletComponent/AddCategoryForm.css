@@ -1,0 +1,48 @@
+.add-category-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-category__content {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.add-category__item {
+    display: flex;
+    flex-direction: column;
+    width: 10%;
+    position: relative;
+}
+
+
+.add-category__btn {
+    padding: 10px 30px;
+    background-color: #e5ebee;
+    color: #7b93a4;
+}
+
+.icon-field {
+    padding: 5px 30px 5px 10px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #fff;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon-field .icon-container {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #717171;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-field .icon-container img {
+    width: 20px;
+    height: 20px;
+}

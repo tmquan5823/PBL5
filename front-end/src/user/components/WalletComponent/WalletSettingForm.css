@@ -1,3 +1,10 @@
+.wallet-setting-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    justify-content: center;
+}
+
 .wallet-setting-form {
     display: flex;
     justify-content: center;
@@ -21,4 +28,34 @@
     margin: 20px;
     padding: 10px 30px;
     border-radius: 10px;
+    border: none;
+    min-width: 150px;
+    cursor: pointer;
+}
+
+.update-wallet__buttons .wallet-form__save-btn {
+    background-color: #24B6B7;
+    color: #fff;
+}
+
+.wallet-setting-form::after {
+    content: "";
+    display: block;
+    border-bottom: 1px solid #000;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.wallet-setting__delete {
+    width: 100%;
+    text-align: end;
+
+}
+
+.wallet-setting__delete a {
+    color: #717171;
+    text-decoration: underline;
+    font-style: italic;
+    font-weight: 500;
+    padding-right: 20%;
 }

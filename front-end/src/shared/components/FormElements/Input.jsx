@@ -11,7 +11,7 @@ function inputReducer(state, action) {
             return {
                 ...state,
                 value: action.val,
-                isValid: validate(action.val, action.validators)
+                isValid: action.validators ? validate(action.val, action.validators) : true
             };
         case 'TOUCH':
             return {
@@ -77,7 +77,6 @@ const Input = props => {
         onBlur={touchHandler}
         style={style}
         disabled={props.disabled}
-        text={inputState.value}
     />
 
     if (props.element === 'textarea') {

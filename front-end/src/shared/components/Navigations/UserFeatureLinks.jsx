@@ -1,12 +1,32 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./UserFeatureLinks.css";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { AuthContext } from "../../context/auth-context";
-import Wallets from "../../../user/models/Wallets";
+import { useHttpClient } from "../../hooks/http-hook";
 
 const UserFeatureLinks = props => {
     const auth = useContext(AuthContext);
     const [settingWallet, setSettingWallet] = useState(false);
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const [wallets, setWallets] = useState();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const resData = await sendRequest(process.env.REACT_APP_URL + '/api/user/all-wallets', 'GET', null,
+                    {
+                        'Authorization': "Bearer " + auth.token
+                    }
+                )
+                if (resData.state) {
+                    setWallets(resData.list_wallet);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchData();
+    }, []);
 
     function removeWalletHandler() {
         auth.setWallet(null);
@@ -31,10 +51,10 @@ const UserFeatureLinks = props => {
         </li>
         {auth.wallet && (<div className="user-features__wallet">
             <div className="user-feature__wallet">
-                <h3>{Wallets.find(item => item.id === auth.wallet).name}</h3>
+                <h3>{auth.wallet.walletName}</h3>
             </div>
             <li className="user-features__li">
-                <NavLink activeClassName="active_navlink" to={`/user/wallet/${auth.wallet}`}>
+                <NavLink activeClassName="active_navlink" to={`/user/wallet/${auth.wallet.id}`}>
                     <div className="user-feature__item">
                         <img src="/images/wallet-detail.png" alt="" />
                         Tổng quan ví

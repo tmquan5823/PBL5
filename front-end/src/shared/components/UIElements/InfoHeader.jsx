@@ -8,7 +8,7 @@ import MoneyFormat from "../../help/MoneyFormat";
 const InfoHeader = props => {
     const auth = useContext(AuthContext);
     const [avatar, setAvatar] = useState(auth.avatarURL);
-    const [userWallet, setUserWallet] = useState();
+    const [userWallet, setUserWallet] = useState(auth.wallet);
     const [notificationState, setNotificationState] = useState(true);
 
     useEffect(() => {
@@ -16,24 +16,22 @@ const InfoHeader = props => {
     }, [auth.avatarURL]);
 
     useEffect(() => {
-        const wallet = Wallets.find((item) => item.id === auth.wallet);
-        setUserWallet(wallet);
+        setUserWallet(auth.wallet);
     }, [auth.wallet]);
 
 
-    return <div className="info-header">
-
+    return <div className={`info-header ${auth.role === 'admin' && 'info-header--admin'}`}>
         {userWallet &&
             <div className="info-header__wallet">
                 <img src="/images/wallet2.gif" alt="" />
                 <div className="wallet-info">
-                    <span className="wallet-name">{userWallet.name}</span>
-                    <span className="wallet-money">{MoneyFormat(userWallet.money)}VND</span>
+                    <span className="wallet-name">{userWallet.walletName}</span>
+                    <span className="wallet-money">{MoneyFormat(userWallet.moneyLeft || 0)}VND</span>
                 </div>
                 <div className="wallet-detail">
                     <Wallet
-                        name={userWallet.name}
-                        money={userWallet.money}
+                        name={userWallet.walletName}
+                        money={userWallet.moneyLeft || 0}
                     />
                 </div>
             </div>}

@@ -43,6 +43,8 @@ export const validate = (value, validators) => {
         isValid = isValid && /^\S+@\S+\.\S+$/.test(value);
       }
     }
+  } else {
+    isValid = false;
   }
   return isValid;
 };

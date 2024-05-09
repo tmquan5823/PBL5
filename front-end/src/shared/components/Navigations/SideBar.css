@@ -12,8 +12,8 @@
     align-items: center;
 }
 
-.users-routes {
-    margin-left: 220px;
+.admin-sidebar {
+    background-color: #fff;
 }
 
 .signout-btn {
