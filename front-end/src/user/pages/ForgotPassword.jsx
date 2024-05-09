@@ -1,5 +1,4 @@
 import React from "react";
-import "./SignUp.css";
 
 import ForgotPasswordNavigation from "../../shared/components/Navigations/ForgotPasswordNavication";
 import ForgotPasswordContainer from "../components/ForgotPassword/ForgotPasswordContainer";
