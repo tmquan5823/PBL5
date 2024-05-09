@@ -22,6 +22,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [userID, setUserID] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
+  const [wallet, setWallet] = useState(null);
 
   const login = useCallback((uid, token, url) => {
     setLoginState(true);
@@ -69,7 +70,9 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } if (true) {
+  } 
+  // else 
+  if(true) {
     routes = <Switch>
       <Route path="/user">
         <div className="users-routes" >

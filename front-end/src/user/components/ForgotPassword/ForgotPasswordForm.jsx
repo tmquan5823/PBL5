@@ -47,7 +47,7 @@ const ForgotPasswordForm = () => {
           />
           <p style={{ margin: '0px' }} className='error'>{emailError}</p> {/* Display email error */}
           <button id='button' type='submit'>Xác nhận</button>
-          <Link  to='/'>Quay lại đăng nhập</Link>
+          <Link  to='/login'>Quay lại đăng nhập</Link>
         </div>
       </div>
     </form>
