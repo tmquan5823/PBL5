@@ -26,7 +26,7 @@ const SideBar = props => {
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
-        <aside className="side-bar">
+        <aside className={`${auth.role === 'admin' & "admin-sidebar"} side-bar`}>
             {props.children}
             <a href="/home" className="signout-btn">
                 <button onClick={logoutHandler}>

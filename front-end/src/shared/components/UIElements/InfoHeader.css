@@ -12,6 +12,10 @@
     border-bottom: #24B6B7 1px solid;
 }
 
+.info-header--admin {
+    background-color: rgb(211, 231, 221);
+}
+
 .info-header__title {
     font-size: 2rem;
     color: #24B6B7;

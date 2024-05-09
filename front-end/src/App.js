@@ -17,6 +17,10 @@ import RecoverPassword from "./user/pages/RecoverPassword";
 import WalletSetting from "./user/pages/WalletSetting";
 import WalletCategory from "./user/pages/WalletCategory";
 import Cookies from 'js-cookie';
+import AdminSideBar from "./shared/components/Navigations/AdminSideBar";
+import AdminOverview from "./admin/pages/AdminOverview";
+import AdminMessage from "./admin/pages/AdminMessage";
+import AdminProfile from "./admin/pages/AdminProfile";
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
@@ -57,6 +61,60 @@ function App() {
     }
   }, []);
 
+  const adminRoutes = <Switch>
+    <Route path="/admin">
+      <div className="admin-routes" >
+        <AdminSideBar />
+        <Switch>
+          <Route path="/admin/overview" exact>
+            <AdminOverview />
+          </Route>
+          <Route path="/admin/message" exact>
+            <AdminMessage />
+          </Route>
+          <Route path="/admin/profile" exact>
+            <AdminProfile />
+          </Route>
+        </Switch>
+      </div>
+    </Route>
+    <Redirect to="/admin/overview" />
+  </Switch>
+
+  const userRoutes = <Switch>
+    <Route path="/user">
+      <div className="users-routes" >
+        <AdminSideBar />
+        <Switch>
+          <Route path="/user/overview" exact>
+            <UserOverview />
+          </Route>
+          <Route path="/user/budget" exact>
+            <UserBudget />
+          </Route>
+          <Route path="/user/budget/:budgetID">
+            <UserBudgetDetail />
+          </Route>
+          <Route path="/user/transaction" exact>
+            <UserTransaction />
+          </Route>
+          <Route path="/user/wallet/setting" exact>
+            <WalletSetting />
+          </Route>
+          <Route path="/user/wallet/category" exact>
+            <WalletCategory />
+          </Route>
+          <Route path="/user/wallet/:id" exact>
+            <UserWalletDetail />
+          </Route>
+          <Route path="/user/information" exact>
+            <UserInformation />
+          </Route>
+        </Switch>
+      </div>
+    </Route>
+    <Redirect to="/user/overview" />
+  </Switch>
 
   let routes;
   if (!token) {
@@ -81,41 +139,8 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } else {
-    routes = <Switch>
-      <Route path="/user">
-        <div className="users-routes" >
-          <UserSideBar />
-          <Switch>
-            <Route path="/user/overview" exact>
-              <UserOverview />
-            </Route>
-            <Route path="/user/budget" exact>
-              <UserBudget />
-            </Route>
-            <Route path="/user/budget/:budgetID">
-              <UserBudgetDetail />
-            </Route>
-            <Route path="/user/transaction" exact>
-              <UserTransaction />
-            </Route>
-            <Route path="/user/wallet/setting" exact>
-              <WalletSetting />
-            </Route>
-            <Route path="/user/wallet/category" exact>
-              <WalletCategory />
-            </Route>
-            <Route path="/user/wallet/:id" exact>
-              <UserWalletDetail />
-            </Route>
-            <Route path="/user/information" exact>
-              <UserInformation />
-            </Route>
-          </Switch>
-        </div>
-      </Route>
-      <Redirect to="/user/overview" />
-    </Switch>
+  } if (true) {
+    routes = adminRoutes;
   }
 
   return (
