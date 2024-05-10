@@ -1,0 +1,41 @@
+.icon-select {
+    width: 230px;
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    max-height: 300px;
+    overflow: auto;
+    position: absolute;
+    top: 80px;
+    left: 0;
+}
+
+.icon-select__item {
+    width: 22%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin: 5px;
+}
+
+.icon-select__item input {
+    display: none;
+}
+
+.icon-select__item .icon-container {
+    border-radius: 50%;
+    background-color: #717171;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+}
+
+.icon-select__item .icon-container img {
+    width: 25px;
+}

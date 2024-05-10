@@ -6,15 +6,14 @@
     height: 100vh;
     width: 220px;
     background-color: rgba(36, 182, 183, 0.25);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
 }
 
-.users-routes {
-    margin-left: 220px;
+.admin-sidebar {
+    background-color: #fff;
 }
 
 .signout-btn {
@@ -25,9 +24,10 @@
     width: 100%;
     padding: 15px 0;
     border-radius: 30px;
-    border: 1px solod #384D6C;
+    border: 1px solid #384D6C;
     cursor: pointer;
     background-color: transparent;
+    color: #717171;
 }
 
 .signout-btn p {

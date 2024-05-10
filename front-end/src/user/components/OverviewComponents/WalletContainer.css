@@ -1,0 +1,37 @@
+.wallet-container {
+    margin: 20px 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.add-wallet-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: content-box;
+    width: 250px;
+    height: 80px;
+    border-radius: 10px;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.add-wallet-card p {
+    color: #24B6B7;
+    text-align: center;
+    margin: 0;
+}
+
+.add-wallet-card button {
+    padding: 10px 30px;
+    background-color: #24B6B7;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 5px;
+}

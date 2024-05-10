@@ -10,7 +10,7 @@ const StateCard = props => {
         <div className="exit-btn">
             <button onClick={closeHandler}>x</button>
         </div>
-        <img src={`/images/${props.state == 'fail' ? 'sad-face.png' : ""}${props.state == 'error' ? 'face.png' : ""}`} alt="" />
+        <img src={`/images/${props.state == 'fail' ? 'sad-face.png' : ""}${props.state == 'error' ? 'face.png' : "smiley.png"}`} alt="" />
         <h2>{`${props.state == 'fail' ? 'FAIL' : ""} ${props.state == 'success' ? 'SUCCESS' : ""} ${props.state == 'error' ? 'ERROR' : ""}`}</h2>
         <p>{props.message || ""}</p>
     </div>

@@ -35,26 +35,4 @@
     margin: 0 10px;
 }
 
-.transaction-filter {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: #fff;
-    margin-top: 20px;
-}
 
-.transaction-filter__container {
-    display: flex;
-    justify-content: space-around;
-}
-
-.transaction-filter__item {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-}
-
-.transaction-filter__item p {
-    margin: 5px 0;
-}

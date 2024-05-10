@@ -11,7 +11,7 @@ function inputReducer(state, action) {
             return {
                 ...state,
                 value: action.val,
-                isValid: validate(action.val, action.validators)
+                isValid: action.validators ? validate(action.val, action.validators) : true
             };
         case 'TOUCH':
             return {
@@ -37,6 +37,13 @@ const Input = props => {
     useEffect(() => {
         onInput(id, value, isValid);
     }, [id, value, isValid])
+
+    useEffect(() => {
+        if (props.numberOnly && isNaN(props.value)) {
+            return;
+        }
+        dispatch({ type: 'CHANGE', val: props.value, validators: props.validators });
+    }, [props.value]);
 
     function changeHandler(event) {
         if (props.numberOnly && isNaN(event.target.value)) {
@@ -71,6 +78,7 @@ const Input = props => {
         style={style}
         disabled={props.disabled}
     />
+
     if (props.element === 'textarea') {
         element = <textarea
             id={props.id}
@@ -91,6 +99,24 @@ const Input = props => {
             showYearDropdown
             shouldCloseOnSelect
         />
+    }
+
+    if (props.element === 'select') {
+        element = <select
+            id={props.id}
+            value={inputState.value}
+            onChange={changeHandler}
+        >
+            {props.options.map(option => (
+                <option
+                    key={option.value}
+                    value={option.value}
+                    selected={inputState.value === option.value}
+                >
+                    <span>{option.label}</span>
+                </option>
+            ))}
+        </select>
     }
 
     return <div style={myStyle} className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>

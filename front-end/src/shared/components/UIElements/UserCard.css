@@ -1,0 +1,38 @@
+.user-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-card img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 1px solid #24B6B7;
+}
+
+.user-card__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-card__info--header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-card__name {
+    margin-right: 5px;
+}
+
+.user-card__role {
+    background-color: #fbb83a;
+    color: #fff;
+    padding: 0 5px;
+}
+
+.user-card__email {
+    opacity: 60%;
+}

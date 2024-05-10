@@ -1,0 +1,21 @@
+.wallet-detail__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.add-transaction__btn {
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    background-color: #24B6B7;
+}
+
+.wallet-detail__header .calendar-container {
+    margin: 0;
+    display: flex;
+    height: 100%;
+}

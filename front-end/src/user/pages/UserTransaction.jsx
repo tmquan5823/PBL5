@@ -6,6 +6,7 @@ import DateFormat from "../../shared/help/DateFormat";
 import moment from 'moment';
 import Modal from "../../shared/components/UIElements/Modal";
 import AddTransactionForm from "../components/TransactionComponents/AddTransactionForm";
+import FilterContainer from "../components/TransactionComponents/FilterContainer";
 
 const UserTransaction = props => {
     const [formShow, setFormShow] = useState(false);
@@ -38,43 +39,7 @@ const UserTransaction = props => {
                     <button>&gt;</button>
                 </div>
             </div>
-            <div className="transaction-filter">
-                <h4>Bộ lọc</h4>
-                <div className="transaction-filter__container">
-                    <div className="transaction-filter__item">
-                        <p>Theo danh mục</p>
-                        <select className="dropdown__currency" value="" onChange="">
-                            <option value="">Chọn...</option>
-                            <option value="VND">VNĐ</option>
-                            <option value="USD">USD</option>
-                        </select>
-                    </div>
-                    <div className="transaction-filter__item">
-                        <p>Theo danh mục</p>
-                        <select className="dropdown__currency" value="" onChange="">
-                            <option value="">Chọn...</option>
-                            <option value="VND">VNĐ</option>
-                            <option value="USD">USD</option>
-                        </select>
-                    </div>
-                    <div className="transaction-filter__item">
-                        <p>Theo danh mục</p>
-                        <select className="dropdown__currency" value="" onChange="">
-                            <option value="">Chọn...</option>
-                            <option value="VND">VNĐ</option>
-                            <option value="USD">USD</option>
-                        </select>
-                    </div>
-                    <div className="transaction-filter__item">
-                        <p>Theo danh mục</p>
-                        <select className="dropdown__currency" value="" onChange="">
-                            <option value="">Chọn...</option>
-                            <option value="VND">VNĐ</option>
-                            <option value="USD">USD</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+            <FilterContainer />
             <ExpenseRow />
             <div className="transaction-history">
 
