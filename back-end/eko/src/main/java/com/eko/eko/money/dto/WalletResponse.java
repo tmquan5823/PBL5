@@ -1,8 +1,6 @@
 package com.eko.eko.money.dto;
 
-import java.util.List;
-
-import com.eko.eko.money.entity.Category;
+import com.eko.eko.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -23,8 +21,8 @@ public class WalletResponse {
     private float moneyAtFirst;
     @JsonProperty("money_left")
     private float moneyLeft;
-    @JsonProperty("categories")
-    private List<Category> categories;
+    @JsonProperty("user")
+    private User user;
     @JsonProperty("state")
     private boolean state;
     @JsonProperty("message")

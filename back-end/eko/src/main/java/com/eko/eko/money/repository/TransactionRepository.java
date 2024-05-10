@@ -11,10 +11,7 @@ import com.eko.eko.money.entity.Transaction;
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
     // List<Transaction> findAllByUserId(@Param("userId") int userId);
 
-    @Query("SELECT t FROM Transaction t " +
-            "JOIN t.category c " +
-            "JOIN c.wallet w " +
-            "WHERE w.id = :walletId")
+    @Query("SELECT t FROM Transaction t WHERE t.wallet.id = :walletId")
     List<Transaction> findAllByWalletId(@Param("walletId") int walletId);
 
     // List<Transaction> findAllByCategoryId(@Param("categoryId") int categoryId);

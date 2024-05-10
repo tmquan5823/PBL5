@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionRequest {
+    @JsonProperty("wallet_id")
+    private int waleltId;
     @JsonProperty("category_id")
     private int categoryId;
     @JsonProperty("transaction_id")

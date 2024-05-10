@@ -2,6 +2,7 @@ package com.eko.eko.money.entity;
 
 import java.util.List;
 
+import com.eko.eko.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -38,11 +39,7 @@ public class Category {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "wallet_id")
-    private Wallet wallet;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Transaction> transactions;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.eko.eko.cloudinary.CloudinaryService;
 import com.eko.eko.money.entity.Category;
 import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.user.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,21 +32,21 @@ public class DefaultCategories {
 
     private final CloudinaryService cloudinaryService;
 
-    public List<Category> createListCategoriesDefault(Wallet wallet) {
+    public List<Category> createListCategoriesDefault(User user) {
         System.out.println("CHECK");
         System.out.println(
                 listIconColorDefault.size() + " " + listIconContentDefault.size() + " " + listIconUrlDefault.size());
         List<Category> categories = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
             Category temp = Category.builder().iconUrl(cloudinaryService.generateImageUrl(listIconUrlDefault.get(i)))
-                    .iconColor(listIconColorDefault.get(i)).content(listIconContentDefault.get(i)).wallet(wallet)
+                    .iconColor(listIconColorDefault.get(i)).content(listIconContentDefault.get(i)).user(user)
                     .isIncome(false)
                     .build();
             categories.add(temp);
         }
         for (int i = 21; i < 29; i++) {
             Category temp = Category.builder().iconUrl(cloudinaryService.generateImageUrl(listIconUrlDefault.get(i)))
-                    .iconColor(listIconColorDefault.get(i)).content(listIconContentDefault.get(i)).wallet(wallet)
+                    .iconColor(listIconColorDefault.get(i)).content(listIconContentDefault.get(i)).user(user)
                     .isIncome(true)
                     .build();
             categories.add(temp);

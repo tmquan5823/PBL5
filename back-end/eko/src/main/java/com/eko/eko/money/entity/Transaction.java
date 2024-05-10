@@ -36,6 +36,10 @@ public class Transaction {
     private String note;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "wallet_id")
+    private Wallet wallet;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 }

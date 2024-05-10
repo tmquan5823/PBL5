@@ -15,8 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequest {
-    @JsonProperty("wallet_id")
-    private int walletId;
     @JsonProperty("category_id")
     private int categoryId;
     @JsonProperty("content")

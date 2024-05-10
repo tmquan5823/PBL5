@@ -47,15 +47,16 @@ public class TransactionService {
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
                                                 HttpStatus.BAD_REQUEST);
                         }
-                        if (user.getId() != categoryRepository.findById(transactionRequest.getCategoryId())
-                                        .orElseThrow()
-                                        .getWallet().getUser().getId()) {
+                        if (user.getId() != walletRepository.findById(transactionRequest.getWaleltId()).orElseThrow()
+                                        .getUser().getId()) {
                                 return new ResponseEntity<>(TransactionResponse.builder().state(false)
                                                 .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
                         }
                         Transaction transaction = Transaction.builder()
                                         .amount(transactionRequest.getAmount())
                                         .note(transactionRequest.getNote())
+                                        .wallet(walletRepository.findById(transactionRequest.getWaleltId())
+                                                        .orElseThrow())
                                         .category(categoryRepository.findById(transactionRequest.getCategoryId())
                                                         .orElseThrow())
                                         .build();
@@ -80,8 +81,8 @@ public class TransactionService {
                                                         .formatLocalDateTimeToString(transaction.getDateTransaction()))
                                         .cycle(transaction.getCycle())
                                         .note(transaction.getNote())
-                                        .category(categoryRepository.findById(transactionRequest.getCategoryId())
-                                                        .orElseThrow())
+                                        .wallet(transaction.getWallet())
+                                        .category(transaction.getCategory())
                                         .message("Tạo giao dịch thành công!!!").build(),
                                         HttpStatus.OK);
                 } catch (Exception e) {
@@ -104,7 +105,7 @@ public class TransactionService {
                         }
                         if (user.getId() != transactionRepository.findById(transactionRequest.getTransactionId())
                                         .orElseThrow()
-                                        .getCategory().getWallet().getUser().getId()) {
+                                        .getCategory().getUser().getId()) {
                                 return new ResponseEntity<>(TransactionResponse.builder().state(false)
                                                 .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
                         }
@@ -157,7 +158,7 @@ public class TransactionService {
                                                 HttpStatus.BAD_REQUEST);
                         }
                         if (user.getId() != transactionRepository.findById(transactionId).orElseThrow()
-                                        .getCategory().getWallet().getUser().getId()) {
+                                        .getCategory().getUser().getId()) {
                                 return new ResponseEntity<>(TransactionResponse.builder().state(false)
                                                 .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
                         }

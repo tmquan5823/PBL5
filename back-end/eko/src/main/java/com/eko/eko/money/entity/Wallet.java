@@ -43,5 +43,5 @@ public class Wallet {
 
     @JsonIgnore
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Category> categories;
+    private List<Transaction> transactions;
 }

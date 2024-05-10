@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.eko.eko.money.entity.Transaction;
 import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -26,10 +27,8 @@ public class CategoryResponse {
     private String iconColor;
     @JsonProperty("is_income")
     private boolean isIncome;
-    @JsonProperty("transactions")
-    private List<Transaction> transactions;
-    @JsonProperty("wallet")
-    private Wallet wallet;
+    @JsonProperty("user")
+    private User user;
     @JsonProperty("message")
     private String message;
     @JsonProperty("state")

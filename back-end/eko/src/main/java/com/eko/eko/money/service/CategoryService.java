@@ -25,9 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class CategoryService {
         private final CategoryRepository categoryRepository;
         private final JwtService jwtService;
-        private final WalletRepository walletRepository;
 
-        public ResponseEntity<ListCategoriesResponse> getAllCategories(HttpServletRequest request, int walletId) {
+        public ResponseEntity<ListCategoriesResponse> getAllCategories(HttpServletRequest request) {
                 try {
                         String authHeader = request.getHeader("Authorization");
                         User user = jwtService.getUserFromAuthHeader(authHeader);
@@ -35,23 +34,21 @@ public class CategoryService {
                                 return new ResponseEntity<>(ListCategoriesResponse.builder().state(false)
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
                                                 HttpStatus.BAD_REQUEST);
-                        }
-                        if (user.getId() != walletRepository.findById(walletId).orElseThrow().getUser().getId()) {
-                                return new ResponseEntity<>(ListCategoriesResponse.builder().state(false)
-                                                .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
                         } else {
-                                List<Category> categories = categoryRepository.findAllCategoriesByWalletId(walletId);
+                                List<Category> categories = categoryRepository.findAllByUserId(user.getId());
                                 return new ResponseEntity<>(
                                                 ListCategoriesResponse.builder()
                                                                 .message("Lấy danh mục của ví thành công!!!")
-                                                                .state(true).categories(categories).build(),
+                                                                .state(true)
+                                                                .categories(categories)
+                                                                .build(),
                                                 HttpStatus.OK);
                         }
 
                 } catch (Exception e) {
                         return new ResponseEntity<>(
                                         ListCategoriesResponse.builder()
-                                                        .message("Lỗi lấy danh sách danh mục tương ứng với ví")
+                                                        .message("Lỗi lấy danh sách danh mục!!!")
                                                         .state(false).build(),
                                         HttpStatus.BAD_REQUEST);
                 }
@@ -67,18 +64,11 @@ public class CategoryService {
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
                                                 HttpStatus.BAD_REQUEST);
                         }
-                        if (user.getId() != walletRepository.findById(categoryRequest.getWalletId()).orElseThrow()
-                                        .getUser()
-                                        .getId()) {
-                                return new ResponseEntity<>(CategoryResponse.builder().state(false)
-                                                .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
-                        }
-                        Wallet wallet = walletRepository.findById(categoryRequest.getWalletId()).orElseThrow();
                         Category category = Category.builder().content(categoryRequest.getContent())
                                         .iconUrl(categoryRequest.getIconUrl())
                                         .iconColor(categoryRequest.getIconColor())
                                         .isIncome(categoryRequest.isIncome())
-                                        .wallet(wallet)
+                                        .user(user)
                                         .build();
                         categoryRepository.save(category);
                         return new ResponseEntity<>(CategoryResponse.builder()
@@ -87,7 +77,7 @@ public class CategoryService {
                                         .iconColor(category.getIconColor())
                                         .iconUrl(category.getIconUrl())
                                         .isIncome(category.isIncome())
-                                        .wallet(category.getWallet())
+                                        .user(user)
                                         .state(true)
                                         .message("Tạo danh mục thành công").build(), HttpStatus.OK);
                 } catch (Exception e) {
@@ -110,7 +100,7 @@ public class CategoryService {
                                                 HttpStatus.BAD_REQUEST);
                         }
                         if (user.getId() != categoryRepository.findById(categoryRequest.getCategoryId()).orElseThrow()
-                                        .getWallet().getUser().getId()) {
+                                        .getUser().getId()) {
                                 return new ResponseEntity<>(CategoryResponse.builder().state(false)
                                                 .message("Lỗi bảo mật!!!").build(), HttpStatus.BAD_REQUEST);
                         }
@@ -121,14 +111,13 @@ public class CategoryService {
                         category.setIncome(categoryRequest.isIncome());
                         categoryRepository.save(category);
                         System.out.println("CHECK CHECK");
-                        Wallet realWallet = (Wallet) Hibernate.unproxy(category.getWallet());
                         return new ResponseEntity<>(CategoryResponse.builder()
                                         .categoryId(category.getId())
                                         .content(category.getContent())
                                         .iconColor(category.getIconColor())
                                         .iconUrl(category.getIconUrl())
                                         .isIncome(category.isIncome())
-                                        .wallet(realWallet)
+                                        .user(category.getUser())
                                         .state(true)
                                         .message("Cập nhật danh mục thành công!!!").build(), HttpStatus.OK);
                 } catch (Exception e) {
@@ -149,8 +138,7 @@ public class CategoryService {
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
                                                 HttpStatus.BAD_REQUEST);
                         }
-                        if (user.getId() != categoryRepository.findById(categoryId).orElseThrow().getWallet().getUser()
-                                        .getId()) {
+                        if (user.getId() != categoryRepository.findById(categoryId).orElseThrow().getUser().getId()) {
                                 return new ResponseEntity<>(CategoryResponse.builder().state(false)
                                                 .message("Lỗi bảo mật!!!").build(), HttpStatus.BAD_REQUEST);
                         }

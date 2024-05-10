@@ -26,10 +26,9 @@ public class CategoryController {
 
     private final CategoryService service;
 
-    @GetMapping("/categories/{walletId}")
-    public ResponseEntity<ListCategoriesResponse> getAllCategories(HttpServletRequest request,
-            @PathVariable int walletId) {
-        return service.getAllCategories(request, walletId);
+    @GetMapping("/categories")
+    public ResponseEntity<ListCategoriesResponse> getAllCategories(HttpServletRequest request) {
+        return service.getAllCategories(request);
     }
 
     @PostMapping("/category")

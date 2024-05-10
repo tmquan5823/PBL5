@@ -10,7 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.eko.eko.money.entity.Budget;
+import com.eko.eko.money.entity.Category;
 import com.eko.eko.money.entity.Wallet;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -40,26 +42,40 @@ import lombok.Setter;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
     private String email;
+    @JsonIgnore
     private String password;
     private String firstname;
     private String lastname;
+    @JsonIgnore
     private boolean isDelete;
     private String telephone;
     private String address;
+    @JsonIgnore
     private String avatarUrl;
+    @JsonIgnore
     private boolean isVerify;
+    @JsonIgnore
     private boolean canResetPassword;
+    @JsonIgnore
     private String otp;
     private LocalDateTime dateOfBirth;
+    @JsonIgnore
     private LocalDateTime otpGenerateTime;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Budget> budgets;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Wallet> wallets;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Category> categories;
 
     @Enumerated(EnumType.STRING)
     private Role role;

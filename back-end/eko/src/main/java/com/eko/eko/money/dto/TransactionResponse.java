@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 
 import com.eko.eko.money.entity.Category;
+import com.eko.eko.money.entity.Wallet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +19,8 @@ import lombok.NoArgsConstructor;
 public class TransactionResponse {
     @JsonProperty("category")
     private Category category;
+    @JsonProperty("wallet")
+    private Wallet wallet;
     @JsonProperty("transaction_id")
     private int transactionId;
     @JsonProperty("transaction_date")
