@@ -7,7 +7,7 @@ function ForgotPasswordContainer(props) {
   return (
     <div className="containerFg">
       <div >
-        <img src="/images/logo.png" alt="Logo" className="logo" />
+        <img id="imgFo" src="/images/logo.png" alt="Logo" />
       </div>
       <ForgotPasswordForm />
     </div>

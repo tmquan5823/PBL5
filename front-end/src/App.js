@@ -147,7 +147,7 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } if (true) {
+  } else {
     routes = adminRoutes;
   }
 
