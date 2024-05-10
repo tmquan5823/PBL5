@@ -16,9 +16,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ListCategoriesResponse {
     @JsonProperty("list_categories")
-    private List<Category> categories;
+    private List<CategoryWithTransactionTimes> categories;
     @JsonProperty("message")
     private String message;
     @JsonProperty("state")
     private boolean state;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CategoryWithTransactionTimes {
+        private Category category;
+        @JsonProperty("transaction_times")
+        private int transactionTime;
+    }
 }

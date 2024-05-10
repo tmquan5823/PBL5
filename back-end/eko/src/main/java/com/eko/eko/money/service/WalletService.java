@@ -56,14 +56,13 @@ public class WalletService {
                 Wallet wallet = Wallet.builder().moneyAtFirst(walletRequest.getMoneyAtFirst())
                         .moneyLeft(walletRequest.getMoneyAtFirst())
                         .walletName(walletRequest.getWalletName()).user(user).build();
-                List<Category> categories = defaultCategories.createListCategoriesDefault(wallet);
-                wallet.setCategories(categories);
                 walletRepository.save(wallet);
                 return new ResponseEntity<>(WalletResponse.builder().state(true).message("Tạo ví thành công!!!")
                         .walletId(wallet.getId())
                         .walletName(wallet.getWalletName()).moneyAtFirst(wallet.getMoneyAtFirst())
                         .moneyLeft(wallet.getMoneyLeft())
-                        .categories(wallet.getCategories()).build(), HttpStatus.OK);
+                        .user(user)
+                        .build(), HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(WalletResponse.builder().state(false)
@@ -114,7 +113,7 @@ public class WalletService {
                         .walletName(wallet.getWalletName()).moneyAtFirst(wallet.getMoneyAtFirst())
                         .moneyAtFirst(wallet.getMoneyAtFirst())
                         .moneyLeft(wallet.getMoneyLeft())
-                        .categories(wallet.getCategories()).build(), HttpStatus.OK);
+                        .user(wallet.getUser()).build(), HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(WalletResponse.builder().state(false)
@@ -140,7 +139,7 @@ public class WalletService {
                         .walletId(wallet.getId())
                         .walletName(wallet.getWalletName()).moneyAtFirst(wallet.getMoneyAtFirst())
                         .moneyLeft(wallet.getMoneyLeft())
-                        .categories(wallet.getCategories()).build(), HttpStatus.OK);
+                        .user(user).build(), HttpStatus.OK);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(WalletResponse.builder().state(false)

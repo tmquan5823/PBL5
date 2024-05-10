@@ -1,7 +1,5 @@
 package com.eko.eko.money.dto;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionRequest {
+    @JsonProperty("wallet_id")
+    private int waleltId;
     @JsonProperty("category_id")
     private int categoryId;
     @JsonProperty("transaction_id")

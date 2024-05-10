@@ -1,8 +1,5 @@
 package com.eko.eko.money.dto;
 
-import java.util.List;
-
-import com.eko.eko.money.entity.Transaction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -15,8 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryRequest {
-    @JsonProperty("wallet_id")
-    private int walletId;
     @JsonProperty("category_id")
     private int categoryId;
     @JsonProperty("content")

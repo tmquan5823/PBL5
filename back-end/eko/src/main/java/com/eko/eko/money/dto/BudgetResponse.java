@@ -12,15 +12,19 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WalletResponse {
-    @JsonProperty("wallet_id")
-    private int walletId;
-    @JsonProperty("wallet_name")
-    private String walletName;
-    @JsonProperty("money_at_first")
-    private float moneyAtFirst;
-    @JsonProperty("money_left")
-    private float moneyLeft;
+public class BudgetResponse {
+    @JsonProperty("budget_id")
+    private int budgetId;
+    @JsonProperty("budget_name")
+    private String budgetName;
+    @JsonProperty("budget_money")
+    private float budgetMoney;
+    @JsonProperty("budget_spend")
+    private float budgetSpend;
+    @JsonProperty("date_start")
+    private String dateStart;
+    @JsonProperty("date_end")
+    private String dateEnd;
     @JsonProperty("user")
     private User user;
     @JsonProperty("state")

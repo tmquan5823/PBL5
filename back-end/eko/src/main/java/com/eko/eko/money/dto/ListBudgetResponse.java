@@ -1,6 +1,8 @@
 package com.eko.eko.money.dto;
 
-import com.eko.eko.user.User;
+import java.util.List;
+
+import com.eko.eko.money.entity.Budget;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -12,17 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WalletResponse {
-    @JsonProperty("wallet_id")
-    private int walletId;
-    @JsonProperty("wallet_name")
-    private String walletName;
-    @JsonProperty("money_at_first")
-    private float moneyAtFirst;
-    @JsonProperty("money_left")
-    private float moneyLeft;
-    @JsonProperty("user")
-    private User user;
+public class ListBudgetResponse {
+    @JsonProperty("list_budgets")
+    private List<Budget> budgets;
     @JsonProperty("state")
     private boolean state;
     @JsonProperty("message")

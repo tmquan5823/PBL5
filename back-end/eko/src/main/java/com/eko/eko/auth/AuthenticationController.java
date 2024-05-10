@@ -64,7 +64,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody AuthenticationRequest request) {
         return new ResponseEntity<>(service.resetPassword(request), HttpStatus.OK);
     }
 
