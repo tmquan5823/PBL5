@@ -15,6 +15,7 @@ import com.eko.eko.money.service.WalletService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -32,6 +33,12 @@ public class WalletController {
     public ResponseEntity<WalletResponse> createWallet(HttpServletRequest request,
             @RequestBody WalletRequest walletRequest) {
         return service.createWallet(request, walletRequest);
+    }
+
+    @PutMapping("/wallet")
+    public ResponseEntity<WalletResponse> updateWallet(HttpServletRequest request,
+            @RequestBody WalletRequest walletRequest) {
+        return service.updateWallet(request, walletRequest);
     }
 
     @DeleteMapping("/wallet/{walletId}")

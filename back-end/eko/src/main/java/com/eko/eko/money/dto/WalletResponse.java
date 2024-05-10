@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WalletResponse {
+    @JsonProperty("wallet_id")
+    private int walletId;
     @JsonProperty("wallet_name")
     private String walletName;
     @JsonProperty("money_at_first")

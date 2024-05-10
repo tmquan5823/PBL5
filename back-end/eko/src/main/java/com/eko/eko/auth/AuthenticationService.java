@@ -175,29 +175,36 @@ public class AuthenticationService {
                 restTemplate.postForEntity(url, null, String.class);
         }
 
-        public void revokeToken(HttpServletRequest request, HttpServletResponse response, String googleToken)
+        public ResponseEntity<Map<String, Object>> revokeToken(HttpServletRequest request, HttpServletResponse response)
                         throws StreamWriteException, DatabindException, IOException {
                 final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                 final String token;
                 final String userEmail;
+                Map<String, Object> responseMap = new HashMap<>();
                 if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                        return;
+                        responseMap.put("message", "Lỗi người dùng, không thấy token!!!");
+                        responseMap.put("state", false);
+                        return new ResponseEntity<>(responseMap, HttpStatus.BAD_GATEWAY);
                 }
                 token = authHeader.substring(7);
                 userEmail = jwtService.extractUsername(token);
                 if (userEmail != null) {
-                        if (!googleToken.isEmpty()) {
-                                revokeTokenGoogle(googleToken);
-                                request.getSession().invalidate();
-                        }
                         var user = this.repository.findByEmail(userEmail)
                                         .orElseThrow();
                         if (jwtService.isTokenValid(token, user)) {
                                 revokeAllUserTokens(user);
-                                Map<String, String> responeMessage = new HashMap<>();
-                                responeMessage.put("message", "token has been revoked!!!");
-                                new ObjectMapper().writeValue(response.getOutputStream(), responeMessage);
+                                responseMap.put("message", "Đăng xuất thành công!!!");
+                                responseMap.put("state", true);
+                                return new ResponseEntity<>(responseMap, HttpStatus.OK);
+                        } else {
+                                responseMap.put("message", "Lỗi người dùng, không thấy token!!!");
+                                responseMap.put("state", true);
+                                return new ResponseEntity<>(responseMap, HttpStatus.BAD_GATEWAY);
                         }
+                } else {
+                        responseMap.put("message", "Lỗi người dùng, không thấy token!!!");
+                        responseMap.put("state", true);
+                        return new ResponseEntity<>(responseMap, HttpStatus.BAD_GATEWAY);
                 }
         }
 
