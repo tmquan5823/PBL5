@@ -1,0 +1,22 @@
+car: nzby5lmlwzlpftbqu7zg
+eat: tedfn7epzvb6gbilqxxm
+bill: zughqcuiuwlkcrwu85b1
+other: tdttcqqbptusdfiom3u6
+makeup: cd2ryshvtmcrqqlgonzs
+book: sf5z93ytgson8oeipn15
+shopping: cddd2ljglycickii9hpb
+phone: ofyc6de4cvqjqmbqdwfr
+education: uoxc0k7bn9ean4fpwli1
+sport: k0kjwcktoybfeknkmcyp
+entertainment: zuq8xnleh8odguv450zw
+job: bs87tgm7qkgiec7zqtuz
+family: vkjd4yc2m4tkvueg7aaw
+gas: rezaugvzdngvfosxkf0j
+travel: zsuytt0ktvptq4hq1vca
+film: l3163dvdlxpme1e7xr5y
+present: oc3hstfcmym7cqqwoqm1
+heath: u0mgj3wyfjw11fuoqtip
+grocery: lrezokzaasacjftbkcls
+insurance: ez4chniyjjcpubfhxtwv
+home: hp55uxwm9wdsfqg8bwak
+
