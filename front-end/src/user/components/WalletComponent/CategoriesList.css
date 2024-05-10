@@ -1,0 +1,55 @@
+.categories-list {
+    width: 80%;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    align-items: center;
+}
+
+.category-item .icon-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-item .icon-container img {
+    width: 25px;
+}
+
+.button-feature-container {
+    display: flex;
+}
+
+.button-feature-container div {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.button-feature-container div img {
+    width: 30px;
+    height: 30px;
+}
+
+.categories-list span {
+    min-width: 200px;
+    text-align: start;
+}
+
+.button-feature-container .update-btn {
+    background-color: rgba(36, 182, 183, 0.1);
+}
+
+.button-feature-container .delete-btn {
+    background-color: rgba(241, 76, 82, 0.1);
+}

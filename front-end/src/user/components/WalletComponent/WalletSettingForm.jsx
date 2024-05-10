@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./WalletSettingForm.css";
 import { useForm } from "../../../shared/hooks/form-hook";
 import Input from "../../../shared/components/FormElements/Input";
@@ -16,6 +16,7 @@ const WalletSettingForm = props => {
     const [deleteFail, setDeleteFail] = useState();
     const [showModal, setShowModal] = useState();
     const [message, setMessage] = useState();
+    const [updateState, setUpdateState] = useState();
     const history = useHistory();
     const money_sources = [{
         label: "Tiền mặt",
@@ -31,28 +32,59 @@ const WalletSettingForm = props => {
         value: "usd",
     },];
 
-    const [formState, inputHandler] = useForm({
+    const [formState, inputHandler, setFormData] = useForm({
         wallet_name: {
             value: auth.wallet.walletName || "",
-            isValid: false
+            isValid: true
         },
         money_source: {
             value: "",
-            isValid: false
+            isValid: true
         },
         initial_money: {
             value: auth.wallet.moneyAtFirst.toString() || "",
-            isValid: false
+            isValid: true
         },
         currency: {
             value: "",
-            isValid: false
+            isValid: true
         }
-    }, false);
+    }, true);
 
     function closeModalHandler() {
         setShowModal(false);
         clearError();
+    }
+
+    useEffect(() => {
+        if (formState.inputs.wallet_name.value != auth.wallet.walletName ||
+            formState.inputs.initial_money.value != auth.wallet.moneyAtFirst) {
+            setUpdateState(true);
+        }
+        else {
+            setUpdateState(false);
+        }
+    }, [formState]);
+
+    function cancelUpdateHandler() {
+        setFormData({
+            wallet_name: {
+                value: auth.wallet.walletName || "",
+                isValid: true
+            },
+            money_source: {
+                value: "",
+                isValid: true
+            },
+            initial_money: {
+                value: auth.wallet.moneyAtFirst.toString() || "",
+                isValid: true
+            },
+            currency: {
+                value: "",
+                isValid: true
+            }
+        }, true);
     }
 
     async function deleteHandler() {
@@ -69,6 +101,33 @@ const WalletSettingForm = props => {
             setMessage(resData.message || "");
             setShowModal(true);
 
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async function updateHandler(event) {
+        event.preventDefault();
+        try {
+            const responseData = await sendRequest(process.env.REACT_APP_URL + '/api/user/wallet', 'PUT',
+                JSON.stringify({
+                    wallet_id: auth.wallet.id,
+                    wallet_name: formState.inputs.wallet_name.value,
+                    money_at_first: formState.inputs.initial_money.value,
+                }), {
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + auth.token
+            });
+            console.log(responseData);
+            if (responseData.state) {
+                auth.setWallet({
+                    ...auth.wallet,
+                    moneyAtFirst: responseData.money_at_first,
+                    walletName: responseData.wallet_name,
+                    moneyLeft: responseData.money_left
+                })
+                setUpdateState(false);
+            }
         } catch (err) {
             console.log(err);
         }
@@ -125,10 +184,10 @@ const WalletSettingForm = props => {
                         initialIsValid={true}
                     />
                 </div>
-                <div className="update-wallet__buttons">
-                    <button className="wallet-form__save-btn">Cập nhật ví</button>
-                    <button className="wallet-form__cancel-btn">Hủy</button>
-                </div>
+                {updateState && <div className="update-wallet__buttons">
+                    <button onClick={updateHandler} className="wallet-form__save-btn">Cập nhật ví</button>
+                    <button onClick={cancelUpdateHandler} className="wallet-form__cancel-btn">Hủy</button>
+                </div>}
                 <h3>Thành viên ví</h3>
                 <div className="wallet-form__row">
                     <UserCard
