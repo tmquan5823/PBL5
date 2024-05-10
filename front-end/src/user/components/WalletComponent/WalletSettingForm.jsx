@@ -9,6 +9,8 @@ import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import StateModalCard from "../../../shared/components/UIElements/StateModalCard";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Modal from "../../../shared/components/UIElements/Modal";
+import DeleteWalletConfirm from "./DeleteWalletConfirm";
 
 const WalletSettingForm = props => {
     const auth = useContext(AuthContext);
@@ -17,6 +19,8 @@ const WalletSettingForm = props => {
     const [showModal, setShowModal] = useState();
     const [message, setMessage] = useState();
     const [updateState, setUpdateState] = useState();
+    const [showConfirmForm, setShowConfirmForm] = useState();
+
     const history = useHistory();
     const money_sources = [{
         label: "Tiền mặt",
@@ -56,6 +60,29 @@ const WalletSettingForm = props => {
         clearError();
     }
 
+    async function confirmDeleteHandler(isDelete) {
+        if (isDelete) {
+            try {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/wallet/" + auth.wallet.id, "DELETE", null, {
+                    'Authorization': "Bearer " + auth.token
+                });
+                if (!resData.state) {
+                    setDeleteFail(true);
+                } else {
+                    auth.setWallet(null);
+                    history.push("/user/overview");
+                }
+                setMessage(resData.message || "");
+                setShowModal(true);
+
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            setShowConfirmForm(false);
+        }
+    }
+
     useEffect(() => {
         if (formState.inputs.wallet_name.value != auth.wallet.walletName ||
             formState.inputs.initial_money.value != auth.wallet.moneyAtFirst) {
@@ -87,23 +114,12 @@ const WalletSettingForm = props => {
         }, true);
     }
 
-    async function deleteHandler() {
-        try {
-            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/wallet/" + auth.wallet.id, "DELETE", null, {
-                'Authorization': "Bearer " + auth.token
-            });
-            if (!resData.state) {
-                setDeleteFail(true);
-            } else {
-                auth.setWallet(null);
-                history.push("/user/overview");
-            }
-            setMessage(resData.message || "");
-            setShowModal(true);
+    function hideConfirmFormHandler() {
+        setShowConfirmForm(false);
+    }
 
-        } catch (err) {
-            console.log(err);
-        }
+    function deleteHandler() {
+        setShowConfirmForm(true);
     }
 
     async function updateHandler(event) {
@@ -135,6 +151,14 @@ const WalletSettingForm = props => {
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
+        <Modal
+            show={showConfirmForm}
+            onCancel={hideConfirmFormHandler}
+            center
+            width="30%"
+        >
+            <DeleteWalletConfirm confirmHandler={confirmDeleteHandler} />
+        </Modal>
         <StateModalCard
             show={showModal || deleteFail}
             onCancel={closeModalHandler}

@@ -77,16 +77,16 @@ const UserFeatureLinks = props => {
                     </div>
                 </NavLink>
             </li>
-            <li className="user-features__li">
-                <NavLink activeClassName="active_navlink" to="/user/wallet/category">
-                    <div className="user-feature__item">
-                        <img src="/images/category.png" alt="" />
-                        Danh mục
-                    </div>
-                </NavLink>
-            </li>
         </div>)
         }
+        <li className="user-features__li">
+            <NavLink activeClassName="active_navlink" to="/user/wallet/category">
+                <div className="user-feature__item">
+                    <img src="/images/category.png" alt="" />
+                    Danh mục
+                </div>
+            </NavLink>
+        </li>
         <li className="user-features__li" onClick={removeWalletHandler}>
             <NavLink activeClassName="active_navlink" to="/user/information">
                 <div className="user-feature__item">
