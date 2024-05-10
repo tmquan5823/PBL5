@@ -1,5 +1,6 @@
 package com.eko.eko.money.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,16 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     @Query("SELECT t FROM Transaction t WHERE t.wallet.id = :walletId")
     List<Transaction> findAllByWalletId(@Param("walletId") int walletId);
+
+    @Query("SELECT t FROM Transaction t WHERE t.category.id = :categoryId")
+    List<Transaction> findAllByCategoryId(@Param("categoryId") int categoryId);
+
+    @Query("SELECT t FROM Transaction t " +
+            "JOIN t.wallet w " +
+            "JOIN w.user u " +
+            "WHERE t.dateTransaction BETWEEN :dateStart AND :dateEnd " +
+            "AND u.id = :userId")
+    List<Transaction> findAllBetweenDates(LocalDateTime dateStart, LocalDateTime dateEnd, int userId);
 
     // List<Transaction> findAllByCategoryId(@Param("categoryId") int categoryId);
 

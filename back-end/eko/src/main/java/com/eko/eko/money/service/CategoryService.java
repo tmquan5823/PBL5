@@ -1,5 +1,6 @@
 package com.eko.eko.money.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Hibernate;
@@ -11,9 +12,12 @@ import com.eko.eko.config.JwtService;
 import com.eko.eko.money.dto.CategoryRequest;
 import com.eko.eko.money.dto.CategoryResponse;
 import com.eko.eko.money.dto.ListCategoriesResponse;
+import com.eko.eko.money.dto.ListCategoriesResponse.CategoryWithTransactionTimes;
 import com.eko.eko.money.entity.Category;
+import com.eko.eko.money.entity.Transaction;
 import com.eko.eko.money.entity.Wallet;
 import com.eko.eko.money.repository.CategoryRepository;
+import com.eko.eko.money.repository.TransactionRepository;
 import com.eko.eko.money.repository.WalletRepository;
 import com.eko.eko.user.User;
 
@@ -24,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CategoryService {
         private final CategoryRepository categoryRepository;
+        private final TransactionRepository transactionRepository;
         private final JwtService jwtService;
 
         public ResponseEntity<ListCategoriesResponse> getAllCategories(HttpServletRequest request) {
@@ -36,11 +41,18 @@ public class CategoryService {
                                                 HttpStatus.BAD_REQUEST);
                         } else {
                                 List<Category> categories = categoryRepository.findAllByUserId(user.getId());
+                                List<CategoryWithTransactionTimes> transactionTimes = new ArrayList<>();
+                                for (Category category : categories) {
+                                        List<Transaction> transactions = transactionRepository
+                                                        .findAllByCategoryId(category.getId());
+                                        transactionTimes.add(CategoryWithTransactionTimes.builder().category(category)
+                                                        .transactionTime(transactions.size()).build());
+                                }
                                 return new ResponseEntity<>(
                                                 ListCategoriesResponse.builder()
-                                                                .message("Lấy danh mục của ví thành công!!!")
+                                                                .message("Lấy danh mục thành công!!!")
                                                                 .state(true)
-                                                                .categories(categories)
+                                                                .categories(transactionTimes)
                                                                 .build(),
                                                 HttpStatus.OK);
                         }
@@ -83,7 +95,7 @@ public class CategoryService {
                 } catch (Exception e) {
                         return new ResponseEntity<>(
                                         CategoryResponse.builder()
-                                                        .message("Lỗi lấy danh sách danh mục tương ứng với ví")
+                                                        .message("Lỗi tạo danh mục!!")
                                                         .state(false).build(),
                                         HttpStatus.BAD_REQUEST);
                 }
@@ -150,7 +162,7 @@ public class CategoryService {
                 } catch (Exception e) {
                         return new ResponseEntity<>(
                                         CategoryResponse.builder()
-                                                        .message("Lỗi cập nhật danh mục!!!")
+                                                        .message("Lỗi xóa danh mục!!!")
                                                         .state(false).build(),
                                         HttpStatus.BAD_REQUEST);
                 }

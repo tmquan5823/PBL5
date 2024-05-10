@@ -14,6 +14,7 @@ import com.eko.eko.money.dto.TransactionRequest;
 import com.eko.eko.money.dto.TransactionResponse;
 import com.eko.eko.money.entity.Category;
 import com.eko.eko.money.entity.Transaction;
+import com.eko.eko.money.entity.Wallet;
 import com.eko.eko.money.repository.CategoryRepository;
 import com.eko.eko.money.repository.TransactionRepository;
 import com.eko.eko.money.repository.WalletRepository;
@@ -36,6 +37,18 @@ public class TransactionService {
                 return transactionRepository.findAllByWalletId(walletId);
         }
 
+        public float reloadWalletMoneyLeft(int walletId) {
+                List<Transaction> transactions = this.getAllTransactionByWalletId(walletId);
+                float spend = 0;
+                for (Transaction transaction : transactions) {
+                        if (transaction.getCategory().isIncome() == false)
+                                spend -= transaction.getAmount();
+                        else
+                                spend += transaction.getAmount();
+                }
+                return spend;
+        }
+
         public ResponseEntity<TransactionResponse> createTransaction(HttpServletRequest request,
                         TransactionRequest transactionRequest) {
                 try {
@@ -55,8 +68,6 @@ public class TransactionService {
                         Transaction transaction = Transaction.builder()
                                         .amount(transactionRequest.getAmount())
                                         .note(transactionRequest.getNote())
-                                        .wallet(walletRepository.findById(transactionRequest.getWaleltId())
-                                                        .orElseThrow())
                                         .category(categoryRepository.findById(transactionRequest.getCategoryId())
                                                         .orElseThrow())
                                         .build();
@@ -71,6 +82,9 @@ public class TransactionService {
                         transaction.setDateTransaction(
                                         formatDate.formatStringToLocalDateTime(
                                                         transactionRequest.getDateTransaction()));
+                        Wallet wallet = walletRepository.findById(transactionRequest.getWaleltId()).orElseThrow();
+                        wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
+                        transaction.setWallet(wallet);
                         transactionRepository.save(transaction);
                         return new ResponseEntity<>(TransactionResponse.builder().state(true)
                                         .amount(transaction.getAmount())
@@ -103,9 +117,11 @@ public class TransactionService {
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
                                                 HttpStatus.BAD_REQUEST);
                         }
+                        System.out.println("CHECK");
+                        System.out.println(transactionRequest.getTransactionId());
                         if (user.getId() != transactionRepository.findById(transactionRequest.getTransactionId())
                                         .orElseThrow()
-                                        .getCategory().getUser().getId()) {
+                                        .getWallet().getUser().getId()) {
                                 return new ResponseEntity<>(TransactionResponse.builder().state(false)
                                                 .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
                         }
@@ -114,12 +130,11 @@ public class TransactionService {
                         int categoryId = transactionRequest.getCategoryId();
                         Category category = categoryRepository.findById(categoryId).orElseThrow();
                         transaction.setCategory(category);
-                        if (!transactionRequest.getDateEndCycle().isEmpty()) {
-                                transaction
-                                                .setDateEndCycle(formatDate.formatStringToLocalDateTime(
-                                                                transactionRequest.getDateEndCycle()));
+                        if (transactionRequest.getDateEndCycle() != null) {
+                                transaction.setDateEndCycle(formatDate.formatStringToLocalDateTime(
+                                                transactionRequest.getDateEndCycle()));
                         }
-                        if (!transactionRequest.getCycle().isEmpty()) {
+                        if (transactionRequest.getCycle() != null) {
                                 transaction.setCycle(formatDate.convertStringToPeriod(transactionRequest.getCycle()));
                         }
                         transaction.setAmount(transactionRequest.getAmount());
@@ -127,6 +142,9 @@ public class TransactionService {
                         transaction.setDateTransaction(
                                         formatDate.formatStringToLocalDateTime(
                                                         transactionRequest.getDateTransaction()));
+                        Wallet wallet = walletRepository.findById(transaction.getWallet().getId()).orElseThrow();
+                        wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
+                        transaction.setWallet(wallet);
                         transactionRepository.save(transaction);
                         return new ResponseEntity<>(TransactionResponse.builder().state(true)
                                         .amount(transaction.getAmount())
@@ -138,6 +156,7 @@ public class TransactionService {
                                         .cycle(transaction.getCycle())
                                         .note(transaction.getNote())
                                         .category(transaction.getCategory())
+                                        .wallet(transaction.getWallet())
                                         .message("Cập nhật giao dịch thành công!!!").build(),
                                         HttpStatus.OK);
                 } catch (Exception e) {
@@ -164,6 +183,9 @@ public class TransactionService {
                         }
                         Transaction transaction = transactionRepository.findById(transactionId)
                                         .orElseThrow();
+                        Wallet wallet = walletRepository.findById(transaction.getWallet().getId()).orElseThrow();
+                        wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
+                        transaction.setWallet(wallet);
                         transactionRepository.delete(transaction);
                         return new ResponseEntity<>(TransactionResponse.builder().state(true)
                                         .message("Xóa giao dịch thành công!!!").build(),

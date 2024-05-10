@@ -1,9 +1,5 @@
 package com.eko.eko.money.dto;
 
-import java.util.List;
-
-import com.eko.eko.money.entity.Transaction;
-import com.eko.eko.money.entity.Wallet;
 import com.eko.eko.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
