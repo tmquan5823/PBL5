@@ -1,9 +1,9 @@
 import React, { useState, useReducer, useCallback } from "react";
 import "./AddCategoryForm.css";
-import IconSelect from "./IconSelect";
+import IconSelect from "../WalletComponent/IconSelect";
 import Icons from "../../models/Icons";
 import { isValid } from "date-fns";
-import ColorSelect from "./ColorSelect";
+import ColorSelect from "../WalletComponent/ColorSelect";
 import Colors from "../../models/Colors";
 
 const selectReducer = (state, action) => {

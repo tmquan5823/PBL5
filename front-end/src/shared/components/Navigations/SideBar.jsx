@@ -9,10 +9,10 @@ const SideBar = props => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const auth = useContext(AuthContext);
 
-    function logoutHandler(event) {
+    async function logoutHandler(event) {
         event.preventDefault();
         try {
-            const resData = sendRequest(process.env.REACT_APP_URL + "/api/auth/log-out", "POST", null, {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/auth/log-out", "POST", null, {
                 'Authorization': "Bearer " + auth.token
             });
             if (resData.state) {

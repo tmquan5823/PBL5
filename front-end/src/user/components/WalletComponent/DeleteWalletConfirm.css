@@ -1,0 +1,47 @@
+.delete-wallet-confirm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.dwc__header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #24B6B7;
+}
+
+.dwc__header h1 {
+    color: #fff;
+}
+
+.dwc__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.dwc__button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.dwc__button-container button {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #24B6B7;
+    color: #fff;
+    font-size: 16px;
+}
+
+.dwc__button--cancel {
+    background-color: #e5ebee !important;
+    color: #7b93a4 !important;
+}
