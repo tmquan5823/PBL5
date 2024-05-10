@@ -26,14 +26,14 @@ function App() {
   const [isLoggedIn, setLoginState] = useState(false);
   const [token, setToken] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
-  const [wallet, setWallet] = useState(null);
+  const [wallet, setWallet] = useState();
 
   const login = useCallback((token, url) => {
     setLoginState(true);
     setToken(token);
     setAvatarUrl(url);
-    Cookies.set("token", token);
-    Cookies.set("url", url);
+    // Cookies.set("token", token);
+    // Cookies.set("url", url);
   }, [])
 
   const logout = useCallback(() => {
@@ -50,16 +50,16 @@ function App() {
     setWallet(id);
   }
 
-  useEffect(() => {
-    const storedToken = Cookies.get("token");
-    const storedURL = Cookies.get("url");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-    if (storedURL) {
-      setAvatarUrl(storedURL);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedToken = Cookies.get("token");
+  //   const storedURL = Cookies.get("url");
+  //   if (storedToken) {
+  //     setToken(storedToken);
+  //   }
+  //   if (storedURL) {
+  //     setAvatarUrl(storedURL);
+  //   }
+  // }, []);
 
   const adminRoutes = <Switch>
     <Route path="/admin">
@@ -84,7 +84,7 @@ function App() {
   const userRoutes = <Switch>
     <Route path="/user">
       <div className="users-routes" >
-        <AdminSideBar />
+        <UserSideBar />
         <Switch>
           <Route path="/user/overview" exact>
             <UserOverview />
@@ -139,8 +139,8 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } if (true) {
-    routes = adminRoutes;
+  } else {
+    routes = userRoutes;
   }
 
   return (

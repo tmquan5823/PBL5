@@ -43,7 +43,31 @@ const SignUpForm = props => {
         },
     }, false);
 
-    return <form action="" className="signup-form">
+    async function signupHandler(event) {
+        event.preventDefault();
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/auth/register", "POST",
+                JSON.stringify({
+                    email: formState.inputs.email.value,
+                    password: formState.inputs.password.value,
+                    lastname: formState.inputs.last_name.value,
+                    firstname: formState.inputs.first_name.value,
+                }),
+                {
+                    "Content-Type": 'application/json'
+                }
+            );
+            console.log(resData);
+
+            if (resData.state) {
+                history.push('/verify/' + formState.inputs.email.value);
+            }
+        } catch (err) {
+
+        }
+    }
+
+    return <form className="signup-form">
         <h3>Đăng ký</h3>
         <div className="name-field">
             <Input
@@ -53,7 +77,8 @@ const SignUpForm = props => {
                 text="Họ"
                 onInput={inputHandler}
                 errorText="Invalid email!"
-                validators={[VALIDATOR_REQUIRE()]}>
+                validators={[VALIDATOR_REQUIRE()]}
+                width="48%">
             </Input>
             <Input
                 id="last_name"
@@ -62,7 +87,8 @@ const SignUpForm = props => {
                 text="Tên"
                 onInput={inputHandler}
                 errorText="Invalid email!"
-                validators={[VALIDATOR_REQUIRE()]}>
+                validators={[VALIDATOR_REQUIRE()]}
+                width="48%">
             </Input>
         </div>
         <Input
@@ -86,7 +112,7 @@ const SignUpForm = props => {
         <Input
             id="password"
             element="input"
-            type="text"
+            type="password"
             text="Mật khẩu"
             onInput={inputHandler}
             errorText="Invalid email!"
@@ -95,7 +121,7 @@ const SignUpForm = props => {
         <Input
             id="password-confirm"
             element="input"
-            type="text"
+            type="password"
             text="Nhập lại mật khẩu"
             onInput={inputHandler}
             errorText="Invalid email!"
@@ -103,7 +129,7 @@ const SignUpForm = props => {
         </Input>
         <div className="signup-form--footer">
             <div className="signup-button">
-                <Button confirm>Sign Up</Button>
+                <Button onClick={signupHandler} type="submit" confirm>Sign Up</Button>
             </div>
             <p>Đã có tài khoản? <a href="/login">Đăng nhập</a>  </p>
         </div>
