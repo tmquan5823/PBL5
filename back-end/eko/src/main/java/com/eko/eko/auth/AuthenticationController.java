@@ -44,12 +44,11 @@ public class AuthenticationController {
         service.refreshToken(request, response);
     }
 
-    @PostMapping("/log-out/{googleToken}")
-    public void revokeToken(
-            @PathVariable String googleToken,
+    @PostMapping("/log-out")
+    public ResponseEntity<Map<String, Object>> revokeToken(
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
-        service.revokeToken(request, response, googleToken);
+        return service.revokeToken(request, response);
     }
 
     @PostMapping("/verify-account")
