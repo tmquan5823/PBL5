@@ -79,6 +79,7 @@ public class AuthenticationService {
                                 .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
                                 .role(Role.USER.name())
                                 .message("Register success!!!")
+                                .state(true)
                                 .id(user.getId())
                                 .build();
         }

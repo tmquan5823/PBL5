@@ -34,7 +34,7 @@ public class Budget {
     private LocalDateTime dateStart;
     private LocalDateTime dateEnd;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 }

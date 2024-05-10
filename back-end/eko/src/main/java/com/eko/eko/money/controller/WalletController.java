@@ -29,6 +29,11 @@ public class WalletController {
         return service.getAllWallets(request);
     }
 
+    @GetMapping("/wallet/{walletId}")
+    public ResponseEntity<WalletResponse> getWallet(HttpServletRequest request, @PathVariable int walletId) {
+        return service.getWallet(request, walletId);
+    }
+
     @PostMapping("/wallet")
     public ResponseEntity<WalletResponse> createWallet(HttpServletRequest request,
             @RequestBody WalletRequest walletRequest) {

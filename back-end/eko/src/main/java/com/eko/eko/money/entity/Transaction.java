@@ -1,6 +1,7 @@
 package com.eko.eko.money.entity;
 
 import java.time.LocalDateTime;
+import java.time.Period;
 
 import com.eko.eko.user.User;
 import jakarta.persistence.Entity;
@@ -30,9 +31,11 @@ public class Transaction {
     private int id;
     private LocalDateTime dateTransaction;
     private float amount;
-    private LocalDateTime cycle;
+    private LocalDateTime dateEndCycle;
+    private Period cycle;
+    private String note;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 }
