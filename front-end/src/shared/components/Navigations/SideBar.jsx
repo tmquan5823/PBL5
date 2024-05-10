@@ -16,8 +16,7 @@ const SideBar = props => {
                 'Authorization': "Bearer " + auth.token
             });
             if (resData.state) {
-                Cookies.remove("token");
-                Cookies.remove("url");
+                auth.logout();
             }
         } catch (err) {
             console.log(err);

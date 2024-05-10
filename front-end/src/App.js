@@ -32,15 +32,15 @@ function App() {
   const [isLoggedIn, setLoginState] = useState(false);
   const [token, setToken] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
-  const [wallet, setWallet] = useState(null);
+  const [wallet, setWallet] = useState();
 
   const login = useCallback((token, url) => {
     setLoginState(true);
     setToken(token);
     setAvatarUrl(url);
-    Cookies.set("token", token);
-    Cookies.set("url", url);
-  }, []);
+    // Cookies.set("token", token);
+    // Cookies.set("url", url);
+  }, [])
 
   const logout = useCallback(() => {
     setLoginState(false);
@@ -56,16 +56,16 @@ function App() {
     setWallet(id);
   }
 
-  useEffect(() => {
-    const storedToken = Cookies.get("token");
-    const storedURL = Cookies.get("url");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-    if (storedURL) {
-      setAvatarUrl(storedURL);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedToken = Cookies.get("token");
+  //   const storedURL = Cookies.get("url");
+  //   if (storedToken) {
+  //     setToken(storedToken);
+  //   }
+  //   if (storedURL) {
+  //     setAvatarUrl(storedURL);
+  //   }
+  // }, []);
 
   const adminRoutes = (
     <Switch>
@@ -89,70 +89,65 @@ function App() {
     </Switch>
   );
 
-  const userRoutes = (
-    <Switch>
-      <Route path="/user">
-        <div className="users-routes">
-          <AdminSideBar />
-          <Switch>
-            <Route path="/user/overview" exact>
-              <UserOverview />
-            </Route>
-            <Route path="/user/budget" exact>
-              <UserBudget />
-            </Route>
-            <Route path="/user/budget/:budgetID">
-              <UserBudgetDetail />
-            </Route>
-            <Route path="/user/transaction" exact>
-              <UserTransaction />
-            </Route>
-            <Route path="/user/wallet/setting" exact>
-              <WalletSetting />
-            </Route>
-            <Route path="/user/wallet/category" exact>
-              <WalletCategory />
-            </Route>
-            <Route path="/user/wallet/:id" exact>
-              <UserWalletDetail />
-            </Route>
-            <Route path="/user/information" exact>
-              <UserInformation />
-            </Route>
-          </Switch>
-        </div>
-      </Route>
-      <Redirect to="/user/overview" />
-    </Switch>
-  );
+  const userRoutes = <Switch>
+    <Route path="/user">
+      <div className="users-routes" >
+        <AdminSideBar />
+        <Switch>
+          <Route path="/user/overview" exact>
+            <UserOverview />
+          </Route>
+          <Route path="/user/budget" exact>
+            <UserBudget />
+          </Route>
+          <Route path="/user/budget/:budgetID">
+            <UserBudgetDetail />
+          </Route>
+          <Route path="/user/transaction" exact>
+            <UserTransaction />
+          </Route>
+          <Route path="/user/wallet/setting" exact>
+            <WalletSetting />
+          </Route>
+          <Route path="/user/wallet/category" exact>
+            <WalletCategory />
+          </Route>
+          <Route path="/user/wallet/:id" exact>
+            <UserWalletDetail />
+          </Route>
+          <Route path="/user/information" exact>
+            <UserInformation />
+          </Route>
+        </Switch>
+      </div>
+    </Route>
+    <Redirect to="/user/overview" />
+  </Switch>
 
   let routes;
   if (!token) {
-    routes = (
-      <Switch>
-        <Route path="/" exact>
-          <Home />
-        </Route>
-        <Route path="/forgotpassword" exact>
-          <ForgotPassword />
-        </Route>
-        <Route path="/recoverpassword" exact>
-          <RecoverPassword />
-        </Route>
-        <Route path="/login" exact>
-          <Login />
-        </Route>
-        <Route path="/signup" exact>
-          <SignUp />
-        </Route>
-        <Route path="/verify/:email" exact>
-          <VerifyPage />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    );
-  }
- else {
+    routes = (<Switch>
+      <Route path="/" exact>
+        <Home />
+      </Route>
+      <Route path="/forgotpassword" exact>
+        <ForgotPassword />
+      </Route>
+      <Route path="/recoverpassword" exact>
+        <RecoverPassword />
+      </Route>
+      <Route path="/login" exact>
+        <Login />
+      </Route>
+      <Route path="/signup" exact>
+        <SignUp />
+      </Route>
+      <Route path="/verify/:email" exact>
+        <VerifyPage />
+      </Route>
+      <Redirect to="/" />
+    </Switch>)
+  } if (true) {
     routes = adminRoutes;
   }
 

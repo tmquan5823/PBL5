@@ -1,4 +1,4 @@
-.icon-select {
+.color-select {
     width: 230px;
     background-color: #fff;
     padding: 5px 10px;
@@ -13,8 +13,10 @@
     left: 0;
 }
 
-.icon-select__item {
-    width: 22%;
+.color-select__item {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,20 +24,6 @@
     margin: 5px;
 }
 
-.icon-select__item input {
+.color-select__item input {
     display: none;
-}
-
-.icon-select__item .icon-container {
-    border-radius: 50%;
-    background-color: #717171;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45px;
-    height: 45px;
-}
-
-.icon-select__item .icon-container img {
-    width: 25px;
 }
