@@ -1,0 +1,24 @@
+
+.adsearch input {
+  width: 48%;
+  margin-right: 10%;
+  height: 53%;
+  margin-top: 40px;
+  border: none;
+  border-radius: 10px;
+  outline: solid 1px rgba(102, 102, 102, 0.3490196078);
+  font-size: 100%;
+  padding: 1%;
+}
+
+.adsearch button {
+  width: 10%;
+  background-color: #24b6b7;
+  color: #fff;
+  height: 53%;
+  margin-top: 40px;
+  border: none;
+  border-radius: 10px;
+  outline: solid 1px rgba(102, 102, 102, 0.3490196078);
+  font-size: 100%;
+}

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import './ForgotPasswordForm.css';
+import { useHttpClient } from "../../../shared/hooks/http-hook";
 
-const ForgotPasswordForm = () => {
+const ForgotPasswordForm = props => {
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const history = useHistory();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
 
   const handleSubmit = (event) => {
     event.preventDefault();

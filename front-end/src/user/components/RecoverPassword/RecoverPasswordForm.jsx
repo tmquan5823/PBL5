@@ -6,8 +6,6 @@ const RecoverPasswordForm = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     // Validate email format
@@ -25,10 +23,6 @@ const RecoverPasswordForm = () => {
       // Clear email error when user types
       setEmailError('');
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   const validateEmail = (email) => {
@@ -55,7 +49,7 @@ const RecoverPasswordForm = () => {
           <label id='pass' htmlFor='password'>Mật khẩu</label>
           <input
             id='passwordRe'
-            type={showPassword ? 'text' : 'password'}
+            type='password'
             value={password}
             onChange={(e) => handleChange(e, setPassword)}
             placeholder='Mật khẩu'
@@ -64,19 +58,12 @@ const RecoverPasswordForm = () => {
           <label id='pass' htmlFor='confirmPassword'>Nhập lại mật khẩu</label>
           <input
             id='confirmPasswordRe'
-            type={showPassword ? 'text' : 'password'}
+            type='cofirmPassword'
             value={confirmPassword}
             onChange={(e) => handleChange(e, setConfirmPassword)}
             placeholder='Nhập lại mật khẩu'
             required
           />
-          <button
-            id='togglePassword'
-            type='button'
-            onClick={togglePasswordVisibility}
-          >
-            {showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
-          </button>
           <button id='button' type='submit'>Xác nhận</button>
         </div>
       </div>

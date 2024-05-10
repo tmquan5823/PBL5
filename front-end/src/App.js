@@ -152,7 +152,7 @@ function App() {
       </Switch>
     );
   }
-  if (true) {
+ else {
     routes = adminRoutes;
   }
 
