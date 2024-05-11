@@ -1,11 +1,13 @@
 package com.eko.eko.money.service;
 
+import java.nio.file.WatchKey;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eko.eko.config.JwtService;
@@ -32,6 +34,31 @@ public class TransactionService {
         public final CategoryRepository categoryRepository;
         public final WalletRepository walletRepository;
         public final FormatDate formatDate;
+
+        @Scheduled(cron = "0 0 0 * * *")
+        public void reloadTransactionDaily() {
+                List<Transaction> transactions = transactionRepository.findAllVerifyTransaction();
+                for (Transaction transaction : transactions) {
+                        if (!(transaction.getDateTransaction().plus(transaction.getCycle()))
+                                        .isAfter(transaction.getDateEndCycle())) {
+                                Transaction temp = Transaction.builder()
+                                                .amount(transaction.getAmount())
+                                                .note(transaction.getNote())
+                                                .dateTransaction(transaction.getDateTransaction()
+                                                                .plus(transaction.getCycle()))
+                                                .dateEndCycle(transaction.getDateEndCycle())
+                                                .cycle(transaction.getCycle())
+                                                .wallet(transaction.getWallet())
+                                                .category(transaction.getCategory())
+                                                .build();
+                                transactionRepository.save(temp);
+                                Wallet wallet = walletRepository.findById(transaction.getWallet().getId())
+                                                .orElseThrow();
+                                wallet.setMoneyLeft(reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
+                                walletRepository.save(wallet);
+                        }
+                }
+        }
 
         public List<Transaction> getAllTransactionByWalletId(int walletId) {
                 return transactionRepository.findAllByWalletId(walletId);
@@ -117,8 +144,6 @@ public class TransactionService {
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
                                                 HttpStatus.BAD_REQUEST);
                         }
-                        System.out.println("CHECK");
-                        System.out.println(transactionRequest.getTransactionId());
                         if (user.getId() != transactionRepository.findById(transactionRequest.getTransactionId())
                                         .orElseThrow()
                                         .getWallet().getUser().getId()) {
@@ -183,10 +208,10 @@ public class TransactionService {
                         }
                         Transaction transaction = transactionRepository.findById(transactionId)
                                         .orElseThrow();
+                        transactionRepository.delete(transaction);
                         Wallet wallet = walletRepository.findById(transaction.getWallet().getId()).orElseThrow();
                         wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
                         transaction.setWallet(wallet);
-                        transactionRepository.delete(transaction);
                         return new ResponseEntity<>(TransactionResponse.builder().state(true)
                                         .message("Xóa giao dịch thành công!!!").build(),
                                         HttpStatus.OK);
@@ -218,7 +243,6 @@ public class TransactionService {
                         List<Transaction> listPresent = new ArrayList<>();
                         LocalDateTime now = LocalDateTime.now();
                         for (Transaction transaction : transactions) {
-                                System.out.println(transaction.getDateTransaction());
                                 if (transaction.getDateTransaction().isAfter(now)) {
                                         listFuture.add(transaction);
                                 } else {

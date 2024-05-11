@@ -18,6 +18,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     @Query("SELECT t FROM Transaction t WHERE t.category.id = :categoryId")
     List<Transaction> findAllByCategoryId(@Param("categoryId") int categoryId);
 
+    @Query("SELECT t FROM Transaction t WHERE DATE(t.dateTransaction) = CURRENT_DATE AND t.cycle IS NOT NULL")
+    List<Transaction> findAllVerifyTransaction();
+
     @Query("SELECT t FROM Transaction t " +
             "JOIN t.wallet w " +
             "JOIN w.user u " +

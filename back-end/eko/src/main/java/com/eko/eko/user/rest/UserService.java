@@ -55,8 +55,6 @@ public class UserService {
     }
 
     public UserProfileResponse updateProfile(UserRequest requestUser, HttpServletRequest request) {
-        System.out.println(requestUser.getLastname());
-        System.out.println(requestUser.getDateOfBirth());
         String authHeader = request.getHeader("Authorization");
         User user = jwtService.getUserFromAuthHeader(authHeader);
         if (user == null) {
