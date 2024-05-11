@@ -4,6 +4,7 @@ import DeleteCategoryConfirm from "./DeleteCategoryConfirm";
 import Modal from "../../../shared/components/UIElements/Modal";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import { AuthContext } from "../../../shared/context/auth-context";
+import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 
 const CategoryItem = props => {
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -22,13 +23,14 @@ const CategoryItem = props => {
         setShowModal(false);
     }
 
-    async function deleteConfirmHandler(id) {
+    async function deleteConfirmHandler() {
         try {
             const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/category/" + props.id, "DELETE", null, {
                 'Authorization': "Bearer " + auth.token
             });
             if (resData.state) {
-
+                setShowModal(false);
+                props.onDelete(props.id);
             }
         } catch (err) {
             console.log(err);
@@ -36,6 +38,7 @@ const CategoryItem = props => {
     }
 
     return <React.Fragment>
+        {isLoading && <LoadingSpinner asOverlay />}
         <Modal
             center
             width="40%"
@@ -45,7 +48,11 @@ const CategoryItem = props => {
             <DeleteCategoryConfirm
                 id={props.id}
                 onDelete={deleteConfirmHandler}
-                onClose={closeModalHandler} />
+                onClose={closeModalHandler}
+                content={props.content}
+                color={props.iconColor}
+                icon={props.iconUrl}
+            />
         </Modal>
         <div style={{ backgroundColor: props.iconColor }} className="icon-container">
             <img src={`${props.iconUrl}`} alt="" />

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./CategoriesList.css";
 import CategoryItem from "./CategoryItem";
 import SubModal from "../../../shared/components/UIElements/SubModal";
@@ -7,6 +7,12 @@ import UpdateCategoryForm from "./UpdateCategoryForm";
 
 const CategoriesList = props => {
     const [updateItem, setUpdateItem] = useState();
+    const [categories, setCategories] = useState(props.items);
+
+    useEffect(() => {
+        setCategories(props.items);
+        console.log(categories);
+    }, [props.items])
 
     function updateHandler(item) {
         setUpdateItem(item);
@@ -16,10 +22,14 @@ const CategoriesList = props => {
         setUpdateItem(null);
     }
 
+    function onDeleteCategory(id) {
+        setCategories(preValue => { return preValue.filter((item) => item.category.id !== id) });
+    }
+
     return <div className="categories-container">
         <h3>{props.title}</h3>
         <ul className="categories-list">
-            {props.items && props.items.map(item => <li key={item.category.id} className="category-item">
+            {categories && categories.map(item => <li key={item.category.id} className="category-item">
                 {updateItem === item.category.id ?
                     <SubModal
                         width="100%"
@@ -39,6 +49,7 @@ const CategoriesList = props => {
                         content={item.category.content}
                         transaction_times={item.transaction_times}
                         onUpdate={updateHandler}
+                        onDelete={onDeleteCategory}
                     />}
             </li>)
             }

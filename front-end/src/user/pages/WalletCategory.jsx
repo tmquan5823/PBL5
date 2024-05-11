@@ -33,6 +33,7 @@ const WalletCategory = props => {
         setCategories(preValue => { return [...preValue, item] })
     }
 
+
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
         <PageContent title="Danh mục ví">
