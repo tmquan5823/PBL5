@@ -1,0 +1,66 @@
+.update-category-form {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: content-box;
+    justify-content: space-evenly;
+    align-items: end;
+}
+
+.ucf__item {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    position: relative;
+    margin-right: 40px;
+}
+
+.ucf__item .icon-field .icon-container {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-field .icon-container img {
+
+    width: 20px;
+    height: 20px;
+}
+
+
+.ucf__item-type select {
+    padding: 13px;
+    font-size: 16px;
+}
+
+.ucf__item-name {
+    width: 30%;
+}
+
+.ucf__item-name input {
+    padding: 13px;
+    border-radius: 10px;
+}
+
+.ucf__item-btn {
+    width: 20%;
+}
+
+.ucf__item-btn .update-btn {
+    padding: 10px;
+    border: none;
+    background-color: #24B6B7;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 10px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.disabled-btn {
+    background-color: #e5ebee;
+    color: #7b93a4;
+    cursor: default;
+}

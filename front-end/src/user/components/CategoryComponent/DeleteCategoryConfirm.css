@@ -1,0 +1,18 @@
+.delete-category-confirm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dcc__icon {
+    width: 100%;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.dcc__icon img {
+    width: 50px;
+    height: 50px;
+}
+

@@ -53,3 +53,11 @@
 .button-feature-container .delete-btn {
     background-color: rgba(241, 76, 82, 0.1);
 }
+
+
+.update-category-form {
+    position: relative;
+    width: 50%;
+    background-color: #fff;
+    z-index: 900;
+}
