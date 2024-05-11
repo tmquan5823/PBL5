@@ -84,3 +84,53 @@
     text-decoration: underline;
     font-weight: 600;
 }
+
+.recoverpass-formVe {
+    background-color: #fff;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.frameReVe {
+  padding: 40px;
+  width: 75%;
+}
+
+.fieldReVe {
+  margin-top: 20px; /* Khoảng cách giữa các trường nhập liệu */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recoverpass-formVe label {
+  width: 100%;
+  font-size: 17px;
+  margin-top: 10px;
+}
+
+
+
+.fieldReVe #buttonVe {
+  width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: solid 1px rgba(102, 102, 102, 0.3490196078);
+  background-color: #24b6b7;
+  color: #fff;
+  margin-top: 5%;
+  font-size: 135%;
+}     
+#emailReVe, #passwordReVe, #confirmPasswordReVe {
+  width: 75%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: solid 1px rgba(102, 102, 102, 0.3490196078);
+  margin-bottom: 0px;
+  font-weight: 700;
+  font-size: 100%;
+}

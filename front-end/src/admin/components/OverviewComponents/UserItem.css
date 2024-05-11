@@ -1,0 +1,46 @@
+.user-item {
+  background-color: #fff;
+  border-radius: 10px;
+  margin-top: 4%;
+}
+
+.adTbl {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.adTbl th, .adTbl td {
+  font-size: 17px;
+  padding: 15px 20px;
+  text-align: left;
+}
+
+.adTbl th:last-child, td:last-child {
+  border-right: none; 
+}
+
+.adTbl #date {
+  padding-left: 10px;
+}
+
+#idChbox {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btnPrf, .btnDel {
+  width: 10%;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+}
+
+.btnPrf {
+  background-color: #0ff222;
+  margin-right: 17px;
+}
+
+.btnDel {
+  background-color: red;
+}

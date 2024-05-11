@@ -10,9 +10,9 @@
     overflow: auto;
     height: 100%;
     padding: 50px;
-    padding-top: 100px;
+    padding-top: 70px;
     display: flex;
     flex-direction: column;
     justify-content: start;
-    background-color: rgb(228, 228, 228);
+    background-color: #D3E7DD;
 }
