@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useParams, useHistory } from "react-router-dom";
 import "./VerifyForm.css";
+import Input from "../../../shared/components/FormElements/Input";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import Modal from "../../../shared/components/UIElements/Modal";
 import StateCard from "../../../shared/components/UIElements/StateCard";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useForm } from "../../../shared/hooks/form-hook";
-
-
+import { VALIDATOR_REQUIRE } from "../../../shared/util/validators";
 
 const VerifyForm = (props) => {
   const [verifyState, setVerifyState] = useState(false);
@@ -22,24 +22,29 @@ const VerifyForm = (props) => {
   const auth = useContext(AuthContext);
   const location = useLocation();
   const history = useHistory();
+  const msgError = "";
 
-  const { formState, inputHandler } = useForm(
+  const [formState, inputHandler] = useForm(
     {
       emailReVe: {
         value: email,
-        isValid: false
+        isValid: false,
       },
       passwordReVe: {
         value: "",
-        isValid: false
+        isValid: false,
       },
     },
     false
   );
-  
-  async function RecoverPass(event){
+
+  async function RecoverPass(event) {
+    debugger;
     event.preventDefault();
     try {
+      console.log("Email: ", email);
+      console.log("Password: ", formState.inputs.passwordReVe.value);
+
       const resData = await sendRequest(
         process.env.REACT_APP_URL + "/api/auth/reset-password",
         "POST",
@@ -48,22 +53,19 @@ const VerifyForm = (props) => {
           password: formState.inputs.passwordReVe.value,
         }),
         {
-          "Content-Type": 'application/json'
+          "Content-Type": "application/json",
         }
       );
       console.log(resData);
-      if (resData.state) {
-        history.push('/login');
+      if (resData.state === true) {
+        history.push("/login");
+      } else {
+        this.msgError = resData.message;
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
-  
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    setForgotPasswordParam(params.get("forgotpassword"));
-  }, [location]);
 
   async function sendVerifyHandler() {
     try {
@@ -74,12 +76,30 @@ const VerifyForm = (props) => {
       console.log(responseData);
       if (responseData) {
         setVerifyState(true);
+        setVerifySuccess(false); // Reset verifySuccess if needed
       }
     } catch (err) {
       console.log(err);
       setResMessage(err.message);
+      setShowModal(true);
     }
   }
+
+  function verifySubmitHandler(event) {
+    event.preventDefault();
+    try {
+      // Your existing code
+    } catch (err) {
+      setResMessage(err.message);
+      setShowModal(true);
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setForgotPasswordParam(params.get("forgotpassword"));
+  }, [location]);
 
   function verifyCodeChangeHandler(event) {
     setVerifyCode(event.target.value);
@@ -88,9 +108,11 @@ const VerifyForm = (props) => {
   async function verifySubmitHandler(event) {
     event.preventDefault();
     try {
+      // quenpass ? /api/auth/verify-password?email= : /api/auth/verify-account?email=
+      
       const responseData = await sendRequest(
         process.env.REACT_APP_URL +
-          "/api/auth/verify-account?email=" +
+          "/api/auth/verify-password?email=" +
           email +
           "&otp=" +
           verifyCode,
@@ -197,22 +219,42 @@ const VerifyForm = (props) => {
                       <label id="pass" htmlFor="password">
                         Mật khẩu mới
                       </label>
-                      <input
+                      {/* <input
                         id="passwordReVe"
+                        element="input"
                         type="password"
                         onInput={inputHandler}
                         required
-                      />
+                      /> */}
+                      <Input
+                        id="passwordReVe"
+                        element="input"
+                        type="password"
+                        text="Mật khẩu mới"
+                        onInput={inputHandler}
+                        errorText="Invalid email!"
+                        validators={[VALIDATOR_REQUIRE()]}
+                      ></Input>
                       <label id="pass" htmlFor="confirmPassword">
                         Nhập lại mật khẩu
                       </label>
-                      <input
+                      {/* <input
                         id="confirmPasswordReVe"
+                        element="input"
                         type="cofirmPassword"
                         onInput={inputHandler}
                         required
-                      />
-                      <button onClick={RecoverPass} id="buttonVe" >
+                      /> */}
+                      <Input
+                        id="confirmPasswordReVe"
+                        element="input"
+                        type="password"
+                        text="Nhập lại mật khẩu"
+                        onInput={inputHandler}
+                        errorText="Invalid email!"
+                        validators={[VALIDATOR_REQUIRE()]}
+                      ></Input>
+                      <button onClick={RecoverPass} id="buttonVe">
                         Xác nhận
                       </button>
                     </div>

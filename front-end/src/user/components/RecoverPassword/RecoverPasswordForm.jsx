@@ -62,7 +62,6 @@ const RecoverPasswordForm = () => {
             value={formState.inputs.emailRe.value}
             onChange={inputHandler}
             name="emailRe"
-            onInput={inputHandler}
             required
           />
           <label id='pass' htmlFor='password'>Mật khẩu</label>
@@ -72,7 +71,6 @@ const RecoverPasswordForm = () => {
             value={formState.inputs.passwordRe.value}
             onChange={inputHandler}
             name="passwordRe"
-            onInput={inputHandler}
             required
           />
           <label id='pass' htmlFor='confirmPassword'>Nhập lại mật khẩu</label>
@@ -82,7 +80,6 @@ const RecoverPasswordForm = () => {
             value={formState.inputs.password_confirmRe.value}
             onChange={inputHandler}
             name="password_confirmRe"
-            onInput={inputHandler}
             required
           />
           <button onClick={RecoverPass} id='button' type='submit' confirm>Xác nhận</button>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import "./UserItem.css";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Table, Button } from 'antd';
+import axios from 'axios';
 
 const UserItem = (props) => {
   const [listUser, setListUser] = useState([]);
@@ -20,40 +20,48 @@ const UserItem = (props) => {
     fetchData();
   }, []);
 
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'idUs',
+      align: 'left',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'first_name',
+      key: 'first_name',
+      align: 'left',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+      align: 'left',
+    },
+    {
+      title: 'Trạng thái',
+      key: 'status',
+      align: 'left',
+      render: () => <span>Đã khóa</span>,
+    },
+    {
+      title: 'Tuỳ chọn',
+      key: 'action',
+      align: 'left',
+      render: () => (
+        <>
+          <Button className="btnPrf">p</Button>
+          <Button className="btnDel">d</Button>
+        </>
+      ),
+    },
+  ];
+
   return (
     <div className="user-item">
       <div className="adForm">
-        <table className="adTbl">
-          <thead>
-            <tr>
-              <th id="idAd">ID</th>
-              <th id="dateAd">Ngày</th>
-              <th id="nameAd">Tên</th>
-              <th id="emailAd">Email</th>
-              <th id="statusAd">Trạng thái</th>
-              <th id="optAd">Tuỳ chọn</th>
-            </tr>
-          </thead>
-          <tbody>
-            {listUser &&
-              listUser.length > 0 &&
-              listUser.map((user) => {
-                return (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.first_name}</td>
-                    <td>{user.last_name}</td>
-                    <td>{user.email}</td>
-                    {/* <td>Đã khóa</td>
-                            <td>
-                                <button className="btnPrf">p</button>
-                                <button className="btnDel">d</button>
-                            </td> */}
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+        <Table dataSource={listUser} columns={columns} />
       </div>
     </div>
   );
