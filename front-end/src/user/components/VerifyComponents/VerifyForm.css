@@ -10,7 +10,7 @@
     padding: 20px 40px;
 }
 
-.verify-container img {
+.verify-container .logoVe {
     width: 200px;
 }
 
@@ -94,7 +94,6 @@
 }
 
 .frameReVe {
-  padding: 40px;
   width: 75%;
 }
 
@@ -114,23 +113,29 @@
 
 
 .fieldReVe #buttonVe {
-  width: 60%;
+  width: 30%;
   padding: 10px;
   border-radius: 10px;
   border: none;
   outline: solid 1px rgba(102, 102, 102, 0.3490196078);
   background-color: #24b6b7;
   color: #fff;
-  margin-top: 5%;
+  margin: 2%;
   font-size: 135%;
+  cursor: pointer;
 }     
-#emailReVe, #passwordReVe, #confirmPasswordReVe {
-  width: 75%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  outline: solid 1px rgba(102, 102, 102, 0.3490196078);
-  margin-bottom: 0px;
-  font-weight: 700;
-  font-size: 100%;
+
+.recoverpass-formVe .frameReVe .fieldReVe #emailVe {
+    font-size: 150%;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.recoverpass-formVe .frameReVe .fieldReVe .form-control {
+    width: 50%;
+}
+
+.recoverpass-formVe .frameReVe .fieldReVe #errVe {
+    margin: 0px;
+    color: red;
 }

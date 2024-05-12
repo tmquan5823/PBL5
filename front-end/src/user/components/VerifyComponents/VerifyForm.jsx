@@ -17,6 +17,7 @@ const VerifyForm = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [resMessage, setResMessage] = useState();
   const [forgotPasswordParam, setForgotPasswordParam] = useState();
+  const [passwordMatchError, setPasswordMatchError] = useState(false); // State để kiểm tra lỗi mật khẩu không trùng khớp
   const email = useParams().email;
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
@@ -34,6 +35,10 @@ const VerifyForm = (props) => {
         value: "",
         isValid: false,
       },
+      confirmPasswordReVe: {
+        value: "",
+        isValid: false,
+      },
     },
     false
   );
@@ -44,6 +49,10 @@ const VerifyForm = (props) => {
     try {
       console.log("Email: ", email);
       console.log("Password: ", formState.inputs.passwordReVe.value);
+      if (formState.inputs.passwordReVe.value !== formState.inputs.confirmPasswordReVe.value) {
+        setPasswordMatchError(true); // Trùng mk
+        return;
+      }
 
       const resData = await sendRequest(
         process.env.REACT_APP_URL + "/api/auth/reset-password",
@@ -167,13 +176,13 @@ const VerifyForm = (props) => {
 
       {isLoading && <LoadingSpinner asOverlay />}
       <div className="verify-container">
-        <img src="/images/teal-logo.png" alt="" />
-        <h1>Xác thực Email</h1>
+        <img src="/images/teal-logo.png" alt="" className="logoVe"/>
 
         <div className="verify-form__main">
           {!verifySuccess &&
             (!verifyState ? (
               <div className="verify-form">
+              <h1>Xác thực Email</h1>
                 <p>
                   Để có thể sử dụng tài khoản EKO, bạn cần phải xác thực email
                   của mình!
@@ -212,48 +221,32 @@ const VerifyForm = (props) => {
               </span>
             ) : (
               <div>
+              <h1>Thay đổi mật khẩu mới</h1>
                 <form className="recoverpass-formVe">
                   <div className="frameReVe">
                     <div className="fieldReVe">
-                      <label id="email">{email}</label>
-                      <label id="pass" htmlFor="password">
-                        Mật khẩu mới
-                      </label>
-                      {/* <input
-                        id="passwordReVe"
-                        element="input"
-                        type="password"
-                        onInput={inputHandler}
-                        required
-                      /> */}
+                      {/* <label id="emailVe">{email}</label> */}
                       <Input
                         id="passwordReVe"
                         element="input"
                         type="password"
-                        text="Mật khẩu mới"
+                        // text="Mật khẩu mới"
+                        placeholder="Mật khẩu mới"
                         onInput={inputHandler}
                         errorText="Invalid email!"
                         validators={[VALIDATOR_REQUIRE()]}
                       ></Input>
-                      <label id="pass" htmlFor="confirmPassword">
-                        Nhập lại mật khẩu
-                      </label>
-                      {/* <input
-                        id="confirmPasswordReVe"
-                        element="input"
-                        type="cofirmPassword"
-                        onInput={inputHandler}
-                        required
-                      /> */}
                       <Input
                         id="confirmPasswordReVe"
                         element="input"
                         type="password"
-                        text="Nhập lại mật khẩu"
+                        // text="Nhập lại mật khẩu"
+                        placeholder="Nhập lại mật khẩu"
                         onInput={inputHandler}
                         errorText="Invalid email!"
                         validators={[VALIDATOR_REQUIRE()]}
                       ></Input>
+                      {passwordMatchError && <p id="errVe">Mật khẩu không trùng khớp!</p>} 
                       <button onClick={RecoverPass} id="buttonVe">
                         Xác nhận
                       </button>
