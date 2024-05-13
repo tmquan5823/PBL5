@@ -28,6 +28,12 @@ const UserItem = (props) => {
       align: 'left',
     },
     {
+      title: 'Số điện thoại',
+      dataIndex: 'phone',
+      key: 'phone',
+      align: 'left',
+    },
+    {
       title: 'Name',
       dataIndex: 'first_name',
       key: 'first_name',

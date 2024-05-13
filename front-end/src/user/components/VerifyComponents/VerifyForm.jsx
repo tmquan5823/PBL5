@@ -67,7 +67,7 @@ const VerifyForm = (props) => {
       );
       console.log(resData);
       if (resData.state === true) {
-        history.push("/login");
+        history.push("/recoverpassword");
       } else {
         this.msgError = resData.message;
       }
