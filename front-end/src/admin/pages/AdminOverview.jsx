@@ -6,7 +6,7 @@ import UserItem from "../components/OverviewComponents/UserItem"
 
 const AdminOverview = props => {
     return <PageContent title="">
-        <Search/>
+        {/* <Search/> */}
         <UserItem/>
     </PageContent>
 };

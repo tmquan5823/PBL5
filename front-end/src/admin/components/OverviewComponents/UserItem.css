@@ -9,14 +9,16 @@
   width: 100%;
 }
 
-.adTbl th, .adTbl td {
+.adTbl th,
+.adTbl td {
   font-size: 17px;
   padding: 15px 20px;
   text-align: left;
 }
 
-.adTbl th:last-child, td:last-child {
-  border-right: none; 
+.adTbl th:last-child,
+td:last-child {
+  border-right: none;
 }
 
 .adTbl #date {
@@ -28,19 +30,46 @@
   cursor: pointer;
 }
 
-.btnPrf, .btnDel {
-  width: 10%;
-  border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  color: #fff;
+.buttonContainer {
+  display: flex; 
+  justify-content: flex-start; 
 }
 
+.btnPrf,
+.btnDel {
+  width: 15%;
+  height: 15%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnPrf .anticon {
+  font-size: 20px;
+  color: #0dbb55;
+}
+
+
 .btnPrf {
-  background-color: #0ff222;
+  background-color: #a0e5c5;
   margin-right: 17px;
 }
 
+.btnDel .anticon {
+  font-size: 20px;
+  color: #ff0000;
+}
+
+
 .btnDel {
-  background-color: red;
+  background-color: #edaaaa;
+}
+
+.user-item .adForm .tblUser .ant-table-cell {
+  font-size: 105%;
+}
+
+.user-item .adForm .tblUser .ant-table-thead th {
+  font-size: 120%;
 }
