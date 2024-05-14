@@ -3,6 +3,7 @@ package com.eko.eko.auth;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,12 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.eko.eko.config.JwtService;
+import com.eko.eko.money.entity.Category;
 import com.eko.eko.token.Token;
 import com.eko.eko.token.TokenRepository;
 import com.eko.eko.token.TokenType;
 import com.eko.eko.user.Role;
 import com.eko.eko.user.User;
 import com.eko.eko.user.UserRepository;
+import com.eko.eko.util.DefaultCategories;
 import com.eko.eko.util.EmailUtil;
 import com.eko.eko.util.OtpUtil;
 
@@ -47,6 +50,7 @@ public class AuthenticationService {
         private final AuthenticationManager authenticationManager;
         private final OtpUtil otpUtil;
         private final EmailUtil emailUtil;
+        private final DefaultCategories defaultCategories;
 
         public AuthenticationResponse register(RegisterRequest request) throws JsonProcessingException {
                 boolean existedUser = repository.findByEmail(request.getEmail())
@@ -56,6 +60,7 @@ public class AuthenticationService {
                                         .message("User with this email already exists!!!")
                                         .build();
                 }
+
                 var user = User.builder()
                                 .address(request.getAddress())
                                 .email(request.getEmail())
@@ -69,6 +74,8 @@ public class AuthenticationService {
                                 .role(Role.USER)
                                 .isVerify(false)
                                 .build();
+                List<Category> categories = defaultCategories.createListCategoriesDefault(user);
+                user.setCategories(categories);
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
                 var jwtRefreshToken = jwtService.generateRefreshToken(user);
@@ -79,6 +86,7 @@ public class AuthenticationService {
                                 .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
                                 .role(Role.USER.name())
                                 .message("Register success!!!")
+                                .state(true)
                                 .id(user.getId())
                                 .build();
         }
@@ -175,29 +183,36 @@ public class AuthenticationService {
                 restTemplate.postForEntity(url, null, String.class);
         }
 
-        public void revokeToken(HttpServletRequest request, HttpServletResponse response, String googleToken)
+        public ResponseEntity<Map<String, Object>> revokeToken(HttpServletRequest request, HttpServletResponse response)
                         throws StreamWriteException, DatabindException, IOException {
                 final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
                 final String token;
                 final String userEmail;
+                Map<String, Object> responseMap = new HashMap<>();
                 if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                        return;
+                        responseMap.put("message", "Lỗi người dùng, không thấy token!!!");
+                        responseMap.put("state", false);
+                        return new ResponseEntity<>(responseMap, HttpStatus.BAD_GATEWAY);
                 }
                 token = authHeader.substring(7);
                 userEmail = jwtService.extractUsername(token);
                 if (userEmail != null) {
-                        if (!googleToken.isEmpty()) {
-                                revokeTokenGoogle(googleToken);
-                                request.getSession().invalidate();
-                        }
                         var user = this.repository.findByEmail(userEmail)
                                         .orElseThrow();
                         if (jwtService.isTokenValid(token, user)) {
                                 revokeAllUserTokens(user);
-                                Map<String, String> responeMessage = new HashMap<>();
-                                responeMessage.put("message", "token has been revoked!!!");
-                                new ObjectMapper().writeValue(response.getOutputStream(), responeMessage);
+                                responseMap.put("message", "Đăng xuất thành công!!!");
+                                responseMap.put("state", true);
+                                return new ResponseEntity<>(responseMap, HttpStatus.OK);
+                        } else {
+                                responseMap.put("message", "Lỗi người dùng, không thấy token!!!");
+                                responseMap.put("state", true);
+                                return new ResponseEntity<>(responseMap, HttpStatus.BAD_GATEWAY);
                         }
+                } else {
+                        responseMap.put("message", "Lỗi người dùng, không thấy token!!!");
+                        responseMap.put("state", true);
+                        return new ResponseEntity<>(responseMap, HttpStatus.BAD_GATEWAY);
                 }
         }
 
@@ -314,17 +329,19 @@ public class AuthenticationService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
-        public Map<String, String> resetPassword(AuthenticationRequest request) {
-                Map<String, String> responseMap = new HashMap<>();
+        public Map<String, Object> resetPassword(AuthenticationRequest request) {
+                Map<String, Object> responseMap = new HashMap<>();
                 var user = repository.findByEmail(request.getEmail()).orElseThrow();
                 if (user.isCanResetPassword() == false) {
-                        responseMap.put("message", "Can't reset password!!");
+                        responseMap.put("message", "Không thể đặt lại mật khẩu!!");
+                        responseMap.put("state", false);
                         return responseMap;
                 }
                 user.setPassword(passwordEncoder.encode(request.getPassword()));
                 repository.save(user);
                 user.setCanResetPassword(false);
-                responseMap.put("message", "Reset password success!!");
+                responseMap.put("message", "Đặt lại mật khẩu thành công!!");
+                responseMap.put("state", true);
                 return responseMap;
         }
 }

@@ -44,12 +44,11 @@ public class AuthenticationController {
         service.refreshToken(request, response);
     }
 
-    @PostMapping("/log-out/{googleToken}")
-    public void revokeToken(
-            @PathVariable String googleToken,
+    @PostMapping("/log-out")
+    public ResponseEntity<Map<String, Object>> revokeToken(
             HttpServletRequest request,
             HttpServletResponse response) throws IOException {
-        service.revokeToken(request, response, googleToken);
+        return service.revokeToken(request, response);
     }
 
     @PostMapping("/verify-account")
@@ -65,7 +64,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody AuthenticationRequest request) {
         return new ResponseEntity<>(service.resetPassword(request), HttpStatus.OK);
     }
 

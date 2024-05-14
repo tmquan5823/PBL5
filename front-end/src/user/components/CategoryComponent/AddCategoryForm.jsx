@@ -1,9 +1,9 @@
 import React, { useState, useReducer, useCallback } from "react";
 import "./AddCategoryForm.css";
-import IconSelect from "./IconSelect";
+import IconSelect from "../WalletComponent/IconSelect";
 import Icons from "../../models/Icons";
 import { isValid } from "date-fns";
-import ColorSelect from "./ColorSelect";
+import ColorSelect from "../WalletComponent/ColorSelect";
 import Colors from "../../models/Colors";
 
 const selectReducer = (state, action) => {
@@ -44,7 +44,6 @@ const selectReducer = (state, action) => {
                 inputs: {
                     ...state.inputs,
                     [action.inputId]: {
-                        ...action.inputId,
                         value: action.value
                     }
                 },
@@ -69,6 +68,9 @@ const AddCategoryForm = props => {
             },
             name: {
                 value: ""
+            },
+            type: {
+                value: "income"
             }
         }, isValid: false
     });
@@ -96,6 +98,10 @@ const AddCategoryForm = props => {
     const categoryNameChangeHandler = (event) => {
         dispatch({ type: "change-value", value: event.target.value, inputId: "name" });
     };
+
+    function typeSelectChange(event) {
+        dispatch({ type: "change-value", value: event.target.value, inputId: "type" });
+    }
 
     return <form action="" className="add-category-form">
         <h3>Tạo danh mục mới</h3>
@@ -137,6 +143,22 @@ const AddCategoryForm = props => {
                     onChange={categoryNameChangeHandler}
                     type="text"
                     className="category-name" />
+            </div>
+            <div className="add-category__item category-type__container">
+                <label htmlFor="">Tên danh mục</label>
+                <select
+                    id="type"
+                    className="category-type__select"
+                    value={selectState.inputs.type.value}
+                    onChange={typeSelectChange}>
+                    <option value="outcome">
+                        Chi tiêu
+                    </option>
+                    <option value="imcome">
+                        Thu nhập
+                    </option>
+                </select>
+
             </div>
             <button disabled={!selectState.isValid} className={`add-category__btn ${!selectState.isValid && 'category-btn--disabled'}`}>
                 Tạo danh mục

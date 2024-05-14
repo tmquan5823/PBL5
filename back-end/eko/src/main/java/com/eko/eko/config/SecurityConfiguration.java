@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                                 .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**").permitAll()
                                                 // .requestMatchers("/api/v1/demo-controller").hasAnyAuthority("USER")
                                                 // .requestMatchers("/error/**").permitAll()
-                                                .requestMatchers("/api/user/**").permitAll()
+                                                .requestMatchers("/api/user/**").hasAnyAuthority("USER")
                                                 // .requestMatchers("/api/google/login").permitAll()
                                                 .anyRequest()
                                                 .authenticated())

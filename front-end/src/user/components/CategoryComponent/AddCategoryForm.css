@@ -90,6 +90,16 @@
     width: 20%;
 }
 
+.category-type__container {
+    width: 10%;
+}
+
+.category-type__container select {
+    box-sizing: content-box;
+    padding: 13px;
+    font-size: 16px;
+}
+
 .category-btn--disabled {
     background-color: #e5ebee;
     color: #7b93a4;

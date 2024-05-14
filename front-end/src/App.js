@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Route, Redirect, Switch, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch, useHistory } from "react-router-dom";
 import Login from "./user/pages/Login";
 import SignUp from "./user/pages/SignUp";
 import Home from "./user/pages/Home";
@@ -28,6 +28,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
   const [wallet, setWallet] = useState();
+  const history = useHistory();
 
   const login = useCallback((token, url) => {
     setLoginState(true);

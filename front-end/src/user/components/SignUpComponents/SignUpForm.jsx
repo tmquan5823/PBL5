@@ -63,77 +63,80 @@ const SignUpForm = props => {
                 history.push('/verify/' + formState.inputs.email.value);
             }
         } catch (err) {
-
+            console.log(err);
         }
     }
 
-    return <form className="signup-form">
-        <h3>Đăng ký</h3>
-        <div className="name-field">
-            <Input
-                id="first_name"
-                element="input"
-                type="text"
-                text="Họ"
-                onInput={inputHandler}
-                errorText="Invalid email!"
-                validators={[VALIDATOR_REQUIRE()]}
-                width="48%">
-            </Input>
-            <Input
-                id="last_name"
-                element="input"
-                type="text"
-                text="Tên"
-                onInput={inputHandler}
-                errorText="Invalid email!"
-                validators={[VALIDATOR_REQUIRE()]}
-                width="48%">
-            </Input>
-        </div>
-        <Input
-            id="email"
-            element="input"
-            type="text"
-            text="Email"
-            onInput={inputHandler}
-            errorText="Invalid email!"
-            validators={[VALIDATOR_REQUIRE()]}>
-        </Input>
-        <Input
-            id="phonenumber"
-            element="input"
-            type="text"
-            text="Số điện thoại"
-            onInput={inputHandler}
-            errorText="Invalid email!"
-            validators={[VALIDATOR_REQUIRE()]}>
-        </Input>
-        <Input
-            id="password"
-            element="input"
-            type="password"
-            text="Mật khẩu"
-            onInput={inputHandler}
-            errorText="Invalid email!"
-            validators={[VALIDATOR_REQUIRE()]}>
-        </Input>
-        <Input
-            id="password-confirm"
-            element="input"
-            type="password"
-            text="Nhập lại mật khẩu"
-            onInput={inputHandler}
-            errorText="Invalid email!"
-            validators={[VALIDATOR_REQUIRE()]}>
-        </Input>
-        <div className="signup-form--footer">
-            <div className="signup-button">
-                <Button onClick={signupHandler} type="submit" confirm>Sign Up</Button>
+    return <React.Fragment>
+        {isLoading && <LoadingSpinner asOverLay />}
+        <form className="signup-form">
+            <h3>Đăng ký</h3>
+            <div className="name-field">
+                <Input
+                    id="first_name"
+                    element="input"
+                    type="text"
+                    text="Họ"
+                    onInput={inputHandler}
+                    errorText="Invalid email!"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    width="48%">
+                </Input>
+                <Input
+                    id="last_name"
+                    element="input"
+                    type="text"
+                    text="Tên"
+                    onInput={inputHandler}
+                    errorText="Invalid email!"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    width="48%">
+                </Input>
             </div>
-            <p>Đã có tài khoản? <a href="/login">Đăng nhập</a>  </p>
-        </div>
-    </form>
+            <Input
+                id="email"
+                element="input"
+                type="text"
+                text="Email"
+                onInput={inputHandler}
+                errorText="Invalid email!"
+                validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL]}>
+            </Input>
+            <Input
+                id="phonenumber"
+                element="input"
+                type="text"
+                text="Số điện thoại"
+                onInput={inputHandler}
+                errorText="Invalid email!"
+                validators={[VALIDATOR_REQUIRE()]}>
+            </Input>
+            <Input
+                id="password"
+                element="input"
+                type="password"
+                text="Mật khẩu"
+                onInput={inputHandler}
+                errorText="Invalid email!"
+                validators={[VALIDATOR_REQUIRE()]}>
+            </Input>
+            <Input
+                id="password-confirm"
+                element="input"
+                type="password"
+                text="Nhập lại mật khẩu"
+                onInput={inputHandler}
+                errorText="Invalid email!"
+                validators={[VALIDATOR_REQUIRE()]}>
+            </Input>
+            <div className="signup-form--footer">
+                <div className="signup-button">
+                    <Button onClick={signupHandler} type="submit" confirm>Sign Up</Button>
+                </div>
+                <p>Đã có tài khoản? <a href="/login">Đăng nhập</a>  </p>
+            </div>
+        </form>
+    </React.Fragment>
 };
 
 export default SignUpForm;

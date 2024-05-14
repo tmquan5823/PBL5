@@ -119,12 +119,12 @@ public class UserService {
             responseMap.put("state", false);
             return new ResponseEntity<>(responseMap, HttpStatus.BAD_GATEWAY);
         } else {
-            // if (user.getAvatarUrl()
-            // .equals("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg"))
-            // {
-            // responseMap.put("message", "Delete user's avatar succes!!");
-            // return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
-            // }
+            if (user.getAvatarUrl()
+                    .equals("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")) {
+                responseMap.put("message", "Delete user's avatar succes!!");
+                responseMap.put("state", true);
+                return new ResponseEntity<>(responseMap, HttpStatus.OK);
+            }
             cloudinaryService.deleteImageByUrl(user.getAvatarUrl());
             user.setAvatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg");
             repository.save(user);
@@ -146,10 +146,13 @@ public class UserService {
             responseMap.put("state", false);
             return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
         } else {
+            System.out.println("CHECK AVATAR : " + user.getAvatarUrl());
             if (!user.getAvatarUrl()
                     .equals("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")) {
+                System.out.println("CHECK IF ELSE");
                 cloudinaryService.deleteImageByUrl(user.getAvatarUrl());
             }
+
             user.setAvatarUrl(cloudinaryService.uploadImage(image));
             repository.save(user);
             responseMap.put("message", "Update user's avatar succes!!");
