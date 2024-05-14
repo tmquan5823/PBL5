@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./UserTransaction.css";
 import PageContent from "../../shared/components/UIElements/PageContent";
 import ExpenseRow from "../../shared/components/UIElements/ExpenseRow";
@@ -7,9 +7,15 @@ import moment from 'moment';
 import Modal from "../../shared/components/UIElements/Modal";
 import AddTransactionForm from "../components/TransactionComponents/AddTransactionForm";
 import FilterContainer from "../components/TransactionComponents/FilterContainer";
+import { AuthContext } from "../../shared/context/auth-context";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const UserTransaction = props => {
     const [formShow, setFormShow] = useState(false);
+    const [categories, setCategories] = useState({});
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const auth = useContext(AuthContext);
 
     function closeHandler() {
         setFormShow(false);
@@ -19,13 +25,35 @@ const UserTransaction = props => {
         setFormShow(true);
     }
 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/categories", "GET", null, {
+                    'Authorization': "Bearer " + auth.token
+                });
+                if (resData.state) {
+                    setCategories({
+                        incomes: resData.list_categories.filter(item => item.category.income),
+                        outcomes: resData.list_categories.filter(item => !item.category.income),
+                    });
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchData();
+    }, []);
+
     return <React.Fragment>
+        {isLoading && <LoadingSpinner asOverlay />}
         <Modal
             top="17vh"
             width="80%"
             show={formShow}
             onCancel={closeHandler}
-            content={<AddTransactionForm />}
+            content={<AddTransactionForm
+                categories={categories}
+            />}
         >
         </Modal>
         <PageContent title='Giao dịch' >

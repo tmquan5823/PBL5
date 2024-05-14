@@ -1,0 +1,53 @@
+.delete-category-confirm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dcc__icon {
+    width: 100%;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.dcc__icon-content {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.dcc__icon img {
+    width: 45px;
+    height: 45px;
+}
+
+.dcc__title {
+    text-align: center;
+    font-weight: 600;
+}
+
+.dcc__span {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dcc__delete-btn {
+    width: 50%;
+    padding: 10px 20px;
+    border: none;
+    background-color: #f14c52;
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.dcc__cancel {
+    margin: 15px 0;
+    cursor: pointer;
+}

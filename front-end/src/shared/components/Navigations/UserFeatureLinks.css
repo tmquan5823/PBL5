@@ -17,7 +17,7 @@
 }
 
 .user-features .user-features__li:hover {
-    background-color: rgba(36, 182, 183, 0.25);
+    background-color: #e5efef
 }
 
 .user-features li a {
@@ -64,7 +64,7 @@
 }
 
 .active_navlink {
-    background-color: rgba(36, 182, 183, 0.3);
+    background-color: #e5efef
 }
 
 .user-features__wallet {

@@ -1,11 +1,10 @@
 .side-bar {
     position: fixed;
-    z-index: 100;
+    z-index: 1002;
     left: 0;
     top: 0;
     height: 100vh;
     width: 220px;
-    background-color: rgba(36, 182, 183, 0.25);
     display: flex;
     flex-direction: column;
     justify-content: start;
