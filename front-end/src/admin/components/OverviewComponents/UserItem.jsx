@@ -1,45 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Input } from "antd";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import "./UserItem.css";
-import { SearchOutlined } from "@ant-design/icons";
-import { LockOutlined } from "@ant-design/icons";
-import { UserOutlined } from "@ant-design/icons";
+import { SearchOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const UserItem = (props) => {
   const [listUser, setListUser] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get("https://jsonplaceholder.typicode.com/todos");
-  //       if (response && response.data && response.data.data) {
-  //         // setListUser(response.data.data);
-  //         console.log(response);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+  const token = "your_token_here"; // Thay thế bằng token của bạn
+  const history = useHistory();
 
   useEffect(() => {
     axios
-      .get("https://jsonplaceholder.typicode.com/todos")
+      .get("https://jsonplaceholder.typicode.com/todos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setListUser(response.data);
       })
       .catch((error) => {
         console.log(error);
-      })
-      .finally(() => {
-        // Thực hiện các công việc cần thiết sau khi gọi API
       });
-  }, []);
+  }, [token]);
+
+  const handleToggleCompleted = (record) => {
+    const updatedListUser = listUser.map((user) =>
+      user.id === record.id ? { ...user, completed: !user.completed } : user
+    );
+    setListUser(updatedListUser);
+  };
+
+  const handleViewProfile = (record) => {
+    history.push(`/admin/overview/${record.id}`);
+  };
 
   const columns = [
     {
@@ -62,63 +59,57 @@ const UserItem = (props) => {
         confirm,
         clearFilters,
         close,
-      }) => {
-        return (
-          <div style={{ padding: 8 }}>
-            <Input
-              autoFocus
-              placeholder="Type text here"
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : []);
-                confirm({ closeDropdown: false });
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-              style={{ marginBottom: 8, display: "block" }}
-            ></Input>
-            <Button
-              onClick={() => {
-                confirm();
-              }}
-              icon={<SearchOutlined />}
-              size="small"
-              style={{ marginRight: 8, width: 90 }}
-              type="primary"
-            >
-              Search
-            </Button>
-            <Button
-              onClick={() => {
-                clearFilters();
-              }}
-              size="small"
-              style={{ marginRight: 8, width: 90 }}
-            >
-              Reset
-            </Button>
-            <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                close();
-              }}
-            >
-              close
-            </Button>
-          </div>
-        );
-      },
-      filterIcon: () => {
-        return <SearchOutlined />;
-      },
-      onFilter: (value, record) => {
-        return record.phone == value;
-      },
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            autoFocus
+            placeholder="Type text here"
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : []);
+              confirm({ closeDropdown: false });
+            }}
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+            style={{ marginBottom: 8, display: "block" }}
+          />
+          <Button
+            onClick={() => {
+              confirm();
+            }}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ marginRight: 8, width: 90 }}
+            type="primary"
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              clearFilters();
+            }}
+            size="small"
+            style={{ marginRight: 8, width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </div>
+      ),
+      filterIcon: () => <SearchOutlined />,
+      onFilter: (value, record) => record.phone === value,
     },
     {
       title: "Name",
@@ -131,63 +122,59 @@ const UserItem = (props) => {
         confirm,
         clearFilters,
         close,
-      }) => {
-        return (
-          <div style={{ padding: 8 }}>
-            <Input
-              autoFocus
-              placeholder="Type text here"
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : []);
-                confirm({ closeDropdown: false });
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-              style={{ marginBottom: 8, display: "block" }}
-            ></Input>
-            <Button
-              onClick={() => {
-                confirm();
-              }}
-              icon={<SearchOutlined />}
-              size="small"
-              style={{ marginRight: 8, width: 90 }}
-              type="primary"
-            >
-              Search
-            </Button>
-            <Button
-              onClick={() => {
-                clearFilters();
-              }}
-              size="small"
-              style={{ marginRight: 8, width: 90 }}
-            >
-              Reset
-            </Button>
-            <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                close();
-              }}
-            >
-              close
-            </Button>
-          </div>
-        );
-      },
-      filterIcon: () => {
-        return <SearchOutlined />;
-      },
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            autoFocus
+            placeholder="Type text here"
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : []);
+              confirm({ closeDropdown: false });
+            }}
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+            style={{ marginBottom: 8, display: "block" }}
+          />
+          <Button
+            onClick={() => {
+              confirm();
+            }}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ marginRight: 8, width: 90 }}
+            type="primary"
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              clearFilters();
+            }}
+            size="small"
+            style={{ marginRight: 8, width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </div>
+      ),
+      filterIcon: () => <SearchOutlined />,
       onFilter: (value, record) => {
         return record.title.toLowerCase().includes(value.toLowerCase());
-      },
+      }, 
     },
     {
       title: "Email",
@@ -200,57 +187,55 @@ const UserItem = (props) => {
         confirm,
         clearFilters,
         close,
-      }) => {
-        return (
-          <div style={{ padding: 8 }}>
-            <Input
-              autoFocus
-              placeholder="Type text here"
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : []);
-                confirm({ closeDropdown: false });
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-              style={{ marginBottom: 8, display: "block" }}
-            ></Input>
-            <Button
-              onClick={() => {
-                confirm();
-              }}
-              icon={<SearchOutlined />}
-              size="small"
-              style={{ marginRight: 8, width: 90 }}
-              type="primary"
-            >
-              Search
-            </Button>
-            <Button
-              onClick={() => {
-                clearFilters();
-              }}
-              size="small"
-              style={{ marginRight: 8, width: 90 }}
-            >
-              Reset
-            </Button>
-            <Button
-              type="link"
-              size="small"
-              onClick={() => {
-                close();
-              }}
-            >
-              close
-            </Button>
-          </div>
-        );
-      },
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            autoFocus
+            placeholder="Type text here"
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : []);
+              confirm({ closeDropdown: false });
+            }}
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+            style={{ marginBottom: 8, display: "block" }}
+          />
+          <Button
+            onClick={() => {
+              confirm();
+            }}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ marginRight: 8, width: 90 }}
+            type="primary"
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => {
+              clearFilters();
+            }}
+            size="small"
+            style={{ marginRight: 8, width: 90 }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              close();
+            }}
+          >
+            close
+          </Button>
+        </div>
+      ),
       filterIcon: () => {
         return <SearchOutlined />;
       },
@@ -278,12 +263,18 @@ const UserItem = (props) => {
       title: "Tuỳ chọn",
       key: "action",
       align: "left",
-      render: () => (
+      render: (text, record) => (
         <div className="buttonContainer">
-          <Button className="btnPrf">
+          <Button
+            className="btnPrf"
+            onClick={() => handleViewProfile(record)}
+          >
             <UserOutlined />
           </Button>
-          <Button className="btnDel">
+          <Button
+            className="btnDel"
+            onClick={() => handleToggleCompleted(record)}
+          >
             <LockOutlined />
           </Button>
         </div>
@@ -297,12 +288,11 @@ const UserItem = (props) => {
         <Table
           className="tblUser"
           size="small"
-          style={{}}
           dataSource={listUser}
           columns={columns}
           pagination={{
-            current: page, //trang hiển thị đầu tiên khi truy cập
-            pageSize: pageSize, //số user trong 1 trang
+            current: page,
+            pageSize: pageSize,
             onChange: (page, pageSize) => {
               setPage(page);
               setPageSize(pageSize);

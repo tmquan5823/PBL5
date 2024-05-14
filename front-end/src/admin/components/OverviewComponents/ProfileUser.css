@@ -1,0 +1,78 @@
+.containerPf {
+  padding-top: 1%;
+}
+
+.containerPf .bodyPf_start {
+  display: grid;
+  grid-template-columns: 30% 60%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.containerPf .bodyPf_start img {
+  width: 65%;
+  height: auto;
+  border-radius: 50%;
+  border: 10px solid #4d849e;
+}
+
+.containerPf .bodyPf_start .informationPf {
+  margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 18px;
+}
+
+.containerPf .bodyPf_start .informationPf .bodyPf_start1 {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 17px;
+}
+
+.containerPf .bodyPf_start .informationPf .bodyPf_start1 Input {
+  /* width: 160%; */
+  width: 280px;
+}
+
+.containerPf .bodyPf_start .informationPf #name {
+  /* width: 350%; */
+  width: 614px;
+}
+
+.containerPf .bodyPf_end .bodyPf_end1 {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 17px;
+}
+
+.containerPf .bodyPf_end .bodyPf_end1 Input {
+  width: 300%;
+}
+
+.containerPf .bodyPf_end #address {
+  width: 629%;
+}
+
+.containerPf .ant-row.ant-form-item-row.css-dev-only-do-not-override-1okl62o {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.containerPf label {
+  font-weight: bold;
+}
+
+.containerPf Input {
+  padding: 7px;
+}
+
+.containerPf a {
+  width: 85px;
+  color: #99f8eb;
+  font-size: 20px;
+  background-color: #24B6B7;
+  padding: 15px 20px 15px 20px;
+  border-radius: 15px;
+}
+

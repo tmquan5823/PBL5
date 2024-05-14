@@ -63,6 +63,7 @@ const VerifyForm = (props) => {
         }),
         {
           "Content-Type": "application/json",
+          // "Authorization": AuthContext.token
         }
       );
       console.log(resData);

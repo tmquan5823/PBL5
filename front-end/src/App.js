@@ -21,6 +21,7 @@ import AdminSideBar from "./shared/components/Navigations/AdminSideBar";
 import AdminOverview from "./admin/pages/AdminOverview";
 import AdminMessage from "./admin/pages/AdminMessage";
 import AdminProfile from "./admin/pages/AdminProfile";
+import ProfileUser from "./admin/components/OverviewComponents/ProfileUser";
 
 
 function App() {
@@ -70,6 +71,9 @@ function App() {
         <Switch>
           <Route path="/admin/overview" exact>
             <AdminOverview />
+          </Route>
+          <Route path="/admin/overview/:id" exact>
+            <ProfileUser/>
           </Route>
           <Route path="/admin/message" exact>
             <AdminMessage />
