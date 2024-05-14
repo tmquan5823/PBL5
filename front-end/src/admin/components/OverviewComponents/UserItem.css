@@ -1,0 +1,75 @@
+.user-item {
+  background-color: #fff;
+  border-radius: 10px;
+  margin-top: 4%;
+}
+
+.adTbl {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.adTbl th,
+.adTbl td {
+  font-size: 17px;
+  padding: 15px 20px;
+  text-align: left;
+}
+
+.adTbl th:last-child,
+td:last-child {
+  border-right: none;
+}
+
+.adTbl #date {
+  padding-left: 10px;
+}
+
+#idChbox {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex; 
+  justify-content: flex-start; 
+}
+
+.btnPrf,
+.btnDel {
+  width: 15%;
+  height: 15%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnPrf .anticon {
+  font-size: 20px;
+  color: #0dbb55;
+}
+
+
+.btnPrf {
+  background-color: #a0e5c5;
+  margin-right: 17px;
+}
+
+.btnDel .anticon {
+  font-size: 20px;
+  color: #ff0000;
+}
+
+
+.btnDel {
+  background-color: #edaaaa;
+}
+
+.user-item .adForm .tblUser .ant-table-cell {
+  font-size: 105%;
+}
+
+.user-item .adForm .tblUser .ant-table-thead th {
+  font-size: 120%;
+}

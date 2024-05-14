@@ -1,16 +1,17 @@
 import React from "react";
 import RecoverPasswordForm from "./RecoverPasswordForm";
 import "./RecoverPasswordContainer.css"
+import AcpPassNew from "./AcpPassNew";
 
 
 
 function RecoverPasswordContainer(props) {
   return (
     <div className="containerRe">
-      <div >
+      {/* <div >
         <img src="/images/logo.png" alt="Logo" className="logo" />
-      </div>
-      <RecoverPasswordForm />
+      </div> */}
+      <AcpPassNew/>
     </div>
   );
 }

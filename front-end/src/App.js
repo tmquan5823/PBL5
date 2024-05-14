@@ -22,6 +22,7 @@ import AdminOverview from "./admin/pages/AdminOverview";
 import AdminMessage from "./admin/pages/AdminMessage";
 import AdminProfile from "./admin/pages/AdminProfile";
 
+
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
   const [token, setToken] = useState(null);
@@ -140,8 +141,8 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } else {
-    routes = userRoutes;
+  } if(true) {
+    routes = adminRoutes;
   }
 
   return (
