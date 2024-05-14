@@ -7,6 +7,8 @@
     justify-content: space-between;
     margin: 10px 0;
     align-items: center;
+    padding: 5px 30px;
+    box-sizing: content-box;
 }
 
 .category-item .icon-container {

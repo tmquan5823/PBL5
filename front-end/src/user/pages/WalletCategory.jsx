@@ -33,6 +33,16 @@ const WalletCategory = props => {
         setCategories(preValue => { return [...preValue, item] })
     }
 
+    function updateHandler(item) {
+        if (item) {
+            setCategories(list => list.map(element => {
+                if (element.category.id === item.id) {
+                    element.category = item;
+                }
+                return element;
+            }));
+        }
+    }
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
@@ -44,10 +54,12 @@ const WalletCategory = props => {
                 title="Các danh mục thu nhập"
                 items={categories.filter(category => category.category.income == true)}
                 type='income'
+                onUpdate={updateHandler}
             />
             <CategoriesList
                 title="Các danh mục chi tiêu"
                 items={categories.filter(category => category.category.income == false)}
+                onUpdate={updateHandler}
                 type='outcome'
             />
         </PageContent>

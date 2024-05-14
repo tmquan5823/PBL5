@@ -6,13 +6,13 @@
     bottom: 0;
     opacity: 0.8;
     background: rgba(113, 112, 112, 0.6);
-    z-index: 800;
+    z-index: 1003;
     width: 100vw;
 }
 
 .modal-container .modal-content {
     width: 100%;
-    z-index: 801;
+    z-index: 1004;
     position: relative;
     background-color: #fff;
 }

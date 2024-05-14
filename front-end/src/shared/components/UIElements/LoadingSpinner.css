@@ -13,7 +13,7 @@
   border: 5px solid #510077;
   border-color: #510077 transparent #510077 transparent;
   animation: lds-dual-ring 1.2s linear infinite;
-  z-index: 100000;
+  z-index: 1000000;
 }
 
 .loading-container img {

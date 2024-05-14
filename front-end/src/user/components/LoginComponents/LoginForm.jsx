@@ -40,8 +40,6 @@ const LoginForm = props => {
                 {
                     "Content-Type": 'application/json'
                 });
-            console.log(responseData);
-            console.log(error);
             if (!responseData.state) {
                 setLoginFail(true);
                 setLoginMessage(responseData.message);

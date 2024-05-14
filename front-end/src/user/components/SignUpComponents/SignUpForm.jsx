@@ -52,6 +52,7 @@ const SignUpForm = props => {
                     password: formState.inputs.password.value,
                     lastname: formState.inputs.last_name.value,
                     firstname: formState.inputs.first_name.value,
+                    phonenumber: formState.inputs.phonenumber.value,
                 }),
                 {
                     "Content-Type": 'application/json'

@@ -11,7 +11,6 @@ const CategoriesList = props => {
 
     useEffect(() => {
         setCategories(props.items);
-        console.log(categories);
     }, [props.items])
 
     function updateHandler(item) {
@@ -34,10 +33,13 @@ const CategoriesList = props => {
                     <SubModal
                         width="100%"
                         content={<UpdateCategoryForm
+                            id={item.category.id}
                             name={item.category.content}
                             color={item.category.iconColor}
                             icon={item.category.iconUrl}
                             type={props.type}
+                            onClose={closeHandler}
+                            onUpdate={props.onUpdate}
                         />}
                         onClose={closeHandler}
                     />

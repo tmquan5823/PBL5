@@ -15,8 +15,14 @@
     }
 
     .add-transaction__item {
+        width: 20%;
         display: flex;
         flex-direction: column;
+        margin: 0 10px;
+        height: 100%;
+    }
+    .add-transaction__item .form-control {
+        margin: 0;
     }
 
     .add-transaction__item .dropdown__currency {
@@ -26,14 +32,6 @@
     .add-transaction__item label {
         font-size: 14px;
         color: rgba(0, 0, 0, 0.5);
-    }
-
-    .add-transaction__item input {
-        padding: 7px;
-        border-radius: 10px;
-        height: 100%;
-        border: 1px solid #000;
-        overflow: hidden;
     }
 
     .add-transaction__category {
@@ -94,13 +92,23 @@
 
     .add-transaction__category-field {
         display: flex;
-        padding: 5px;
+        padding: 3px;
         align-items: center;
+    }
+
+    .category-field__icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        border-radius: 50%;
     }
 
     .add-transaction__category-field img {
         width: 20px;
-        margin-right: 5px;
+        height: 20px;
     }
 
     .add-transaction__category-field span {
