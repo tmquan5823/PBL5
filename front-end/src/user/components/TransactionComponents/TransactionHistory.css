@@ -1,0 +1,12 @@
+.transaction-history {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    background-color: #fff;
+    padding: 20px;
+}
+
+.transaction-history__item {
+    width: 100%;
+    margin: 5px 0;
+}

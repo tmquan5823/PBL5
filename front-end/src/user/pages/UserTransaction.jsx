@@ -10,10 +10,12 @@ import FilterContainer from "../components/TransactionComponents/FilterContainer
 import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import TransactionHistory from "../components/TransactionComponents/TransactionHistory";
 
 const UserTransaction = props => {
     const [formShow, setFormShow] = useState(false);
     const [categories, setCategories] = useState({});
+    const [transactions, setTransactions] = useState({});
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const auth = useContext(AuthContext);
 
@@ -36,6 +38,24 @@ const UserTransaction = props => {
                         incomes: resData.list_categories.filter(item => item.category.income),
                         outcomes: resData.list_categories.filter(item => !item.category.income),
                     });
+                    console.log(categories);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/"+auth.wallet.id, "GET", null, {
+                    'Authorization': "Bearer " + auth.token
+                });
+                if (resData.state) {
+                    setTransactions(resData);
+                    console.log(categories);
                 }
             } catch (err) {
                 console.log(err);
@@ -53,6 +73,7 @@ const UserTransaction = props => {
             onCancel={closeHandler}
             content={<AddTransactionForm
                 categories={categories}
+                onClose={closeHandler}
             />}
         >
         </Modal>
@@ -69,9 +90,10 @@ const UserTransaction = props => {
             </div>
             <FilterContainer />
             <ExpenseRow />
-            <div className="transaction-history">
-
-            </div>
+            <TransactionHistory 
+                transactions={transactions.list_transaction_present}
+                categories={categories}
+            />
         </PageContent>
     </React.Fragment>
 

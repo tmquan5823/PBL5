@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useReducer } from "react";
+import React, { useState, useRef, useEffect, useReducer, useContext } from "react";
 import "./AddTransactionForm.css";
 import TransactionCategory from "./TransactionCategory";
 import DatePicker from 'react-datepicker';
@@ -7,80 +7,45 @@ import { Select } from "antd";
 import { useForm } from "../../../shared/hooks/form-hook";
 import Input from "../../../shared/components/FormElements/Input";
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../../shared/util/validators";
-
-
-function formReducer(state, action) {
-    switch (action.type) {
-        case "INPUT_CHANGE":
-            let formIsValid = true;
-            for (const inputId in state.inputs) {
-                if (inputId === action.inputId) {
-                    formIsValid = formIsValid && action.isValid;
-                } else {
-                    formIsValid = formIsValid && state.inputs[inputId].isValid;
-                }
-            }
-            return {
-                ...state,
-                inputs: {
-                    ...state.inputs,
-                    [action.inputId]: { value: action.value, isValid: action.isValid }
-                },
-                isValid: formIsValid
-            };
-        case "SET_DATA":
-            return {
-                inputs: action.inputs,
-                isValid: action.formValidity
-            };
-        default:
-            return state;
-    }
-}
-
+import { AuthContext } from "../../../shared/context/auth-context";
+import { useHttpClient } from "../../../shared/hooks/http-hook";
+import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 
 const AddTransactionForm = props => {
+    const auth = useContext(AuthContext);
     const [showCategory, setShowCategory] = useState(false);
     const [categoryValue, setCategoryValue] = useState();
     const [isRotated, setIsRotated] = useState(0);
     const categoryRef = useRef(null);
-    const [selectedStart, setSelectedStart] = useState(new Date());
-    const [selectedEnd, setSelectedEnd] = useState(new Date());
+    const [periodValue, setPeriodValue] = useState("0D");
     const [currancy, setCurrancy] = useState("VND");
-    const [formState, inputHandler] = useForm({
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+    const [formState, inputHandler, setFormData] = useForm({
         money: {
             value: "",
             isValid: false
         },
         note: {
             value: "",
-            isValid: false
+            isValid: true
         },
         start_date: {
-            value: "",
-            isValid: false
+            value: new Date(),
+            isValid: true
         },
         end_date: {
-            value: "",
-            isValid: false
-        },
-        cycle: {
-            value: "",
-            isValid: false
+            value: new Date(),
+            isValid: true
         }
     }, false);
 
+    function periodValueChange(value) {
+        setPeriodValue(value);
+    }
 
     const currancyChange = (event) => {
         setCurrancy(event.target.value);
-    };
-
-    const handleStartChange = date => {
-        setSelectedStart(date);
-    };
-
-    const handleEndChange = date => {
-        setSelectedEnd(date);
     };
 
     const handleRotate = () => {
@@ -109,6 +74,30 @@ const AddTransactionForm = props => {
             setShowCategory(false);
         }
     };
+
+    async function addTransactionHandler(event) {
+        event.preventDefault();
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transaction", "POST",
+                JSON.stringify({
+                    wallet_id: auth.wallet.id,
+                    category_id: categoryValue.category.id,
+                    transaction_date: formState.inputs.start_date.value,
+                    date_end: formState.inputs.end_date.value,
+                    cycle: periodValue,
+                    note: formState.inputs.note.value || "",
+                    amount: categoryValue.category.income ? formState.inputs.money.value : -parseInt(formState.inputs.money.value,10)
+                }), {
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + auth.token
+            });
+            if (resData.state) {
+                props.onClose();
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     return <React.Fragment>
         <form action="" className="add-transaction">
@@ -146,7 +135,6 @@ const AddTransactionForm = props => {
                         text="Ghi chú"
                         element="input"
                         type="text"
-                        numberOnly
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
                         width="90%"
@@ -173,21 +161,24 @@ const AddTransactionForm = props => {
                 </div>
             </div>
             <div className="add-transaction__footer">
-                <div className="add-transaction__item">
-                    <Input id="start_date"
-                        text="Ngày bắt đầu"
+                {periodValue !== "0D" && <div className="add-transaction__item">
+                    <Input id="end_date"
+                        text="Ngày kết thúc"
                         element="datepicker"
                         onInput={inputHandler}
                         width="100%"
-                        value={formState.inputs.start_date.value}
+                        value={formState.inputs.end_date.value}
                         initialIsValid={true} />
-                </div>
+                </div>}
                 <div className="add-transaction__item">
                     <label htmlFor="">Lặp lại</label>
-                    <Select style={{
-                        width: 200
-                    }}
-                        defaultValue="Không lặp lại"
+                    <Select
+                        style={{
+                            width: 200
+                        }}
+                        defaultValue="0D"
+                        onChange={periodValueChange}
+                        value={periodValue}
                     >
                         <Select.Option value="0D">Không lặp lại</Select.Option>
                         <Select.Option value="1D">1 ngày</Select.Option>
@@ -197,7 +188,13 @@ const AddTransactionForm = props => {
                         <Select.Option value="1M">1 tháng</Select.Option>
                     </Select>
                 </div>
-                <button className="add-btn">Thêm giao dịch</button>
+                <button
+                    disabled={!formState.isValid || isLoading}
+                    onClick={addTransactionHandler}
+                    className={`add-btn ${!formState.isValid && 'disabled-btn'} 
+                    ${isLoading && 'isLoading-btn'}`}>
+                    Thêm giao dịch
+                </button>
             </div>
         </form>
     </React.Fragment>
