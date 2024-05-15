@@ -108,7 +108,9 @@ const UserItem = (props) => {
           </Button>
         </div>
       ),
-      filterIcon: () => <SearchOutlined />,
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
+      ),
       onFilter: (value, record) => record.phone === value,
     },
     {
@@ -171,10 +173,12 @@ const UserItem = (props) => {
           </Button>
         </div>
       ),
-      filterIcon: () => <SearchOutlined />,
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
+      ),
       onFilter: (value, record) => {
         return record.title.toLowerCase().includes(value.toLowerCase());
-      }, 
+      },
     },
     {
       title: "Email",
@@ -236,9 +240,9 @@ const UserItem = (props) => {
           </Button>
         </div>
       ),
-      filterIcon: () => {
-        return <SearchOutlined />;
-      },
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
+      ),
       onFilter: (value, record) => {
         return record.title.toLowerCase().includes(value.toLowerCase());
       },
@@ -265,10 +269,7 @@ const UserItem = (props) => {
       align: "left",
       render: (text, record) => (
         <div className="buttonContainer">
-          <Button
-            className="btnPrf"
-            onClick={() => handleViewProfile(record)}
-          >
+          <Button className="btnPrf" onClick={() => handleViewProfile(record)}>
             <UserOutlined />
           </Button>
           <Button

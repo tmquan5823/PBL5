@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Route, Redirect, Switch, useHistory } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Redirect,
+  Switch,
+  useHistory,
+} from "react-router-dom";
 import Login from "./user/pages/Login";
 import SignUp from "./user/pages/SignUp";
 import Home from "./user/pages/Home";
@@ -16,13 +22,12 @@ import ForgotPassword from "./user/pages/ForgotPassword";
 import RecoverPassword from "./user/pages/RecoverPassword";
 import WalletSetting from "./user/pages/WalletSetting";
 import WalletCategory from "./user/pages/WalletCategory";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import AdminSideBar from "./shared/components/Navigations/AdminSideBar";
 import AdminOverview from "./admin/pages/AdminOverview";
 import AdminMessage from "./admin/pages/AdminMessage";
 import AdminProfile from "./admin/pages/AdminProfile";
 import ProfileUser from "./admin/components/OverviewComponents/ProfileUser";
-
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
@@ -37,7 +42,7 @@ function App() {
     setAvatarUrl(url);
     // Cookies.set("token", token);
     // Cookies.set("url", url);
-  }, [])
+  }, []);
 
   const logout = useCallback(() => {
     setLoginState(false);
@@ -47,7 +52,7 @@ function App() {
 
   function updateAvatarURL(url) {
     setAvatarUrl(url);
-  };
+  }
 
   function setUserWallet(id) {
     setWallet(id);
@@ -64,105 +69,113 @@ function App() {
   //   }
   // }, []);
 
-  const adminRoutes = <Switch>
-    <Route path="/admin">
-      <div className="admin-routes" >
-        <AdminSideBar />
-        <Switch>
-          <Route path="/admin/overview" exact>
-            <AdminOverview />
-          </Route>
-          <Route path="/admin/overview/:id" exact>
-            <ProfileUser/>
-          </Route>
-          <Route path="/admin/message" exact>
-            <AdminMessage />
-          </Route>
-          <Route path="/admin/profile" exact>
-            <AdminProfile />
-          </Route>
-        </Switch>
-      </div>
-    </Route>
-    <Redirect to="/admin/overview" />
-  </Switch>
+  const adminRoutes = (
+    <Switch>
+      <Route path="/admin">
+        <div className="admin-routes">
+          <AdminSideBar />
+          <Switch>
+            <Route path="/admin/overview" exact>
+              <AdminOverview />
+            </Route>
+            <Route path="/admin/overview/:id" exact>
+              <ProfileUser />
+            </Route>
+            <Route path="/admin/message" exact>
+              <AdminMessage />
+            </Route>
+            <Route path="/admin/profile" exact>
+              <AdminProfile />
+            </Route>
+          </Switch>
+        </div>
+      </Route>
+      <Redirect to="/admin/overview" />
+    </Switch>
+  );
 
-  const userRoutes = <Switch>
-    <Route path="/user">
-      <div className="users-routes" >
-        <UserSideBar />
-        <Switch>
-          <Route path="/user/overview" exact>
-            <UserOverview />
-          </Route>
-          <Route path="/user/budget" exact>
-            <UserBudget />
-          </Route>
-          <Route path="/user/budget/:budgetID">
-            <UserBudgetDetail />
-          </Route>
-          <Route path="/user/transaction" exact>
-            <UserTransaction />
-          </Route>
-          <Route path="/user/wallet/setting" exact>
-            <WalletSetting />
-          </Route>
-          <Route path="/user/wallet/category" exact>
-            <WalletCategory />
-          </Route>
-          <Route path="/user/wallet/:id" exact>
-            <UserWalletDetail />
-          </Route>
-          <Route path="/user/information" exact>
-            <UserInformation />
-          </Route>
-        </Switch>
-      </div>
-    </Route>
-    <Redirect to="/user/overview" />
-  </Switch>
+  const userRoutes = (
+    <Switch>
+      <Route path="/user">
+        <div className="users-routes">
+          <UserSideBar />
+          <Switch>
+            <Route path="/user/overview" exact>
+              <UserOverview />
+            </Route>
+            <Route path="/user/budget" exact>
+              <UserBudget />
+            </Route>
+            <Route path="/user/budget/:budgetID">
+              <UserBudgetDetail />
+            </Route>
+            <Route path="/user/transaction" exact>
+              <UserTransaction />
+            </Route>
+            <Route path="/user/wallet/setting" exact>
+              <WalletSetting />
+            </Route>
+            <Route path="/user/wallet/category" exact>
+              <WalletCategory />
+            </Route>
+            <Route path="/user/wallet/:id" exact>
+              <UserWalletDetail />
+            </Route>
+            <Route path="/user/information" exact>
+              <UserInformation />
+            </Route>
+          </Switch>
+        </div>
+      </Route>
+      <Redirect to="/user/overview" />
+    </Switch>
+  );
 
   let routes;
   if (!token) {
-    routes = (<Switch>
-      <Route path="/" exact>
-        <Home />
-      </Route>
-      <Route path="/forgotpassword" exact>
-        <ForgotPassword />
-      </Route>
-      <Route path="/recoverpassword" exact>
-        <RecoverPassword />
-      </Route>
-      <Route path="/login" exact>
-        <Login />
-      </Route>
-      <Route path="/signup" exact>
-        <SignUp />
-      </Route>
-      <Route path="/verify/:email" exact>
-        <VerifyPage />
-      </Route>
-      <Redirect to="/" />
-    </Switch>)
-  } if(true) {
+    routes = (
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/forgotpassword" exact>
+          <ForgotPassword />
+        </Route>
+        <Route path="/recoverpassword" exact>
+          <RecoverPassword />
+        </Route>
+        <Route path="/login" exact>
+          <Login />
+        </Route>
+        <Route path="/signup" exact>
+          <SignUp />
+        </Route>
+        <Route path="/verify/:email" exact>
+          <VerifyPage />
+        </Route>
+        <Redirect to="/" />
+      </Switch>
+    );
+  }
+  else {
     routes = adminRoutes;
+    // routes = userRoutes;
   }
 
   return (
-    <AuthContext.Provider value={{
-      isLoggedIn: !!token,
-      avatarURL: avatarURL,
-      token: token,
-      login: login,
-      logout: logout,
-      updateAvt: updateAvatarURL,
-      wallet: wallet,
-      setWallet: setUserWallet
-    }}>
-      <BrowserRouter>
-        {routes}
-      </BrowserRouter>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!token,
+        avatarURL: avatarURL,
+        token: token,
+        login: login,
+        logout: logout,
+        updateAvt: updateAvatarURL,
+        wallet: wallet,
+        setWallet: setUserWallet,
+      }}
+    >
+      <BrowserRouter>{routes}</BrowserRouter>
     </AuthContext.Provider>
   );
 }

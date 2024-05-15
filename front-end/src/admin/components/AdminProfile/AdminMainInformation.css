@@ -1,0 +1,59 @@
+.main-infor {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #000;
+}
+
+.main-infor label {
+  color: #24b6b7;
+  font-weight: 500;
+}
+
+.main-infor__row {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+}
+
+.buttons-container {
+  width: 90%;
+  display: flex;
+  justify-content: end;
+}
+
+.pickdate-container {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  color: #24b6b7;
+}
+
+.pickdate-container input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: solid 1px rgba(102, 102, 102, 0.3490196078);
+  box-sizing: border-box;
+}
+
+.save-btn {
+  width: 150px;
+  padding: 15px 0;
+  background-color: #24b6b7;
+  color: #fff;
+  font-weight: 500;
+  border: 1px solid #fff;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.cancel-btn {
+  width: 150px;
+  padding: 15px 0;
+  background-color: #fff;
+  color: #24b6b7;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #24b6b7;
+}
