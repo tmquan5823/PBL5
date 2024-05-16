@@ -28,12 +28,14 @@ function App() {
   const [token, setToken] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
   const [wallet, setWallet] = useState();
+  const [role, setRole] = useState();
   const history = useHistory();
 
-  const login = useCallback((token, url) => {
+  const login = useCallback((token, url, role) => {
     setLoginState(true);
     setToken(token);
     setAvatarUrl(url);
+    setRole(role);
     // Cookies.set("token", token);
     // Cookies.set("url", url);
   }, [])
@@ -42,6 +44,7 @@ function App() {
     setLoginState(false);
     setToken(null);
     setAvatarUrl(null);
+    setRole(null);
   }, []);
 
   function updateAvatarURL(url) {
@@ -141,8 +144,8 @@ function App() {
       </Route>
       <Redirect to="/" />
     </Switch>)
-  } if(true) {
-    routes = adminRoutes;
+  } else {
+    routes = role == 'USER' ? userRoutes : adminRoutes;
   }
 
   return (
@@ -150,6 +153,7 @@ function App() {
       isLoggedIn: !!token,
       avatarURL: avatarURL,
       token: token,
+      role: role,
       login: login,
       logout: logout,
       updateAvt: updateAvatarURL,

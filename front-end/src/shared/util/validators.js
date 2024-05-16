@@ -20,8 +20,12 @@ export const VALIDATOR_MIN = val => ({ type: VALIDATOR_TYPE_MIN, val: val });
 export const VALIDATOR_MAX = val => ({ type: VALIDATOR_TYPE_MAX, val: val });
 export const VALIDATOR_EMAIL = () => ({ type: VALIDATOR_TYPE_EMAIL });
 
-export const validate = (value, validators) => {
+export const validate = (val, validators) => {
   let isValid = true;
+  let value = val;
+  if (val) {
+    value = val.toString();
+  }
   if (validators && value) {
     for (const validator of validators) {
       if (validator.type === VALIDATOR_TYPE_REQUIRE) {
