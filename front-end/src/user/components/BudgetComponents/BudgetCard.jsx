@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./BudgetCard.css";
 import ProcessBar from "../../../shared/components/UIElements/ProgressBar";
-import DateFormat from "../../../shared/help/DateFormat";
+import { DateFormat } from "../../../shared/help/DateFormat";
 
 const BudgetCard = props => {
     const moneyLeft = props.moneyLeft.toLocaleString('vi-VN') + ' VNĐ';

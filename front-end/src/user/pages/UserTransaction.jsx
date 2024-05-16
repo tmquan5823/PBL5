@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./UserTransaction.css";
 import PageContent from "../../shared/components/UIElements/PageContent";
 import ExpenseRow from "../../shared/components/UIElements/ExpenseRow";
-import DateFormat from "../../shared/help/DateFormat";
+import {DateFormat} from "../../shared/help/DateFormat";
 import moment from 'moment';
 import Modal from "../../shared/components/UIElements/Modal";
 import AddTransactionForm from "../components/TransactionComponents/AddTransactionForm";
@@ -15,7 +15,7 @@ import TransactionHistory from "../components/TransactionComponents/TransactionH
 const UserTransaction = props => {
     const [formShow, setFormShow] = useState(false);
     const [categories, setCategories] = useState({});
-    const [transactions, setTransactions] = useState({});
+    const [transactions, setTransactions] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const auth = useContext(AuthContext);
 
@@ -50,12 +50,12 @@ const UserTransaction = props => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/"+auth.wallet.id, "GET", null, {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/" + auth.wallet.id, "GET", null, {
                     'Authorization': "Bearer " + auth.token
                 });
                 if (resData.state) {
-                    setTransactions(resData);
-                    console.log(categories);
+                    setTransactions(resData.list_transaction_present);
+                    console.log(resData);
                 }
             } catch (err) {
                 console.log(err);
@@ -63,6 +63,20 @@ const UserTransaction = props => {
         };
         fetchData();
     }, []);
+
+    function onUpdateTransaction(item) {
+        setTransactions(preVal => preVal.map(transaction =>
+            transaction.id === item.id ? item : transaction
+        ));
+    }
+
+    function onDeleteHandler(id) {
+        setTransactions(preVal => preVal.filter(item => item.id !== id));
+    }
+
+    function AddTransactionHandler(items) {
+        setTransactions(preVal => [...items, ...preVal]);
+    }
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
@@ -74,6 +88,7 @@ const UserTransaction = props => {
             content={<AddTransactionForm
                 categories={categories}
                 onClose={closeHandler}
+                onAdd={AddTransactionHandler}
             />}
         >
         </Modal>
@@ -90,9 +105,11 @@ const UserTransaction = props => {
             </div>
             <FilterContainer />
             <ExpenseRow />
-            <TransactionHistory 
-                transactions={transactions.list_transaction_present}
+            <TransactionHistory
+                transactions={transactions}
                 categories={categories}
+                onUpdate={onUpdateTransaction}
+                onDelete={onDeleteHandler}
             />
         </PageContent>
     </React.Fragment>

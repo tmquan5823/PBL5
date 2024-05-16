@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import "./UserBudgetDetail.css";
 import PageContent from "../../shared/components/UIElements/PageContent";
 import Budgets from "../models/Budgets";
-import DateFormat from "../../shared/help/DateFormat";
+import {DateFormat} from "../../shared/help/DateFormat";
 import ExpenseRow from "../../shared/components/UIElements/ExpenseRow";
 import ProgressBar from "../../shared/components/UIElements/ProgressBar";
 

@@ -109,7 +109,7 @@ const VerifyForm = (props) => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setForgotPasswordParam(params.get("forgotpassword"));
-  }, [location]);
+  }, []);
 
   function verifyCodeChangeHandler(event) {
     setVerifyCode(event.target.value);
@@ -119,14 +119,14 @@ const VerifyForm = (props) => {
     event.preventDefault();
     try {
       // quenpass ? /api/auth/verify-password?email= : /api/auth/verify-account?email=
-      
+      const url = forgotPasswordParam ? "/api/auth/verify-password?email=" : " /api/auth/verify-account?email=";
       const responseData = await sendRequest(
         process.env.REACT_APP_URL +
-          "/api/auth/verify-account?email=" +
-          email +
-          "&otp=" +
-          verifyCode,
-        "POST"
+        url +
+        email +
+        "&otp=" +
+        verifyCode,
+        "POST"  
       );
       console.log(responseData);
       if (responseData.state) {
@@ -177,13 +177,13 @@ const VerifyForm = (props) => {
 
       {isLoading && <LoadingSpinner asOverlay />}
       <div className="verify-container">
-        <img src="/images/teal-logo.png" alt="" className="logoVe"/>
+        <img src="/images/teal-logo.png" alt="" className="logoVe" />
 
         <div className="verify-form__main">
           {!verifySuccess &&
             (!verifyState ? (
               <div className="verify-form">
-              <h1>Xác thực Email</h1>
+                <h1>Xác thực Email</h1>
                 <p>
                   Để có thể sử dụng tài khoản EKO, bạn cần phải xác thực email
                   của mình!
@@ -222,7 +222,7 @@ const VerifyForm = (props) => {
               </span>
             ) : (
               <div>
-              <h1>Thay đổi mật khẩu mới</h1>
+                <h1>Thay đổi mật khẩu mới</h1>
                 <form className="recoverpass-formVe">
                   <div className="frameReVe">
                     <div className="fieldReVe">
@@ -247,7 +247,7 @@ const VerifyForm = (props) => {
                         errorText="Invalid email!"
                         validators={[VALIDATOR_REQUIRE()]}
                       ></Input>
-                      {passwordMatchError && <p id="errVe">Mật khẩu không trùng khớp!</p>} 
+                      {passwordMatchError && <p id="errVe">Mật khẩu không trùng khớp!</p>}
                       <button onClick={RecoverPass} id="buttonVe">
                         Xác nhận
                       </button>

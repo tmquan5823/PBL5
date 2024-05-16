@@ -10,6 +10,7 @@ import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import StateModalCard from "../../../shared/components/UIElements/StateModalCard";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const LoginForm = props => {
     const auth = useContext(AuthContext);
@@ -17,6 +18,7 @@ const LoginForm = props => {
     const [loginFail, setLoginFail] = useState(false);
     const [loginMessage, setLoginMessage] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const history = useHistory();
 
     const [formState, inputHandler] = useForm({
         email: {
@@ -43,6 +45,7 @@ const LoginForm = props => {
             if (!responseData.state) {
                 setLoginFail(true);
                 setLoginMessage(responseData.message);
+                history.push("/verify/" + formState.inputs.email.value);
             } else {
                 auth.login(responseData.access_token, responseData.avatar_url, responseData.role);
             }

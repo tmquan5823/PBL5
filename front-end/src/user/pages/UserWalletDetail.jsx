@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./UserWalletDetail.css";
 import InfoHeader from "../../shared/components/UIElements/InfoHeader";
 import Modal from "../../shared/components/UIElements/Modal";
-import DateFormat from "../../shared/help/DateFormat";
+import { DateFormat } from "../../shared/help/DateFormat";
 import AddTransactionForm from "../components/TransactionComponents/AddTransactionForm";
 import moment from 'moment';
 import PageContent from "../../shared/components/UIElements/PageContent";
