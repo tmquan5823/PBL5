@@ -59,10 +59,7 @@ const ProfileUser = () => {
       <div className="containerPf">
         <hr></hr>
         <div className="bodyPf_start">
-          <img
-            src="https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-avatar-hoat-hinh-de-thuong-xinh-xan.jpg?1704788263223"
-            alt="User Avatar"
-          />
+          <img src={userData.avatar_url} alt="User Avatar" />
           <div className="informationPf">
             <div className="bodyPf_start1">
               <Form.Item label="Họ">

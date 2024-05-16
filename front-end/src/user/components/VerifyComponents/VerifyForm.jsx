@@ -122,7 +122,7 @@ const VerifyForm = (props) => {
       
       const responseData = await sendRequest(
         process.env.REACT_APP_URL +
-          "/api/auth/verify-password?email=" +
+          "/api/auth/verify-account?email=" +
           email +
           "&otp=" +
           verifyCode,
