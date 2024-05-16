@@ -15,12 +15,19 @@ const TransactionHistory = props => {
     }
 
     return <ul className="transaction-history">
-        {props.transactions && props.transactions.map(item => <li className="transaction-history__item">
+        {props.transactions && props.transactions.map(item => <li key={item.id} className="transaction-history__item">
             {updateId === item.id ?
                 <SubModal
                     width="100%"
                     content={<UpdateTransactionForm
-                    categories={props.categories}
+                        id={item.id}
+                        color={item.category.iconColor}
+                        category={item}
+                        date={item.dateTransaction}
+                        note={item.note}
+                        money={item.amount}
+                        endDate={item.dateEndCycle}
+                        cycle={item.cycle}
                     />}
                     onClose={closeHandler}
                 />

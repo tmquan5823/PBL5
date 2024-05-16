@@ -86,7 +86,7 @@ const AddTransactionForm = props => {
                     date_end: formState.inputs.end_date.value,
                     cycle: periodValue,
                     note: formState.inputs.note.value || "",
-                    amount: categoryValue.category.income ? formState.inputs.money.value : -parseInt(formState.inputs.money.value,10)
+                    amount: categoryValue.category.income ? formState.inputs.money.value : -parseInt(formState.inputs.money.value, 10)
                 }), {
                 'Content-Type': 'application/json',
                 'Authorization': "Bearer " + auth.token
@@ -150,7 +150,7 @@ const AddTransactionForm = props => {
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandler}
                         width="90%"
-                        value={formState.inputs.note.value}
+                        value={formState.inputs.money.value}
                         initialIsValid={true} />
                 </div>
                 <div className="add-transaction__item">
@@ -180,12 +180,12 @@ const AddTransactionForm = props => {
                         onChange={periodValueChange}
                         value={periodValue}
                     >
-                        <Select.Option value="0D">Không lặp lại</Select.Option>
-                        <Select.Option value="1D">1 ngày</Select.Option>
-                        <Select.Option value="2D">2 ngày</Select.Option>
-                        <Select.Option value="1W">1 tuần</Select.Option>
-                        <Select.Option value="2W">2 tuần</Select.Option>
-                        <Select.Option value="1M">1 tháng</Select.Option>
+                        <Select.Option value="P0D">Không lặp lại</Select.Option>
+                        <Select.Option value="P1D">1 ngày</Select.Option>
+                        <Select.Option value="P2D">2 ngày</Select.Option>
+                        <Select.Option value="P1W">1 tuần</Select.Option>
+                        <Select.Option value="P2W">2 tuần</Select.Option>
+                        <Select.Option value="P1M">1 tháng</Select.Option>
                     </Select>
                 </div>
                 <button
