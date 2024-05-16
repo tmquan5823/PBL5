@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.eko.eko.cloudinary.CloudinaryService;
 import com.eko.eko.config.JwtService;
-import com.eko.eko.user.User;
-import com.eko.eko.user.UserRepository;
+import com.eko.eko.user.entity.User;
+import com.eko.eko.user.repository.UserRepository;
 import com.eko.eko.util.FormatDate;
 
 import jakarta.servlet.http.HttpServletRequest;

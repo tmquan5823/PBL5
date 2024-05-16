@@ -1,7 +1,9 @@
 package com.eko.eko.money.service;
 
 import java.nio.file.WatchKey;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.eko.eko.config.JwtService;
+import com.eko.eko.money.dto.CreateTransactionResponse;
 import com.eko.eko.money.dto.ListAllTransactionResponse;
 import com.eko.eko.money.dto.TransactionRequest;
 import com.eko.eko.money.dto.TransactionResponse;
@@ -20,7 +23,7 @@ import com.eko.eko.money.entity.Wallet;
 import com.eko.eko.money.repository.CategoryRepository;
 import com.eko.eko.money.repository.TransactionRepository;
 import com.eko.eko.money.repository.WalletRepository;
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 import com.eko.eko.util.FormatDate;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -76,22 +79,27 @@ public class TransactionService {
                 return spend;
         }
 
-        public ResponseEntity<TransactionResponse> createTransaction(HttpServletRequest request,
+        public ResponseEntity<CreateTransactionResponse> createTransaction(HttpServletRequest request,
                         TransactionRequest transactionRequest) {
                 try {
                         String authHeader = request.getHeader("Authorization");
-                        System.out.println(authHeader);
                         User user = jwtService.getUserFromAuthHeader(authHeader);
                         if (user == null) {
-                                return new ResponseEntity<>(TransactionResponse.builder().state(false)
+                                return new ResponseEntity<>(CreateTransactionResponse.builder().state(false)
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
                                                 HttpStatus.BAD_REQUEST);
                         }
-                        if (user.getId() != walletRepository.findById(transactionRequest.getWaleltId()).orElseThrow()
+                        if (user.getId() != walletRepository.findById(transactionRequest.getWalletId()).orElseThrow()
                                         .getUser().getId()) {
-                                return new ResponseEntity<>(TransactionResponse.builder().state(false)
+                                return new ResponseEntity<>(CreateTransactionResponse.builder().state(false)
                                                 .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
                         }
+
+                        Wallet wallet = walletRepository.findById(transactionRequest.getWalletId()).orElseThrow();
+                        CreateTransactionResponse response = CreateTransactionResponse.builder().state(true)
+                                        .wallet(wallet)
+                                        .message("Tạo giao dịch thành công!!!").build();
+                        List<Transaction> transactions = new ArrayList<>();
                         Transaction transaction = Transaction.builder()
                                         .amount(transactionRequest.getAmount())
                                         .note(transactionRequest.getNote())
@@ -109,25 +117,70 @@ public class TransactionService {
                         transaction.setDateTransaction(
                                         formatDate.formatStringToLocalDateTime(
                                                         transactionRequest.getDateTransaction()));
-                        Wallet wallet = walletRepository.findById(transactionRequest.getWaleltId()).orElseThrow();
-                        wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
                         transaction.setWallet(wallet);
+                        transactions.add(transaction);
+                        LocalDateTime now = LocalDateTime.now();
+                        if (!transaction.getDateTransaction().isAfter(now) && transaction.getCycle() != null) {
+
+                                Duration duration1 = Duration.between(transaction.getDateTransaction(), now);
+                                Duration duration2 = Duration.between(transaction.getDateTransaction(),
+                                                transaction.getDateEndCycle());
+                                Duration duration;
+                                if (duration1.toDays() > duration2.toDays()) {
+                                        duration = duration2;
+                                } else {
+                                        duration = duration1;
+                                }
+                                long days = duration.toDays();
+                                long numOfLoop = days / (transaction.getCycle().getMonths() * 30
+                                                + transaction.getCycle().getDays());
+                                LocalDateTime checkDate = transaction.getDateTransaction();
+                                System.out.println("CHECK:" + numOfLoop);
+                                // ham them ngay tu qua khu den hien tai
+                                for (int i = 1; i <= numOfLoop; i++) {
+                                        checkDate = checkDate.plus(transaction.getCycle());
+                                        Transaction temp = Transaction.builder()
+                                                        .amount(transaction.getAmount())
+                                                        .note(transaction.getNote())
+                                                        .category(transaction.getCategory())
+                                                        .dateEndCycle(transaction.getDateEndCycle())
+                                                        .cycle(transaction.getCycle())
+                                                        .wallet(wallet)
+                                                        .build();
+                                        LocalDateTime tempDate = transaction.getDateTransaction();
+                                        for (int j = 0; j < i; j++) {
+                                                tempDate = tempDate.plus(transaction.getCycle());
+                                        }
+                                        System.out.println(tempDate);
+                                        temp.setDateTransaction(tempDate);
+                                        transactions.add(temp);
+                                        transactionRepository.save(temp);
+                                }
+                                if (!transaction.getDateEndCycle().isBefore(now) && !checkDate
+                                                .plus(transaction.getCycle()).isAfter(transaction.getDateEndCycle())) {
+                                        Transaction futureTransaction = Transaction.builder()
+                                                        .amount(transaction.getAmount())
+                                                        .note(transaction.getNote())
+                                                        .category(transaction.getCategory())
+                                                        .dateEndCycle(transaction.getDateEndCycle())
+                                                        .cycle(transaction.getCycle())
+                                                        .wallet(wallet)
+                                                        .dateTransaction(checkDate.plus(transaction.getCycle()))
+                                                        .build();
+                                        transactionRepository.save(futureTransaction);
+                                        response.setTransactionFuture(futureTransaction);
+                                }
+                                // xet xem co tuong lai hay khong, neu co thi them tuong lai
+
+                        }
+                        response.setListTransactionPresent(transactions);
+                        wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
+                        walletRepository.save(wallet);
                         transactionRepository.save(transaction);
-                        return new ResponseEntity<>(TransactionResponse.builder().state(true)
-                                        .amount(transaction.getAmount())
-                                        .transactionId(transaction.getId())
-                                        .dateEndCycle(formatDate
-                                                        .formatLocalDateTimeToString(transaction.getDateEndCycle()))
-                                        .dateTransaction(formatDate
-                                                        .formatLocalDateTimeToString(transaction.getDateTransaction()))
-                                        .cycle(transaction.getCycle())
-                                        .note(transaction.getNote())
-                                        .wallet(transaction.getWallet())
-                                        .category(transaction.getCategory())
-                                        .message("Tạo giao dịch thành công!!!").build(),
-                                        HttpStatus.OK);
+
+                        return new ResponseEntity<>(response, HttpStatus.OK);
                 } catch (Exception e) {
-                        return new ResponseEntity<>(TransactionResponse.builder().state(false)
+                        return new ResponseEntity<>(CreateTransactionResponse.builder().state(false)
                                         .message("Lỗi tạo giao dịch!!!").build(),
                                         HttpStatus.BAD_REQUEST);
                 }
@@ -170,17 +223,10 @@ public class TransactionService {
                         Wallet wallet = walletRepository.findById(transaction.getWallet().getId()).orElseThrow();
                         wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
                         transaction.setWallet(wallet);
+                        walletRepository.save(wallet);
                         transactionRepository.save(transaction);
                         return new ResponseEntity<>(TransactionResponse.builder().state(true)
-                                        .amount(transaction.getAmount())
-                                        .transactionId(transaction.getId())
-                                        .dateEndCycle(formatDate
-                                                        .formatLocalDateTimeToString(transaction.getDateEndCycle()))
-                                        .dateTransaction(formatDate
-                                                        .formatLocalDateTimeToString(transaction.getDateTransaction()))
-                                        .cycle(transaction.getCycle())
-                                        .note(transaction.getNote())
-                                        .category(transaction.getCategory())
+                                        .transaction(transaction)
                                         .wallet(transaction.getWallet())
                                         .message("Cập nhật giao dịch thành công!!!").build(),
                                         HttpStatus.OK);
@@ -212,6 +258,7 @@ public class TransactionService {
                         Wallet wallet = walletRepository.findById(transaction.getWallet().getId()).orElseThrow();
                         wallet.setMoneyLeft(this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
                         transaction.setWallet(wallet);
+                        walletRepository.save(wallet);
                         return new ResponseEntity<>(TransactionResponse.builder().state(true)
                                         .message("Xóa giao dịch thành công!!!").build(),
                                         HttpStatus.OK);
