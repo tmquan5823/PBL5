@@ -19,7 +19,7 @@ import com.eko.eko.money.entity.Wallet;
 import com.eko.eko.money.repository.CategoryRepository;
 import com.eko.eko.money.repository.TransactionRepository;
 import com.eko.eko.money.repository.WalletRepository;
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

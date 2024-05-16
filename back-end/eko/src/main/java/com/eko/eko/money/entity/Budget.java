@@ -2,7 +2,8 @@ package com.eko.eko.money.entity;
 
 import java.time.LocalDateTime;
 
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

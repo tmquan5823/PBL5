@@ -1,6 +1,6 @@
 package com.eko.eko.token;
 
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

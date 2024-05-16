@@ -3,7 +3,9 @@ package com.eko.eko.money.entity;
 import java.time.LocalDateTime;
 import java.time.Period;
 
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -35,6 +37,7 @@ public class Transaction {
     private Period cycle;
     private String note;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet;
