@@ -27,7 +27,7 @@ public class FormatDate {
 
     public Period convertStringToPeriod(String input) {
         char unit = input.charAt(input.length() - 1);
-        int value = Integer.parseInt(input.substring(0, input.length() - 1));
+        int value = Integer.parseInt(input.substring(1, input.length() - 1));
 
         switch (unit) {
             case 'D':

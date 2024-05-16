@@ -1,8 +1,7 @@
 package com.eko.eko.money.dto;
 
-import java.time.Period;
+import java.util.List;
 
-import com.eko.eko.money.entity.Category;
 import com.eko.eko.money.entity.Transaction;
 import com.eko.eko.money.entity.Wallet;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,13 +15,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionResponse {
-    @JsonProperty("transaction")
-    private Transaction transaction;
+public class CreateTransactionResponse {
+    @JsonProperty("transaction_future")
+    private Transaction transactionFuture;
+    @JsonProperty("list_transaction_present")
+    private List<Transaction> listTransactionPresent;
     @JsonProperty("wallet")
     private Wallet wallet;
-    @JsonProperty("state")
-    private boolean state;
     @JsonProperty("message")
     private String message;
+    @JsonProperty("state")
+    private boolean state;
 }

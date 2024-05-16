@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.eko.eko.cloudinary.CloudinaryService;
 import com.eko.eko.config.JwtService;
-import com.eko.eko.user.User;
-import com.eko.eko.user.UserRepository;
+import com.eko.eko.user.entity.User;
+import com.eko.eko.user.repository.UserRepository;
 import com.eko.eko.util.FormatDate;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,8 +55,6 @@ public class UserService {
     }
 
     public UserProfileResponse updateProfile(UserRequest requestUser, HttpServletRequest request) {
-        System.out.println(requestUser.getLastname());
-        System.out.println(requestUser.getDateOfBirth());
         String authHeader = request.getHeader("Authorization");
         User user = jwtService.getUserFromAuthHeader(authHeader);
         if (user == null) {

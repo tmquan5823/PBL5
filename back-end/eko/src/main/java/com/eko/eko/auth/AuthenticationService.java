@@ -22,9 +22,9 @@ import com.eko.eko.money.entity.Category;
 import com.eko.eko.token.Token;
 import com.eko.eko.token.TokenRepository;
 import com.eko.eko.token.TokenType;
-import com.eko.eko.user.Role;
-import com.eko.eko.user.User;
-import com.eko.eko.user.UserRepository;
+import com.eko.eko.user.entity.Role;
+import com.eko.eko.user.entity.User;
+import com.eko.eko.user.repository.UserRepository;
 import com.eko.eko.util.DefaultCategories;
 import com.eko.eko.util.EmailUtil;
 import com.eko.eko.util.OtpUtil;
@@ -338,8 +338,8 @@ public class AuthenticationService {
                         return responseMap;
                 }
                 user.setPassword(passwordEncoder.encode(request.getPassword()));
-                repository.save(user);
                 user.setCanResetPassword(false);
+                repository.save(user);
                 responseMap.put("message", "Đặt lại mật khẩu thành công!!");
                 responseMap.put("state", true);
                 return responseMap;

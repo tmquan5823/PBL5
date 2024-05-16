@@ -1,4 +1,4 @@
-package com.eko.eko.user;
+package com.eko.eko.user.entity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -49,7 +49,6 @@ public class User implements UserDetails {
     private String password;
     private String firstname;
     private String lastname;
-    @JsonIgnore
     private boolean isDelete;
     private String telephone;
     private String address;

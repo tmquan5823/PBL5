@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.eko.eko.token.TokenRepository;
-import com.eko.eko.user.User;
-import com.eko.eko.user.UserRepository;
+import com.eko.eko.user.entity.User;
+import com.eko.eko.user.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
