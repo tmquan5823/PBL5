@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eko.eko.money.dto.CreateTransactionResponse;
 import com.eko.eko.money.dto.ListAllTransactionResponse;
 import com.eko.eko.money.dto.TransactionRequest;
 import com.eko.eko.money.dto.TransactionResponse;
@@ -25,7 +26,7 @@ public class TransactionController {
     private final TransactionService service;
 
     @PostMapping("/transaction")
-    public ResponseEntity<TransactionResponse> createTransaction(HttpServletRequest request,
+    public ResponseEntity<CreateTransactionResponse> createTransaction(HttpServletRequest request,
             @RequestBody TransactionRequest transactionRequest) {
         return service.createTransaction(request, transactionRequest);
     }

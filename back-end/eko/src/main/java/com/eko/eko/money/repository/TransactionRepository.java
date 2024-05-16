@@ -12,11 +12,14 @@ import com.eko.eko.money.entity.Transaction;
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
     // List<Transaction> findAllByUserId(@Param("userId") int userId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.wallet.id = :walletId")
+    @Query("SELECT t FROM Transaction t WHERE t.wallet.id = :walletId ORDER BY t.dateTransaction DESC")
     List<Transaction> findAllByWalletId(@Param("walletId") int walletId);
 
     @Query("SELECT t FROM Transaction t WHERE t.category.id = :categoryId")
     List<Transaction> findAllByCategoryId(@Param("categoryId") int categoryId);
+
+    @Query("SELECT t FROM Transaction t WHERE DATE(t.dateTransaction) = CURRENT_DATE AND t.cycle IS NOT NULL")
+    List<Transaction> findAllVerifyTransaction();
 
     @Query("SELECT t FROM Transaction t " +
             "JOIN t.wallet w " +

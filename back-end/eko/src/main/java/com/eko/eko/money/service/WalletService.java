@@ -13,7 +13,7 @@ import com.eko.eko.money.dto.WalletResponse;
 import com.eko.eko.money.entity.Category;
 import com.eko.eko.money.entity.Wallet;
 import com.eko.eko.money.repository.WalletRepository;
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 import com.eko.eko.util.DefaultCategories;
 
 import jakarta.servlet.http.HttpServletRequest;

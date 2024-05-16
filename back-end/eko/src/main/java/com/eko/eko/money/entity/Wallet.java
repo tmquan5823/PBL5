@@ -2,7 +2,7 @@ package com.eko.eko.money.entity;
 
 import java.util.List;
 
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;

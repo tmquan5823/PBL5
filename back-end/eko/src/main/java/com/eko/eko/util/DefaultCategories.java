@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.eko.eko.cloudinary.CloudinaryService;
 import com.eko.eko.money.entity.Category;
 import com.eko.eko.money.entity.Wallet;
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 
