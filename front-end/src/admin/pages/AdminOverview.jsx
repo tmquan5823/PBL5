@@ -5,7 +5,7 @@ import Search from "../components/OverviewComponents/Search";
 import UserItem from "../components/OverviewComponents/UserItem"
 
 const AdminOverview = props => {
-    return <PageContent title="">
+    return <PageContent title="Danh sách người dùng">
         {/* <Search/> */}
         <UserItem/>
     </PageContent>
