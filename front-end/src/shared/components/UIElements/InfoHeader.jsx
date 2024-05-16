@@ -20,7 +20,7 @@ const InfoHeader = props => {
     }, [auth.wallet]);
 
 
-    return <div className={`info-header ${auth.role === 'admin' && 'info-header--admin'}`}>
+    return <div className={`info-header ${auth.role === 'ADMIN' && 'info-header--admin'}`}>
         {userWallet &&
             <div className="info-header__wallet">
                 <img src="/images/wallet2.gif" alt="" />

@@ -44,7 +44,7 @@ const LoginForm = props => {
                 setLoginFail(true);
                 setLoginMessage(responseData.message);
             } else {
-                auth.login(responseData.access_token, responseData.avatar_url);
+                auth.login(responseData.access_token, responseData.avatar_url, responseData.role);
             }
         } catch (err) {
             console.log(err);
