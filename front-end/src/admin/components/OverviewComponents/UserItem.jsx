@@ -1,41 +1,95 @@
-import React, { useState, useEffect } from "react";
-import { Table, Button, Input } from "antd";
-import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
+import { Table, Button, Input, Modal } from "antd";
 import { useHistory } from "react-router-dom";
 import "./UserItem.css";
 import { SearchOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
+import { AuthContext } from "../../../shared/context/auth-context";
+import { useHttpClient } from "../../../shared/hooks/http-hook";
+
 
 const UserItem = (props) => {
   const [listUser, setListUser] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const token = "your_token_here"; // Thay thế bằng token của bạn
+  const auth = useContext(AuthContext);
+  const { isLoading, sendRequest } = useHttpClient();
   const history = useHistory();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setListUser(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [token]);
+    const fetchData = async () => {
+      try {
+        const responseData = await sendRequest(
+          `${process.env.REACT_APP_URL}/api/admin/users`,
+          "GET",
+          null,
+          {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.token,
+          }
+        );
 
-  const handleToggleCompleted = (record) => {
-    const updatedListUser = listUser.map((user) =>
-      user.id === record.id ? { ...user, completed: !user.completed } : user
-    );
-    setListUser(updatedListUser);
-  };
+        if (Array.isArray(responseData.list_user)) {
+          setListUser(responseData.list_user);
+        } else {
+          console.error("Response data is not an array", responseData);
+          setListUser([]); 
+        }
+      } catch (err) {
+        console.log(err);
+        setListUser([]); 
+      }
+    };
+
+    fetchData();
+  }, [sendRequest, auth.token, props.id]);
+
+  // const handleToggleCompleted = () => {
+  //   if (selectedUser) {
+  //     const updatedListUser = listUser.map((user) =>
+  //       user.id === selectedUser.id ? { ...user, status: !user.status } : user
+  //     );
+  //     setListUser(updatedListUser);
+  //   }
+  //   setIsModalVisible(false);
+  // };
 
   const handleViewProfile = (record) => {
     history.push(`/admin/overview/${record.id}`);
+  };
+
+  const showModal = (record) => {
+    setSelectedUser(record);
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async () => {
+    if (selectedUser) {
+      try {
+        await sendRequest(
+          `${process.env.REACT_APP_URL}/api/admin/users/${selectedUser.id}`,
+          "GET",
+          JSON.stringify({ status: !selectedUser.status }),
+          {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth.token,
+          }
+        );
+        console.log("Cập nhật trạng thái thành công");
+      } catch (error) {
+        console.error("Lỗi khi cập nhật trạng thái:", error);
+      } finally {
+        setIsModalVisible(false); 
+      }
+    } else {
+      setIsModalVisible(false);
+    }
+  };
+  
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const columns = [
@@ -115,8 +169,8 @@ const UserItem = (props) => {
     },
     {
       title: "Name",
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "name",
+      key: "name",
       align: "left",
       filterDropdown: ({
         setSelectedKeys,
@@ -134,18 +188,12 @@ const UserItem = (props) => {
               setSelectedKeys(e.target.value ? [e.target.value] : []);
               confirm({ closeDropdown: false });
             }}
-            onPressEnter={() => {
-              confirm();
-            }}
-            onBlur={() => {
-              confirm();
-            }}
+            onPressEnter={confirm}
+            onBlur={confirm}
             style={{ marginBottom: 8, display: "block" }}
           />
           <Button
-            onClick={() => {
-              confirm();
-            }}
+            onClick={confirm}
             icon={<SearchOutlined />}
             size="small"
             style={{ marginRight: 8, width: 90 }}
@@ -154,21 +202,13 @@ const UserItem = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => {
-              clearFilters();
-            }}
+            onClick={clearFilters}
             size="small"
             style={{ marginRight: 8, width: 90 }}
           >
             Reset
           </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
+          <Button type="link" size="small" onClick={close}>
             close
           </Button>
         </div>
@@ -176,14 +216,13 @@ const UserItem = (props) => {
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
       ),
-      onFilter: (value, record) => {
-        return record.title.toLowerCase().includes(value.toLowerCase());
-      },
+      onFilter: (value, record) =>
+        record.name.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Email",
-      dataIndex: "title",
-      key: "title",
+      dataIndex: "email",
+      key: "email",
       align: "left",
       filterDropdown: ({
         setSelectedKeys,
@@ -201,18 +240,12 @@ const UserItem = (props) => {
               setSelectedKeys(e.target.value ? [e.target.value] : []);
               confirm({ closeDropdown: false });
             }}
-            onPressEnter={() => {
-              confirm();
-            }}
-            onBlur={() => {
-              confirm();
-            }}
+            onPressEnter={confirm}
+            onBlur={confirm}
             style={{ marginBottom: 8, display: "block" }}
           />
           <Button
-            onClick={() => {
-              confirm();
-            }}
+            onClick={confirm}
             icon={<SearchOutlined />}
             size="small"
             style={{ marginRight: 8, width: 90 }}
@@ -221,21 +254,13 @@ const UserItem = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => {
-              clearFilters();
-            }}
+            onClick={clearFilters}
             size="small"
             style={{ marginRight: 8, width: 90 }}
           >
             Reset
           </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              close();
-            }}
-          >
+          <Button type="link" size="small" onClick={close}>
             close
           </Button>
         </div>
@@ -243,25 +268,20 @@ const UserItem = (props) => {
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
       ),
-      onFilter: (value, record) => {
-        return record.title.toLowerCase().includes(value.toLowerCase());
-      },
+      onFilter: (value, record) =>
+        record.email.toLowerCase().includes(value.toLowerCase()),
     },
     {
       title: "Trạng thái",
-      dataIndex: "completed",
-      key: "completed",
+      dataIndex: "status",
+      key: "status",
       align: "left",
-      render: (completed) => {
-        return <p>{completed ? "True" : "False"}</p>;
-      },
+      render: (status) => <p>{status ? "Đã khóa" : "Chưa khóa"}</p>,
       filters: [
-        { text: "True", value: true },
-        { text: "False", value: false },
+        { text: "Đã khóa", value: true },
+        { text: "Chưa khóa", value: false },
       ],
-      onFilter: (value, record) => {
-        return record.completed === value;
-      },
+      onFilter: (value, record) => record.status === value,
     },
     {
       title: "Tuỳ chọn",
@@ -274,7 +294,7 @@ const UserItem = (props) => {
           </Button>
           <Button
             className="btnDel"
-            onClick={() => handleToggleCompleted(record)}
+            onClick={() => showModal(record)}
           >
             <LockOutlined />
           </Button>
@@ -301,6 +321,14 @@ const UserItem = (props) => {
           }}
         />
       </div>
+      <Modal
+        title={"Bạn có muốn "  + (selectedUser ? (selectedUser.status ? "mở" : "khóa") : "") + " tài khoản này không ?"}
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <label>{selectedUser ? selectedUser.email : ""}</label>
+      </Modal>
     </div>
   );
 };
