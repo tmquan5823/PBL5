@@ -17,7 +17,7 @@ const AddTransactionForm = props => {
     const [categoryValue, setCategoryValue] = useState();
     const [isRotated, setIsRotated] = useState(0);
     const categoryRef = useRef(null);
-    const [periodValue, setPeriodValue] = useState("0D");
+    const [periodValue, setPeriodValue] = useState("P0D");
     const [currancy, setCurrancy] = useState("VND");
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -83,16 +83,17 @@ const AddTransactionForm = props => {
                     wallet_id: auth.wallet.id,
                     category_id: categoryValue.category.id,
                     transaction_date: formState.inputs.start_date.value,
-                    date_end: formState.inputs.end_date.value,
-                    cycle: periodValue,
+                    date_end: periodValue === 'P0D' ? null : formState.inputs.end_date.value,
+                    cycle: periodValue === 'P0D' ? null : periodValue,
                     note: formState.inputs.note.value || "",
-                    amount: categoryValue.category.income ? formState.inputs.money.value : -parseInt(formState.inputs.money.value, 10)
+                    amount: categoryValue.category.income ? parseInt(formState.inputs.money.value) : -parseInt(formState.inputs.money.value, 10)
                 }), {
                 'Content-Type': 'application/json',
                 'Authorization': "Bearer " + auth.token
             });
             if (resData.state) {
                 props.onClose();
+                props.onAdd(resData.list_transaction_present);
             }
         } catch (err) {
             console.log(err);
@@ -161,7 +162,7 @@ const AddTransactionForm = props => {
                 </div>
             </div>
             <div className="add-transaction__footer">
-                {periodValue !== "0D" && <div className="add-transaction__item">
+                {periodValue !== "P0D" && <div className="add-transaction__item">
                     <Input id="end_date"
                         text="Ngày kết thúc"
                         element="datepicker"
@@ -176,7 +177,7 @@ const AddTransactionForm = props => {
                         style={{
                             width: 200
                         }}
-                        defaultValue="0D"
+                        defaultValue="P0D"
                         onChange={periodValueChange}
                         value={periodValue}
                     >

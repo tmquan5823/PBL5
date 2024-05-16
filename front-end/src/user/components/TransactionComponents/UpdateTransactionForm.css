@@ -55,7 +55,6 @@
     display: flex;
     justify-content: end;
     align-items: end;
-    padding: 0 30px;
 }
 
 .update-transaction__footer .update-transaction__item .form-control {
@@ -63,12 +62,12 @@
 }
 
 .update-transaction__footer .update-transaction__item {
-    margin-right: 50px;
+    margin-right: 70px;
 }
 
-.update-transaction__footer button {
+.update-transaction__footer .button {
     padding: 9px 15px;
-    min-width: 10% !important;
+    min-width: 13% !important;
     cursor: pointer;
     margin: 0 15px;
     border-radius: 5px;
@@ -79,12 +78,12 @@
     color: #fff;
 }
 
-.update-transaction__footer .delete-btn{
+.update-transaction__footer .delete-btn {
     background-color: #f14c52;
     color: #fff;
 }
 
-.update-transaction__footer .cancel-btn{
+.update-transaction__footer .cancel-btn {
     background-color: #7b93a4;
     color: #fff;
 }

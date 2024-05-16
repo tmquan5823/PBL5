@@ -3,6 +3,7 @@ import "./TransactionHistory.css";
 import TransactionItem from "./TransactionItem";
 import UpdateTransactionForm from "./UpdateTransactionForm";
 import SubModal from "../../../shared/components/UIElements/SubModal";
+import { convertMonthFormat } from "../../../shared/help/DateFormat";
 
 const TransactionHistory = props => {
     const [updateId, setUpdateId] = useState();
@@ -28,10 +29,13 @@ const TransactionHistory = props => {
                         money={item.amount}
                         endDate={item.dateEndCycle}
                         cycle={item.cycle}
+                        onClose={closeHandler}
+                        onUpdate={props.onUpdate}
+                        onDelete={props.onDelete}
+                        categories={props.categories}
                     />}
                     onClose={closeHandler}
                 />
-
                 :
                 <TransactionItem
                     onClick={onUpdateHandler}

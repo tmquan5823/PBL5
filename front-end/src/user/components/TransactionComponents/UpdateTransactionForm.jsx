@@ -10,6 +10,7 @@ import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../../shared/util/validat
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
+import { convertMonthFormat } from "../../../shared/help/DateFormat";
 
 const UpdateTransactionForm = props => {
     const auth = useContext(AuthContext);
@@ -31,11 +32,11 @@ const UpdateTransactionForm = props => {
             isValid: true
         },
         start_date: {
-            value: new Date(...props.date) || new Date(),
+            value: props.date && new Date(...convertMonthFormat(props.date.slice(0, 3)) || ""),
             isValid: true
         },
         end_date: {
-            value: new Date(...props.endDate) || new Date(),
+            value: props.endDate && new Date(...convertMonthFormat(props.endDate.slice(0, 3)) || ""),
             isValid: true
         }
     }, true);
@@ -82,11 +83,11 @@ const UpdateTransactionForm = props => {
             const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transaction", "PUT",
                 JSON.stringify({
                     category_id: categoryValue.category.id,
-                    transaction_id: formState.inputs.start_date.value,
+                    transaction_id: props.id,
                     transaction_date: formState.inputs.start_date.value,
-                    date_end: formState.inputs.end_date.value,
-                    cycle: periodValue,
-                    note: formState.inputs.note.value || "",
+                    date_end: periodValue !== 'P0D' ? formState.inputs.end_date.value : null,
+                    cycle: periodValue === 'P0D' ? null : periodValue,
+                    note: formState.inputs.note.value || null,
                     amount: categoryValue.category.income ? formState.inputs.money.value : -parseInt(formState.inputs.money.value, 10)
                 }), {
                 'Content-Type': 'application/json',
@@ -94,6 +95,22 @@ const UpdateTransactionForm = props => {
             });
             if (resData.state) {
                 props.onClose();
+                props.onUpdate(resData.transaction);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async function DeleteTransactionHandler(event) {
+        event.preventDefault();
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transaction/" + props.id, "DELETE", null, {
+                'Authorization': "Bearer " + auth.token
+            });
+            if (resData.state) {
+                props.onClose();
+                props.onDelete(props.id);
             }
         } catch (err) {
             console.log(err);
@@ -163,7 +180,7 @@ const UpdateTransactionForm = props => {
             </div>
         </div>
         <div className="update-transaction__footer">
-            {periodValue!="P0D" && <div className="update-transaction__item">
+            {periodValue != "P0D" && <div className="update-transaction__item">
                 <Input id="end_date"
                     text="Ngày kết thúc"
                     element="datepicker"
@@ -174,21 +191,21 @@ const UpdateTransactionForm = props => {
             </div>}
             <button
                 disabled={isLoading}
-                onClick={UpdateTransactionHandler}
-                className={`delete-btn ${isLoading && 'isLoading-btn'}`}>
+                onClick={DeleteTransactionHandler}
+                className={`button delete-btn ${isLoading && 'isLoading-btn'}`}>
                 Xoá giao dịch
             </button>
             <button
                 disabled={!formState.isValid || isLoading}
                 onClick={UpdateTransactionHandler}
-                className={`update-btn ${!formState.isValid && 'disabled-btn'} 
+                className={`button update-btn ${!formState.isValid && 'disabled-btn'} 
                     ${isLoading && 'isLoading-btn'}`}>
                 Cập nhật giao dịch
             </button>
             <button
                 disabled={isLoading}
-                onClick={UpdateTransactionHandler}
-                className={`cancel-btn ${isLoading && 'isLoading-btn'}`}>
+                onClick={() => { props.onClose(); }}
+                className={`button cancel-btn ${isLoading && 'isLoading-btn'}`}>
                 Hủy
             </button>
         </div>
