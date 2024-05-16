@@ -15,8 +15,15 @@
     }
 
     .add-transaction__item {
+        width: 20%;
         display: flex;
         flex-direction: column;
+        margin: 0 10px;
+        height: 100%;
+    }
+
+    .add-transaction__item .form-control {
+        margin: 0;
     }
 
     .add-transaction__item .dropdown__currency {
@@ -26,14 +33,6 @@
     .add-transaction__item label {
         font-size: 14px;
         color: rgba(0, 0, 0, 0.5);
-    }
-
-    .add-transaction__item input {
-        padding: 7px;
-        border-radius: 10px;
-        height: 100%;
-        border: 1px solid #000;
-        overflow: hidden;
     }
 
     .add-transaction__category {
@@ -94,13 +93,23 @@
 
     .add-transaction__category-field {
         display: flex;
-        padding: 5px;
+        padding: 3px;
         align-items: center;
+    }
+
+    .category-field__icon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 10px;
+        border-radius: 50%;
     }
 
     .add-transaction__category-field img {
         width: 20px;
-        margin-right: 5px;
+        height: 20px;
     }
 
     .add-transaction__category-field span {
@@ -124,24 +133,52 @@
         cursor: pointer;
         margin: 0 15px;
         border-radius: 5px;
-        background-color: #e5ebee;
-        color: #7b93a4;
         border: none;
         box-sizing: content-box;
         font-weight: 500;
+        background-color: #24B6B7;
+        color: #fff;
     }
 
-    .add-transaction__footer .camera-btn {
-        height: 30px;
-        padding: 0;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        margin-right: 20px;
+    .add-transaction__footer .disabled-btn {
+        background-color: #e5ebee;
+        color: #7b93a4;
     }
 
     .add-transaction__footer .camera-img {
         width: 100%;
         object-fit: cover;
         opacity: 0.8;
+    }
+
+    .add-transaction__footer .isLoading-btn {
+        position: relative;
+        background-color: #e5ebee;
+        color: #e5ebee;
+    }
+
+    .add-transaction__footer .isLoading-btn::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 20px;
+        height: 20px;
+        top: 25%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 2px solid #fff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 0.8s linear infinite;
+    }
+
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }

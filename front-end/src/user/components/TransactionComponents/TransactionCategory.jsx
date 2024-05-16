@@ -1,73 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./TransactionCategory.css";
+import { useHttpClient } from "../../../shared/hooks/http-hook";
+import { AuthContext } from "../../../shared/context/auth-context";
 
 const TransactionCategory = props => {
-    let tmpVal;
-    let typeVal;
-    if (props.value) {
-        tmpVal = props.value;
-        typeVal = tmpVal.id.startsWith('i') ? "income" : "outcome"
-    }
-    const [typeSelect, setTypeSelect] = useState(typeVal || 'outcome');
-    const [itemSelect, setItemSelect] = useState(tmpVal || {});
-
+    const [typeSelect, setTypeSelect] = useState(props.value ? (props.value.category.income ? 'income' : 'outcome') : 'income');
+    const [itemSelect, setItemSelect] = useState(props.value || {});
+    const [categories, setCategories] = useState(props.categories || {});
     const handleOptionChange = (event) => {
         setTypeSelect(event.target.value);
     };
+
+    useEffect(() => {
+        setCategories(props.categories);
+    }, []);
 
     const handleItemOptionChange = (event) => {
         console.log(event.target.value);
         const value = JSON.parse(event.target.value);
         props.onCategoryChange(value);
+        console.log(value);
         setItemSelect(value);
     };
-
-    let items;
-    if (typeSelect === "outcome") {
-        items = [{
-            id: "o1",
-            title: 'Đồ ăn & đồ uống',
-            image: 'hamburger-soda.png'
-        },
-        {
-            id: "o2",
-            title: 'Đồ ăn & đồ uống',
-            image: 'bell.png'
-        },
-        {
-            id: "o3",
-            title: 'Đồ ăn & đồ uống',
-            image: 'hamburger-soda.png'
-        },
-        {
-            id: "o4",
-            title: 'Đồ ăn & đồ uống',
-            image: 'bell.png'
-        },
-        ]
-    } else {
-        items = [{
-            id: "i1",
-            title: 'Lương',
-            image: 'bell.png'
-        },
-        {
-            id: "i2",
-            title: 'Đồ ăn & đồ uống',
-            image: 'bell.png'
-        },
-        {
-            id: "i3",
-            title: 'Đồ ăn & đồ uống',
-            image: 'bell.png'
-        },
-        {
-            id: "i4",
-            title: 'Đồ ăn & đồ uống',
-            image: 'bell.png'
-        },
-        ]
-    }
 
     return <div className="transaction-category">
         <div className="transaction-category__type">
@@ -93,17 +47,21 @@ const TransactionCategory = props => {
             </label>
         </div>
         <div className="transaction-category__list">
-            {items.map(item => (
-                <label htmlFor={item.id} className={`transaction-category__item ${itemSelect.id === item.id && 'checked-item'}`}>
+            {props.categories && (typeSelect === 'income' ? props.categories.incomes : props.categories.outcomes).map(item => (
+                <label
+                    htmlFor={item.category.id}
+                    className={`transaction-category__item ${itemSelect.category && itemSelect.category.id === item.category.id && 'checked-item'}`}>
                     <input
                         name="category-item"
-                        id={item.id}
+                        id={item.category.id}
                         type="radio"
                         value={JSON.stringify(item)}
-                        checked={itemSelect.id === item.id}
+                        checked={itemSelect.category && itemSelect.category.id === item.category.id}
                         onChange={handleItemOptionChange} />
-                    <img src={`/images/${item.image}`} alt="" />
-                    <span>{item.title}</span>
+                    <div style={{ backgroundColor: item.category.iconColor }} className="category-icon__container">
+                        <img src={item.category.iconUrl} alt="" />
+                    </div>
+                    <span>{item.category.content}</span>
                 </label>
             ))}
         </div>

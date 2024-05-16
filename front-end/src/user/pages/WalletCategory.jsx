@@ -28,17 +28,39 @@ const WalletCategory = props => {
         fetchData();
     }, []);
 
+    function onAddNewCategory(item) {
+        console.log(item);
+        setCategories(preValue => { return [...preValue, item] })
+    }
+
+    function updateHandler(item) {
+        if (item) {
+            setCategories(list => list.map(element => {
+                if (element.category.id === item.id) {
+                    element.category = item;
+                }
+                return element;
+            }));
+        }
+    }
+
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
         <PageContent title="Danh mục ví">
-            <AddCategoryForm />
+            <AddCategoryForm
+                onAdd={onAddNewCategory}
+            />
             <CategoriesList
                 title="Các danh mục thu nhập"
-                items={categories.filter(category => category.income == true)}
+                items={categories.filter(category => category.category.income == true)}
+                type='income'
+                onUpdate={updateHandler}
             />
             <CategoriesList
                 title="Các danh mục chi tiêu"
-                items={categories.filter(category => category.income == false)}
+                items={categories.filter(category => category.category.income == false)}
+                onUpdate={updateHandler}
+                type='outcome'
             />
         </PageContent>
     </React.Fragment>

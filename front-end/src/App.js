@@ -34,12 +34,14 @@ function App() {
   const [token, setToken] = useState(null);
   const [avatarURL, setAvatarUrl] = useState(null);
   const [wallet, setWallet] = useState();
+  const [role, setRole] = useState();
   const history = useHistory();
 
-  const login = useCallback((token, url) => {
+  const login = useCallback((token, url, role) => {
     setLoginState(true);
     setToken(token);
     setAvatarUrl(url);
+    setRole(role);
     // Cookies.set("token", token);
     // Cookies.set("url", url);
   }, []);
@@ -48,6 +50,7 @@ function App() {
     setLoginState(false);
     setToken(null);
     setAvatarUrl(null);
+    setRole(null);
   }, []);
 
   function updateAvatarURL(url) {
@@ -133,49 +136,45 @@ function App() {
 
   let routes;
   if (!token) {
-    routes = (
-      <Switch>
-        <Route path="/" exact>
-          <Home />
-        </Route>
-        <Route path="/forgotpassword" exact>
-          <ForgotPassword />
-        </Route>
-        <Route path="/recoverpassword" exact>
-          <RecoverPassword />
-        </Route>
-        <Route path="/login" exact>
-          <Login />
-        </Route>
-        <Route path="/signup" exact>
-          <SignUp />
-        </Route>
-        <Route path="/verify/:email" exact>
-          <VerifyPage />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    );
-  }
-  else {
-    routes = adminRoutes;
-    // routes = userRoutes;
+    routes = (<Switch>
+      <Route path="/" exact>
+        <Home />
+      </Route>
+      <Route path="/forgotpassword" exact>
+        <ForgotPassword />
+      </Route>
+      <Route path="/recoverpassword" exact>
+        <RecoverPassword />
+      </Route>
+      <Route path="/login" exact>
+        <Login />
+      </Route>
+      <Route path="/signup" exact>
+        <SignUp />
+      </Route>
+      <Route path="/verify/:email" exact>
+        <VerifyPage />
+      </Route>
+      <Redirect to="/" />
+    </Switch>)
+  } else {
+    routes = role == 'USER' ? userRoutes : adminRoutes;
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn: !!token,
-        avatarURL: avatarURL,
-        token: token,
-        login: login,
-        logout: logout,
-        updateAvt: updateAvatarURL,
-        wallet: wallet,
-        setWallet: setUserWallet,
-      }}
-    >
-      <BrowserRouter>{routes}</BrowserRouter>
+    <AuthContext.Provider value={{
+      isLoggedIn: !!token,
+      avatarURL: avatarURL,
+      token: token,
+      login: login,
+      logout: logout,
+      updateAvt: updateAvatarURL,
+      wallet: wallet,
+      setWallet: setUserWallet
+    }}>
+      <BrowserRouter>
+        {routes}
+      </BrowserRouter>
     </AuthContext.Provider>
   );
 }

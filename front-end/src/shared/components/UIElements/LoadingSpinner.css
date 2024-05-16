@@ -13,6 +13,7 @@
   border: 5px solid #510077;
   border-color: #510077 transparent #510077 transparent;
   animation: lds-dual-ring 1.2s linear infinite;
+  z-index: 1000000;
 }
 
 .loading-container img {
@@ -23,6 +24,7 @@
   transform: translate(-50%, -50%);
   max-width: 100%;
   max-height: 100%;
+  z-index: 100000;
 }
 
 .loading-spinner__overlay {
@@ -35,7 +37,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  z-index: 99999;
 }
 
 @keyframes lds-dual-ring {

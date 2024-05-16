@@ -1,0 +1,100 @@
+.update-category-form {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    box-sizing: content-box;
+    justify-content: space-evenly;
+    align-items: end;
+}
+
+.ucf__item {
+    display: flex;
+    flex-direction: column;
+    width: 15%;
+    position: relative;
+    margin-right: 40px;
+}
+
+.ucf__item .icon-field .icon-container {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-field .icon-container img {
+    width: 20px;
+    height: 20px;
+}
+
+
+.ucf__item-type select {
+    padding: 13px 5px;
+    font-size: 16px;
+    border: 1px solid #000;
+}
+
+.ucf__item-name {
+    width: 30%;
+}
+
+.ucf__item-name input {
+    padding: 14.5px;
+    border-radius: 10px;
+    border: 1px solid #000;
+}
+
+
+.ucf__item-btn {
+    width: 25%;
+    margin: 0;
+}
+
+.ucf__item-btn .update-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #24B6B7;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 10px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.disabled-btn {
+    background-color: #e5ebee;
+    color: #7b93a4;
+    cursor: default;
+}
+
+.isloading-btn {
+    opacity: 70%;
+    position: relative;
+}
+
+.isloading-btn::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
