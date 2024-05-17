@@ -8,17 +8,6 @@ import WalletContainer from "../components/OverviewComponents/WalletContainer";
 import FilterContainer from "../components/TransactionComponents/FilterContainer";
 
 const UserOverview = props => {
-    const wallets = [{
-        id: 1,
-        name: "Ví tiền mặt",
-        money: 10000000,
-    },
-    {
-        id: 2,
-        name: "Ví tiết kiệm",
-        money: 1000000,
-    }]
-
     const expense = [{ title: 'Tổng số dư', money: 1000000 },
     { title: 'Tổng thay đổi theo kì', money: -1000000 },
     { title: 'Tổng Chi Phí Theo Kì', money: 0 },
@@ -26,7 +15,7 @@ const UserOverview = props => {
 
     return <React.Fragment>
         <PageContent title='Tổng quan' >
-            <WalletContainer items={wallets} />
+            <WalletContainer  />
             <div className="overview-content">
                 <h2>Tổng quan</h2>
                 <FilterContainer />

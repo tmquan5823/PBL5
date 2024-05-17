@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./AddBudgetForm.css";
+import "./UpdateBudgetForm.css";
 import Input from "../../../shared/components/FormElements/Input";
 import { useForm } from "../../../shared/hooks/form-hook";
 import BudgetCurrency from "./BudgetCurrency";
@@ -10,7 +10,7 @@ import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner"
 
-const AddBudgetForm = props => {
+const UpdateBudgetForm = props => {
     const auth = useContext(AuthContext);
     const [selectedOption, setSelectedOption] = useState('VND');
     const [startDate, setStartDate] = useState(new Date());
@@ -30,10 +30,12 @@ const AddBudgetForm = props => {
         }
     }, false);
 
-    async function createBudgetHandler(event) {
+
+
+    async function updateBudgetHandler(event) {
         event.preventDefault();
         try {
-            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget", "POST",
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/5", "GET",
                 JSON.stringify({
                     budget_name: formState.inputs.budgetName.value,
                     budget_money: formState.inputs.budget.value,
@@ -41,6 +43,21 @@ const AddBudgetForm = props => {
                     date_end: endDate
                 }), {
                 'Content-Type': 'application/json',
+                'Authorization': "Bearer " + auth.token
+            });
+            if (resData.state) {
+                props.onClose();
+                props.onAdd(resData);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async function deleteHandler() {
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/", "DELETE",
+                null, {
                 'Authorization': "Bearer " + auth.token
             });
             if (resData.state) {
@@ -72,8 +89,8 @@ const AddBudgetForm = props => {
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
-        <form action="" className="add-budget-form">
-            <h2>Thêm ngân sách mới</h2>
+        <form action="" className="update-budget-form">
+            <h2>Chỉnh sửa ngân sách</h2>
             <div className="budget-form__content">
                 <div className="general-info">
                     <h3>Thông tin chung</h3>
@@ -119,11 +136,17 @@ const AddBudgetForm = props => {
                     </div>
                 </div>
             </div>
-            <div className={`add-budget__button ${!budgetFormState && 'budget-state--isvalid'}`}>
-                <button disabled={!budgetFormState} onClick={createBudgetHandler}>Tạo ngân sách</button>
+            <div className={`update-budget__button ${!budgetFormState && 'budget-state--isvalid'}`}>
+                <button disabled={!budgetFormState} onClick={updateBudgetHandler}>Cập nhật ngân sách</button>
+            </div>
+            <div className="cancel-update__button">
+                <button onClick={props.onClose}>Hủy</button>
+            </div>
+            <div className="delete-budget">
+                <a onClick={deleteHandler} href="#">Xoá ngân sách</a>
             </div>
         </form>
     </React.Fragment>
 };
 
-export default AddBudgetForm;
+export default UpdateBudgetForm;

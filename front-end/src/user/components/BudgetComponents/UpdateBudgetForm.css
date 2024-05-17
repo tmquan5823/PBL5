@@ -1,0 +1,79 @@
+.update-budget-form {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+
+.update-budget-form h2 {
+    text-align: center;
+}
+
+.budget-form__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.eneral-info input {}
+
+.budget-form__content .form-row {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+}
+
+.budget-form__content .form-row div {
+    margin-right: 20px;
+}
+
+.update-budget__button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.cancel-update__button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.update-budget__button button {
+    width: 50%;
+    padding: 10px;
+    color: #fff;
+    background-color: #24B6B7;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cancel-update__button button {
+    width: 50%;
+    padding: 10px;
+    color: #fff;
+    background-color: #7b93a4;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.delete-budget {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.delete-budget a {
+    color: #7b93a4;
+    text-decoration: underline;
+}

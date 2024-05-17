@@ -94,6 +94,7 @@ const AddTransactionForm = props => {
             if (resData.state) {
                 props.onClose();
                 props.onAdd(resData.list_transaction_present);
+                auth.setWallet(resData.wallet);
             }
         } catch (err) {
             console.log(err);

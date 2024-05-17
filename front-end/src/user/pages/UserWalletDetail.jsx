@@ -35,9 +35,6 @@ const UserWalletDetail = props => {
         </Modal>
         <PageContent title="Tổng quan ví">
             <div className="wallet-detail__header">
-                <button onClick={createButtonHandler} className="add-transaction__btn">
-                    Thêm giao dịch
-                </button>
                 <div className="calendar-container">
                     <button>&lt;</button>
                     <span>{DateFormat(moment().format('DD/MM/YYYY'))}</span>

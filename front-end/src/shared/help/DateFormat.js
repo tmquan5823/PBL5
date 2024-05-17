@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function DateFormat(ngay) {
   // Tách các thành phần của ngày (ngày, tháng, năm)
   var parts = ngay.split("/");
@@ -20,14 +22,31 @@ export function DateFormat(ngay) {
   return ngayChuyenDoi;
 }
 
+export function formatArrayDate(dateArray) {
+  return moment(new Date(dateArray[0], dateArray[1] - 1, dateArray[2])).format('MMM DD, YYYY').replace('May', 'Th05');
+};
+
 export function convertMonthFormat(dateArray) {
-  // Kiểm tra xem mảng có đủ 3 phần tử không
   if (dateArray.length !== 3) {
     return "Ngày tháng không hợp lệ";
   }
 
-  // Trừ 1 từ giá trị tháng
   dateArray[1]--;
 
   return dateArray;
 }
+
+
+export function formatArrayDate2(dateArray) {
+  // Lấy thông tin từ mảng
+  const [year, month, day] = dateArray;
+
+  // Chuyển đổi số tháng thành tên tháng
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthName = monthNames[month - 1];
+
+  // Tạo chuỗi định dạng
+  const formattedDate = `${monthName}${day < 10 ? '0' + day : day}, ${year}`;
+
+  return formattedDate;
+};

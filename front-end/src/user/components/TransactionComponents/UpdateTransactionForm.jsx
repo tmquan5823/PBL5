@@ -41,11 +41,6 @@ const UpdateTransactionForm = props => {
         }
     }, true);
 
-    useEffect(() => {
-        console.log(props.category);
-    }, [])
-
-
     const currancyChange = (event) => {
         setCurrancy(event.target.value);
     };
@@ -96,6 +91,7 @@ const UpdateTransactionForm = props => {
             if (resData.state) {
                 props.onClose();
                 props.onUpdate(resData.transaction);
+                auth.setWallet(resData.wallet);
             }
         } catch (err) {
             console.log(err);
@@ -111,6 +107,7 @@ const UpdateTransactionForm = props => {
             if (resData.state) {
                 props.onClose();
                 props.onDelete(props.id);
+                auth.setWallet(resData.wallet);
             }
         } catch (err) {
             console.log(err);
