@@ -24,6 +24,3 @@ yarn-error.log*
 
 .env
 
-/src/shared/util/diagramdata.json
-/src/shared/util/fetchdata.js
-/src/shared/util/test.html

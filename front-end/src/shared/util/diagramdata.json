@@ -1,0 +1,2398 @@
+{
+    "list_categories": [
+        {
+            "category": {
+                "id": 30,
+                "content": "Xe",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/nzby5lmlwzlpftbqu7zg",
+                "iconColor": "#00FFFF",
+                "income": false
+            },
+            "transaction_times": 18
+        },
+        {
+            "category": {
+                "id": 31,
+                "content": "Ăn",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/tedfn7epzvb6gbilqxxm",
+                "iconColor": "#6495ED",
+                "income": false
+            },
+            "transaction_times": 18
+        },
+        {
+            "category": {
+                "id": 32,
+                "content": "Hóa đơn",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/zughqcuiuwlkcrwu85b1",
+                "iconColor": "#7FFF00",
+                "income": false
+            },
+            "transaction_times": 51
+        },
+        {
+            "category": {
+                "id": 33,
+                "content": "Khác",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/tdttcqqbptusdfiom3u6",
+                "iconColor": "#7FFFD4",
+                "income": false
+            },
+            "transaction_times": 18
+        },
+        {
+            "category": {
+                "id": 34,
+                "content": "Trang điểm",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/cd2ryshvtmcrqqlgonzs",
+                "iconColor": "#00008B",
+                "income": false
+            },
+            "transaction_times": 11
+        },
+        {
+            "category": {
+                "id": 36,
+                "content": "Mua sắm",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/cddd2ljglycickii9hpb",
+                "iconColor": "#9400D3",
+                "income": false
+            },
+            "transaction_times": 15
+        },
+        {
+            "category": {
+                "id": 37,
+                "content": "Điện thoại",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/ofyc6de4cvqjqmbqdwfr",
+                "iconColor": "#1E90FF",
+                "income": false
+            },
+            "transaction_times": 25
+        },
+        {
+            "category": {
+                "id": 51,
+                "content": "Ngân hàng",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/kmejgnfitdgtyp78gbja",
+                "iconColor": "#008080",
+                "income": true
+            },
+            "transaction_times": 31
+        },
+        {
+            "category": {
+                "id": 53,
+                "content": "Quà tặng",
+                "iconUrl": "https://res.cloudinary.com/dwzhz9qkm/image/upload/shxoaxbzqzkjh8ndmyge",
+                "iconColor": "#A851FF",
+                "income": true
+            },
+            "transaction_times": 3
+        }
+    ],
+    "list_wallets": [
+        {
+            "id": 4,
+            "walletName": "Vi tien mat",
+            "moneyAtFirst": 1000000.0,
+            "moneyLeft": -600000.0
+        },
+        {
+            "id": 5,
+            "walletName": "Vi tien mat",
+            "moneyAtFirst": 1111110.0,
+            "moneyLeft": 631110.0
+        },
+        {
+            "id": 6,
+            "walletName": "Vi ngan hang ARGB",
+            "moneyAtFirst": 2.0E7,
+            "moneyLeft": 4550000.0
+        }
+    ],
+    "list_transactions": [
+        {
+            "id": 135,
+            "date_transaction": [
+                2024,
+                1,
+                31
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 119,
+            "date_transaction": [
+                2024,
+                2,
+                7
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 120,
+            "date_transaction": [
+                2024,
+                2,
+                14
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 121,
+            "date_transaction": [
+                2024,
+                2,
+                21
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 122,
+            "date_transaction": [
+                2024,
+                2,
+                28
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 118,
+            "date_transaction": [
+                2024,
+                3,
+                1
+            ],
+            "amount": 1200000.0,
+            "note": "ngan hang",
+            "wallet_id": 6,
+            "category_id": 51
+        },
+        {
+            "id": 123,
+            "date_transaction": [
+                2024,
+                3,
+                6
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 124,
+            "date_transaction": [
+                2024,
+                3,
+                13
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 125,
+            "date_transaction": [
+                2024,
+                3,
+                20
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 126,
+            "date_transaction": [
+                2024,
+                3,
+                27
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 187,
+            "date_transaction": [
+                2024,
+                3,
+                28
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 136,
+            "date_transaction": [
+                2024,
+                3,
+                29
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 137,
+            "date_transaction": [
+                2024,
+                3,
+                30
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 114,
+            "date_transaction": [
+                2024,
+                3,
+                31
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 138,
+            "date_transaction": [
+                2024,
+                3,
+                31
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 115,
+            "date_transaction": [
+                2024,
+                4,
+                1
+            ],
+            "amount": 1200000.0,
+            "note": "ngan hang",
+            "wallet_id": 6,
+            "category_id": 51
+        },
+        {
+            "id": 139,
+            "date_transaction": [
+                2024,
+                4,
+                1
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 90,
+            "date_transaction": [
+                2024,
+                4,
+                2
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 140,
+            "date_transaction": [
+                2024,
+                4,
+                2
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 127,
+            "date_transaction": [
+                2024,
+                4,
+                3
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 141,
+            "date_transaction": [
+                2024,
+                4,
+                3
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 91,
+            "date_transaction": [
+                2024,
+                4,
+                4
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 142,
+            "date_transaction": [
+                2024,
+                4,
+                4
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 143,
+            "date_transaction": [
+                2024,
+                4,
+                5
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 92,
+            "date_transaction": [
+                2024,
+                4,
+                6
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 144,
+            "date_transaction": [
+                2024,
+                4,
+                6
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 145,
+            "date_transaction": [
+                2024,
+                4,
+                7
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 93,
+            "date_transaction": [
+                2024,
+                4,
+                8
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 146,
+            "date_transaction": [
+                2024,
+                4,
+                8
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 147,
+            "date_transaction": [
+                2024,
+                4,
+                9
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 94,
+            "date_transaction": [
+                2024,
+                4,
+                10
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 128,
+            "date_transaction": [
+                2024,
+                4,
+                10
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 148,
+            "date_transaction": [
+                2024,
+                4,
+                10
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 149,
+            "date_transaction": [
+                2024,
+                4,
+                11
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 95,
+            "date_transaction": [
+                2024,
+                4,
+                12
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 150,
+            "date_transaction": [
+                2024,
+                4,
+                12
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 151,
+            "date_transaction": [
+                2024,
+                4,
+                13
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 96,
+            "date_transaction": [
+                2024,
+                4,
+                14
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 152,
+            "date_transaction": [
+                2024,
+                4,
+                14
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 153,
+            "date_transaction": [
+                2024,
+                4,
+                15
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 97,
+            "date_transaction": [
+                2024,
+                4,
+                16
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 154,
+            "date_transaction": [
+                2024,
+                4,
+                16
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 129,
+            "date_transaction": [
+                2024,
+                4,
+                17
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 155,
+            "date_transaction": [
+                2024,
+                4,
+                17
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 98,
+            "date_transaction": [
+                2024,
+                4,
+                18
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 156,
+            "date_transaction": [
+                2024,
+                4,
+                18
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 157,
+            "date_transaction": [
+                2024,
+                4,
+                19
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 99,
+            "date_transaction": [
+                2024,
+                4,
+                20
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 158,
+            "date_transaction": [
+                2024,
+                4,
+                20
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 159,
+            "date_transaction": [
+                2024,
+                4,
+                21
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 100,
+            "date_transaction": [
+                2024,
+                4,
+                22
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 160,
+            "date_transaction": [
+                2024,
+                4,
+                22
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 161,
+            "date_transaction": [
+                2024,
+                4,
+                23
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 101,
+            "date_transaction": [
+                2024,
+                4,
+                24
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 130,
+            "date_transaction": [
+                2024,
+                4,
+                24
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 162,
+            "date_transaction": [
+                2024,
+                4,
+                24
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 163,
+            "date_transaction": [
+                2024,
+                4,
+                25
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 102,
+            "date_transaction": [
+                2024,
+                4,
+                26
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 164,
+            "date_transaction": [
+                2024,
+                4,
+                26
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 165,
+            "date_transaction": [
+                2024,
+                4,
+                27
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 103,
+            "date_transaction": [
+                2024,
+                4,
+                28
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 166,
+            "date_transaction": [
+                2024,
+                4,
+                28
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 33,
+            "date_transaction": [
+                2024,
+                4,
+                29
+            ],
+            "amount": 120000.0,
+            "note": "hi",
+            "wallet_id": 5,
+            "category_id": 53
+        },
+        {
+            "id": 167,
+            "date_transaction": [
+                2024,
+                4,
+                29
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 104,
+            "date_transaction": [
+                2024,
+                4,
+                30
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 168,
+            "date_transaction": [
+                2024,
+                4,
+                30
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 51,
+            "date_transaction": [
+                2024,
+                5,
+                1
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 69,
+            "date_transaction": [
+                2024,
+                5,
+                1
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 79,
+            "date_transaction": [
+                2024,
+                5,
+                1
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 89,
+            "date_transaction": [
+                2024,
+                5,
+                1
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 116,
+            "date_transaction": [
+                2024,
+                5,
+                1
+            ],
+            "amount": 1200000.0,
+            "note": "ngan hang",
+            "wallet_id": 6,
+            "category_id": 51
+        },
+        {
+            "id": 131,
+            "date_transaction": [
+                2024,
+                5,
+                1
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 169,
+            "date_transaction": [
+                2024,
+                5,
+                1
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 27,
+            "date_transaction": [
+                2024,
+                5,
+                2
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 34,
+            "date_transaction": [
+                2024,
+                5,
+                2
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 52,
+            "date_transaction": [
+                2024,
+                5,
+                2
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 105,
+            "date_transaction": [
+                2024,
+                5,
+                2
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 170,
+            "date_transaction": [
+                2024,
+                5,
+                2
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 11,
+            "date_transaction": [
+                2024,
+                5,
+                3
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 35,
+            "date_transaction": [
+                2024,
+                5,
+                3
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 53,
+            "date_transaction": [
+                2024,
+                5,
+                3
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 70,
+            "date_transaction": [
+                2024,
+                5,
+                3
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 80,
+            "date_transaction": [
+                2024,
+                5,
+                3
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 171,
+            "date_transaction": [
+                2024,
+                5,
+                3
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 12,
+            "date_transaction": [
+                2024,
+                5,
+                4
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 36,
+            "date_transaction": [
+                2024,
+                5,
+                4
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 54,
+            "date_transaction": [
+                2024,
+                5,
+                4
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 106,
+            "date_transaction": [
+                2024,
+                5,
+                4
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 172,
+            "date_transaction": [
+                2024,
+                5,
+                4
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 13,
+            "date_transaction": [
+                2024,
+                5,
+                5
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 37,
+            "date_transaction": [
+                2024,
+                5,
+                5
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 55,
+            "date_transaction": [
+                2024,
+                5,
+                5
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 71,
+            "date_transaction": [
+                2024,
+                5,
+                5
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 81,
+            "date_transaction": [
+                2024,
+                5,
+                5
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 173,
+            "date_transaction": [
+                2024,
+                5,
+                5
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 14,
+            "date_transaction": [
+                2024,
+                5,
+                6
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 31,
+            "date_transaction": [
+                2024,
+                5,
+                6
+            ],
+            "amount": 120000.0,
+            "note": "hi",
+            "wallet_id": 5,
+            "category_id": 53
+        },
+        {
+            "id": 38,
+            "date_transaction": [
+                2024,
+                5,
+                6
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 56,
+            "date_transaction": [
+                2024,
+                5,
+                6
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 107,
+            "date_transaction": [
+                2024,
+                5,
+                6
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 174,
+            "date_transaction": [
+                2024,
+                5,
+                6
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 26,
+            "date_transaction": [
+                2024,
+                5,
+                6
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 15,
+            "date_transaction": [
+                2024,
+                5,
+                7
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 39,
+            "date_transaction": [
+                2024,
+                5,
+                7
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 57,
+            "date_transaction": [
+                2024,
+                5,
+                7
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 72,
+            "date_transaction": [
+                2024,
+                5,
+                7
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 82,
+            "date_transaction": [
+                2024,
+                5,
+                7
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 175,
+            "date_transaction": [
+                2024,
+                5,
+                7
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 16,
+            "date_transaction": [
+                2024,
+                5,
+                8
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 40,
+            "date_transaction": [
+                2024,
+                5,
+                8
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 58,
+            "date_transaction": [
+                2024,
+                5,
+                8
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 108,
+            "date_transaction": [
+                2024,
+                5,
+                8
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 132,
+            "date_transaction": [
+                2024,
+                5,
+                8
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 176,
+            "date_transaction": [
+                2024,
+                5,
+                8
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 17,
+            "date_transaction": [
+                2024,
+                5,
+                9
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 41,
+            "date_transaction": [
+                2024,
+                5,
+                9
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 59,
+            "date_transaction": [
+                2024,
+                5,
+                9
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 73,
+            "date_transaction": [
+                2024,
+                5,
+                9
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 83,
+            "date_transaction": [
+                2024,
+                5,
+                9
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 177,
+            "date_transaction": [
+                2024,
+                5,
+                9
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 18,
+            "date_transaction": [
+                2024,
+                5,
+                10
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 42,
+            "date_transaction": [
+                2024,
+                5,
+                10
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 60,
+            "date_transaction": [
+                2024,
+                5,
+                10
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 109,
+            "date_transaction": [
+                2024,
+                5,
+                10
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 178,
+            "date_transaction": [
+                2024,
+                5,
+                10
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 19,
+            "date_transaction": [
+                2024,
+                5,
+                11
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 29,
+            "date_transaction": [
+                2024,
+                5,
+                11
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 43,
+            "date_transaction": [
+                2024,
+                5,
+                11
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 61,
+            "date_transaction": [
+                2024,
+                5,
+                11
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 74,
+            "date_transaction": [
+                2024,
+                5,
+                11
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 84,
+            "date_transaction": [
+                2024,
+                5,
+                11
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 179,
+            "date_transaction": [
+                2024,
+                5,
+                11
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 20,
+            "date_transaction": [
+                2024,
+                5,
+                12
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 44,
+            "date_transaction": [
+                2024,
+                5,
+                12
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 62,
+            "date_transaction": [
+                2024,
+                5,
+                12
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 110,
+            "date_transaction": [
+                2024,
+                5,
+                12
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 180,
+            "date_transaction": [
+                2024,
+                5,
+                12
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 21,
+            "date_transaction": [
+                2024,
+                5,
+                13
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 32,
+            "date_transaction": [
+                2024,
+                5,
+                13
+            ],
+            "amount": 120000.0,
+            "note": "hi",
+            "wallet_id": 5,
+            "category_id": 53
+        },
+        {
+            "id": 45,
+            "date_transaction": [
+                2024,
+                5,
+                13
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 63,
+            "date_transaction": [
+                2024,
+                5,
+                13
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 75,
+            "date_transaction": [
+                2024,
+                5,
+                13
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 85,
+            "date_transaction": [
+                2024,
+                5,
+                13
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 181,
+            "date_transaction": [
+                2024,
+                5,
+                13
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 5,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 10,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 36
+        },
+        {
+            "id": 22,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 28,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 32
+        },
+        {
+            "id": 46,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 64,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 111,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 182,
+            "date_transaction": [
+                2024,
+                5,
+                14
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 1,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 7,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 36
+        },
+        {
+            "id": 23,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 47,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 65,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 76,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 86,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 133,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 183,
+            "date_transaction": [
+                2024,
+                5,
+                15
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 2,
+            "date_transaction": [
+                2024,
+                5,
+                16
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 8,
+            "date_transaction": [
+                2024,
+                5,
+                16
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 36
+        },
+        {
+            "id": 24,
+            "date_transaction": [
+                2024,
+                5,
+                16
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 48,
+            "date_transaction": [
+                2024,
+                5,
+                16
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 112,
+            "date_transaction": [
+                2024,
+                5,
+                16
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 3,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 6,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 30
+        },
+        {
+            "id": 9,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 36
+        },
+        {
+            "id": 25,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 49,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": 100000.0,
+            "note": "dsda",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 67,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 77,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 87,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 50,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": 100000.0,
+            "note": "fasffffffffffffffffff",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 190,
+            "date_transaction": [
+                2024,
+                5,
+                17
+            ],
+            "amount": 100000.0,
+            "note": "ttttttttttttttttttttttttttttttttttt",
+            "wallet_id": 5,
+            "category_id": 51
+        },
+        {
+            "id": 4,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 188,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 189,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": -100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 33
+        },
+        {
+            "id": 30,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": 100000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 4,
+            "category_id": 51
+        },
+        {
+            "id": 68,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 191,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": -30000.0,
+            "note": "Tin an cut 123",
+            "wallet_id": 5,
+            "category_id": 31
+        },
+        {
+            "id": 113,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": -50000.0,
+            "note": "dsda",
+            "wallet_id": 6,
+            "category_id": 37
+        },
+        {
+            "id": 186,
+            "date_transaction": [
+                2024,
+                5,
+                18
+            ],
+            "amount": -100000.0,
+            "note": "tien dien nuoc",
+            "wallet_id": 6,
+            "category_id": 32
+        },
+        {
+            "id": 78,
+            "date_transaction": [
+                2024,
+                5,
+                19
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 192,
+            "date_transaction": [
+                2024,
+                5,
+                19
+            ],
+            "amount": -200000.0,
+            "note": "phai xinh",
+            "wallet_id": 5,
+            "category_id": 34
+        },
+        {
+            "id": 88,
+            "date_transaction": [
+                2024,
+                5,
+                19
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 193,
+            "date_transaction": [
+                2024,
+                5,
+                19
+            ],
+            "amount": -500000.0,
+            "note": "shopping",
+            "wallet_id": 6,
+            "category_id": 36
+        },
+        {
+            "id": 134,
+            "date_transaction": [
+                2024,
+                5,
+                22
+            ],
+            "amount": -500000.0,
+            "note": "xang",
+            "wallet_id": 6,
+            "category_id": 30
+        },
+        {
+            "id": 117,
+            "date_transaction": [
+                2024,
+                6,
+                1
+            ],
+            "amount": 1200000.0,
+            "note": "ngan hang",
+            "wallet_id": 6,
+            "category_id": 51
+        }
+    ],
+    "message": "Lấy dữ liệu biểu đồ thành công!!!",
+    "state": true
+}

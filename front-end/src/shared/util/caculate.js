@@ -15,17 +15,17 @@ import { filterData, filterWallet, filterCategory, dataAreaChart, dataBarChart, 
         // Filter
         const filteredTransactions = filterData(
             transactions,
-            [4], // walletIds
+            [], // walletIds
             [30, 31, 32], // categoryIds
             null, // note
-            [2024, 5, 1], // dateStart
+            [2024, 4, 1], // dateStart
             [2024, 5, 31], // dateEnd
             'outcome'   //income outcome
         );
 
         const filteredWallets = filterWallet(
             wallets,
-            [4, 5]
+            []
         )
 
         const filteredCategories = filterCategory(
