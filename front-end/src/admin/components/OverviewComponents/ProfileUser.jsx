@@ -80,7 +80,7 @@ const ProfileUser = () => {
             <Form.Item label="Ngày sinh">
               <Input
                 id="date_of_birth"
-                type="datetime-local"
+                type="date"
                 value={userData.date_of_birth}
                 readOnly
               />

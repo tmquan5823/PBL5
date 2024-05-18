@@ -6,7 +6,6 @@ import { SearchOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 
-
 const UserItem = (props) => {
   const [listUser, setListUser] = useState([]);
   const [page, setPage] = useState(1);
@@ -18,6 +17,44 @@ const UserItem = (props) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
+    // const fetchData = async () => {
+    //   try {
+    //     const responseData = await sendRequest(
+    //       `${process.env.REACT_APP_URL}/api/admin/users`,
+    //       "GET",
+    //       null,
+    //       {
+    //         "Content-Type": "application/json",
+    //         Authorization: "Bearer " + auth.token,
+    //       }
+    //     );
+    //     if (Array.isArray(responseData.list_user)) {
+    //       setListUser(responseData.list_user);
+    //     } else {
+    //       console.error("Response data is not an array", responseData);
+    //       setListUser([]);
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //     setListUser([]);
+    //   }
+    // };
+    // fetchData();
+
+    getListUser();
+  }, [sendRequest, auth.token, props.id]);
+
+  // const handleToggleCompleted = () => {
+  //   if (selectedUser) {
+  //     const updatedListUser = listUser.map((user) =>
+  //       user.id === selectedUser.id ? { ...user, status: !user.status } : user
+  //     );
+  //     setListUser(updatedListUser);
+  //   }
+  //   setIsModalVisible(false);
+  // };
+
+  const getListUser = () => {
     const fetchData = async () => {
       try {
         const responseData = await sendRequest(
@@ -34,26 +71,16 @@ const UserItem = (props) => {
           setListUser(responseData.list_user);
         } else {
           console.error("Response data is not an array", responseData);
-          setListUser([]); 
+          setListUser([]);
         }
       } catch (err) {
         console.log(err);
-        setListUser([]); 
+        setListUser([]);
       }
     };
 
     fetchData();
-  }, [sendRequest, auth.token, props.id]);
-
-  // const handleToggleCompleted = () => {
-  //   if (selectedUser) {
-  //     const updatedListUser = listUser.map((user) =>
-  //       user.id === selectedUser.id ? { ...user, status: !user.status } : user
-  //     );
-  //     setListUser(updatedListUser);
-  //   }
-  //   setIsModalVisible(false);
-  // };
+  };
 
   const handleViewProfile = (record) => {
     history.push(`/admin/overview/${record.id}`);
@@ -67,26 +94,31 @@ const UserItem = (props) => {
   const handleOk = async () => {
     if (selectedUser) {
       try {
-        await sendRequest(
-          `${process.env.REACT_APP_URL}/api/admin/users/${selectedUser.id}`,
-          "GET",
-          JSON.stringify({ status: !selectedUser.status }),
+        const resData = await sendRequest(
+          `${process.env.REACT_APP_URL}/api/admin/user/${selectedUser.id}`,
+          "PUT",
+          {},
           {
             "Content-Type": "application/json",
             Authorization: "Bearer " + auth.token,
           }
         );
+        console.log(resData);
+        if (resData) {
+          getListUser();
+          alert("Cập nhật trạng thái thành công");
+        }
         console.log("Cập nhật trạng thái thành công");
       } catch (error) {
+        alert("Cập nhật trạng thái thất bại");
         console.error("Lỗi khi cập nhật trạng thái:", error);
       } finally {
-        setIsModalVisible(false); 
+        setIsModalVisible(false);
       }
     } else {
       setIsModalVisible(false);
     }
   };
-  
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -292,10 +324,7 @@ const UserItem = (props) => {
           <Button className="btnPrf" onClick={() => handleViewProfile(record)}>
             <UserOutlined />
           </Button>
-          <Button
-            className="btnDel"
-            onClick={() => showModal(record)}
-          >
+          <Button className="btnDel" onClick={() => showModal(record)}>
             <LockOutlined />
           </Button>
         </div>
@@ -322,7 +351,11 @@ const UserItem = (props) => {
         />
       </div>
       <Modal
-        title={"Bạn có muốn "  + (selectedUser ? (selectedUser.status ? "mở" : "khóa") : "") + " tài khoản này không ?"}
+        title={
+          "Bạn có muốn " +
+          (selectedUser ? (selectedUser.status ? "mở" : "khóa") : "") +
+          " tài khoản này không ?"
+        }
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
