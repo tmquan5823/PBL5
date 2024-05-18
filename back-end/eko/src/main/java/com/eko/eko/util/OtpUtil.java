@@ -1,7 +1,6 @@
 package com.eko.eko.util;
 
 import java.util.Random;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

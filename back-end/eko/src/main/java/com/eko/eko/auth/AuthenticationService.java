@@ -15,7 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+//import org.springframework.web.client.RestTemplate;
 
 import com.eko.eko.config.JwtService;
 import com.eko.eko.money.model.Category;
@@ -176,11 +176,11 @@ public class AuthenticationService {
                 }
         }
 
-        private void revokeTokenGoogle(String googleToken) {
-                String url = "https://oauth2.googleapis.com/revoke?token=" + googleToken;
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.postForEntity(url, null, String.class);
-        }
+        // private void revokeTokenGoogle(String googleToken) {
+        // String url = "https://oauth2.googleapis.com/revoke?token=" + googleToken;
+        // RestTemplate restTemplate = new RestTemplate();
+        // restTemplate.postForEntity(url, null, String.class);
+        // }
 
         public ResponseEntity<Map<String, Object>> revokeToken(HttpServletRequest request, HttpServletResponse response)
                         throws StreamWriteException, DatabindException, IOException {

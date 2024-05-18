@@ -3,12 +3,8 @@ package com.eko.eko.money.model;
 import java.time.LocalDateTime;
 import java.time.Period;
 
-import org.springframework.data.annotation.CreatedDate;
-
-import com.eko.eko.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

@@ -48,6 +48,20 @@ const filterWallet = (wallets, walletIds) => {
     })
 }
 
+const filterCategory = (categories, type) => {
+    return categories.filter(item => {
+        if (type) {
+            const isIncome = item.category.income
+            if (type === 'income' && !isIncome) {
+                return false;
+            }
+            if (type === 'outcome' && isIncome) {
+                return false;
+            }
+        }
+        return true;
+    });
+};
 
 //AreaChart 
 const dataAreaChart = (transactions, wallets) => {
@@ -78,7 +92,7 @@ const dataAreaChart = (transactions, wallets) => {
     // Bước 4: Chuyển đổi object tempData thành mảng các object với ngày và tổng số tiền
     const formattedResult = Object.keys(tempData).map(date => {
         return {
-            date,
+            "name": date,
             amount: tempData[date] + moneyAtFirst // Cộng tổng số tiền từ giao dịch với số tiền khởi điểm
         };
     });
@@ -117,7 +131,7 @@ const dataBarChart = (transactions) => {
     // Bước 3: Chuyển đổi object tempData thành mảng các object với ngày, thu nhập và chi tiêu
     const formattedResult = Object.keys(tempData).map(date => {
         return {
-            date,
+            "name": date,
             "Thu nhập": tempData[date].income,
             "Chi tiêu": tempData[date].outcome < 0 ? -tempData[date].outcome : 0
         };
@@ -125,6 +139,55 @@ const dataBarChart = (transactions) => {
 
     return formattedResult;
 };
+
+//DoughnutChartDataIncome
+
+// const data = {
+//     labels: [
+//         'Red',
+//         'Blue',
+//         'Yellow'
+//     ],
+//     datasets: [{
+//         data: [100, 50, 100],
+//         backgroundColor: [
+//             'rgb(255, 99, 132)',
+//             'rgb(54, 162, 235)',
+//             '#6495ED'
+//         ],
+//     }]
+// };
+
+
+const dataDoughnutChart = (categories, transactions) => {
+    const data = {
+        labels: [],
+        datasets: [{
+            data: [],
+            backgroundColor: []
+        }]
+    };
+
+    categories.forEach(categoryItem => {
+        const category = categoryItem.category;
+        const categoryId = category.id;
+
+        // Lọc các giao dịch thuộc category hiện tại
+        const categoryTransactions = transactions.filter(transaction => transaction.category_id === categoryId);
+
+        // Tính tổng số tiền của các giao dịch thuộc category hiện tại
+        const totalAmount = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+
+        // Thêm label, data và backgroundColor vào dữ liệu của biểu đồ
+        data.labels.push(category.content);
+        data.datasets[0].data.push(totalAmount);
+        data.datasets[0].backgroundColor.push(category.iconColor);
+    });
+
+    return data;
+}
+
+
 
 
 
@@ -148,4 +211,4 @@ const isDateBefore = (dateArray, comparisonDate) => {
 
 
 
-export { filterData, filterWallet, dataAreaChart, dataBarChart };
+export { filterData, filterWallet, filterCategory, dataAreaChart, dataBarChart, dataDoughnutChart };

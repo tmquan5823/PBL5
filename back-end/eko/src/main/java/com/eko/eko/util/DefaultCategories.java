@@ -31,9 +31,6 @@ public class DefaultCategories {
     private final CloudinaryService cloudinaryService;
 
     public List<Category> createListCategoriesDefault(User user) {
-        System.out.println("CHECK");
-        System.out.println(
-                listIconColorDefault.size() + " " + listIconContentDefault.size() + " " + listIconUrlDefault.size());
         List<Category> categories = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
             Category temp = Category.builder().iconUrl(cloudinaryService.generateImageUrl(listIconUrlDefault.get(i)))

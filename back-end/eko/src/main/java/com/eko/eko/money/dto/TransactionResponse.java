@@ -1,8 +1,5 @@
 package com.eko.eko.money.dto;
 
-import java.time.Period;
-
-import com.eko.eko.money.model.Category;
 import com.eko.eko.money.model.Transaction;
 import com.eko.eko.money.model.Wallet;
 import com.fasterxml.jackson.annotation.JsonProperty;

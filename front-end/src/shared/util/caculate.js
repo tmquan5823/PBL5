@@ -1,5 +1,5 @@
 import fetchData from './fetchdata.js';
-import { filterData, filterWallet, dataAreaChart, dataBarChart } from './chartCaculate.js';
+import { filterData, filterWallet, filterCategory, dataAreaChart, dataBarChart, dataDoughnutChart } from './chartCaculate.js';
 
 
 // Sử dụng fetchData để lấy dữ liệu JSON
@@ -15,7 +15,7 @@ import { filterData, filterWallet, dataAreaChart, dataBarChart } from './chartCa
         // Filter
         const filteredTransactions = filterData(
             transactions,
-            [4, 5], // walletIds
+            [4], // walletIds
             [], // categoryIds
             null, // note
             [2024, 5, 1], // dateStart
@@ -27,8 +27,14 @@ import { filterData, filterWallet, dataAreaChart, dataBarChart } from './chartCa
             wallets,
             [4, 5]
         )
+
+        const filteredCategories = filterCategory(
+            categories,
+            "outcome"
+        )
         console.log(filteredTransactions)
         console.log(filteredWallets)
+        console.log(filteredCategories)
 
         //AreaChart
 
@@ -38,7 +44,9 @@ import { filterData, filterWallet, dataAreaChart, dataBarChart } from './chartCa
 
         console.log(dataBarChart(transactions))
 
-        //IncomeDonutChart
+        //DoughnutChartDataIncome   
+
+        console.log(dataDoughnutChart(filteredCategories, filteredTransactions))
 
         //OutComeDonutChart
 
