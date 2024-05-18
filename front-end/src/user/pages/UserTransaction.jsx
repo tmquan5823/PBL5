@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import "./UserTransaction.css";
 import PageContent from "../../shared/components/UIElements/PageContent";
 import ExpenseRow from "../../shared/components/UIElements/ExpenseRow";
-import {DateFormat} from "../../shared/help/DateFormat";
+import { DateFormat } from "../../shared/help/DateFormat";
 import moment from 'moment';
 import Modal from "../../shared/components/UIElements/Modal";
 import AddTransactionForm from "../components/TransactionComponents/AddTransactionForm";
@@ -11,11 +11,18 @@ import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import TransactionHistory from "../components/TransactionComponents/TransactionHistory";
+import { totalAmount } from "../../shared/util/TransactionsCaculator";
+import { formatArrayDate } from "../../shared/help/DateFormat";
+import { filterData } from "../../shared/util/chartCaculate";
 
 const UserTransaction = props => {
     const [formShow, setFormShow] = useState(false);
     const [categories, setCategories] = useState({});
     const [transactions, setTransactions] = useState();
+    const [filterTransactions, setFilterTransactions] = useState();
+    const [futureTransactions, setFutureTransactions] = useState();
+    const [transactionsInDate, setTransactionsInDate] = useState();
+    const [expense, setExpense] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const auth = useContext(AuthContext);
 
@@ -38,44 +45,83 @@ const UserTransaction = props => {
                         incomes: resData.list_categories.filter(item => item.category.income),
                         outcomes: resData.list_categories.filter(item => !item.category.income),
                     });
-                    console.log(categories);
                 }
             } catch (err) {
                 console.log(err);
             }
         };
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/" + auth.wallet.id, "GET", null, {
+                'Authorization': "Bearer " + auth.token
+            });
+            if (resData.state) {
+                setTransactions(resData.list_transaction_present);
+                setFilterTransactions(resData.list_transaction_present);
+                setFutureTransactions(resData.list_transaction_future);
+                console.log(resData);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, []);
 
     useEffect(() => {
-        async function fetchData() {
-            try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/" + auth.wallet.id, "GET", null, {
-                    'Authorization': "Bearer " + auth.token
-                });
-                if (resData.state) {
-                    setTransactions(resData.list_transaction_present);
-                    console.log(resData);
+        setExpense([{ title: 'Số dư Ví hiện tại', money: auth.wallet.moneyLeft },
+        { title: 'Tổng thay đổi theo kì', money: totalAmount(filterTransactions, false) + totalAmount(filterTransactions, true) },
+        { title: 'Tổng Chi Phí Theo Kì', money: totalAmount(filterTransactions, false) },
+        { title: 'Tổng Thu Nhập Theo Kì', money: totalAmount(filterTransactions, true) }]);
+
+        if (filterTransactions && filterTransactions.length > 0) {
+            let transactionArray = [];
+            let array = [];
+            let check = filterTransactions[0].dateTransaction.slice(0, 3);
+            for (let i = 0; i < filterTransactions.length; i++) {
+                const date = filterTransactions[i].dateTransaction.slice(0, 3);
+                if (date.toString() == check.toString()) {
+                    array.push(filterTransactions[i]);
                 }
-            } catch (err) {
-                console.log(err);
+                else {
+                    transactionArray.push(array);
+                    check = date;
+                    array = [filterTransactions[i]];
+                }
             }
-        };
+            transactionArray.push(array);
+            setTransactionsInDate(transactionArray);
+        } else {
+            setTransactionsInDate([]);
+        }
+    }, [filterTransactions, auth.wallet]);
+
+    const onUpdateTransaction = useCallback((item) => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
-    function onUpdateTransaction(item) {
-        setTransactions(preVal => preVal.map(transaction =>
-            transaction.id === item.id ? item : transaction
-        ));
-    }
+    const onDeleteHandler = useCallback((item) => {
+        fetchData();
+    }, [fetchData]);
 
-    function onDeleteHandler(id) {
-        setTransactions(preVal => preVal.filter(item => item.id !== id));
-    }
+    const AddTransactionHandler = useCallback((item) => {
+        fetchData();
+    }, [fetchData]);
 
-    function AddTransactionHandler(items) {
-        setTransactions(preVal => [...items, ...preVal]);
+    function filterChangeHandler(inputs) {
+        console.log(inputs.user.value);
+
+        if (inputs.user.value && inputs.user.value.length <= 0) {
+            setFilterTransactions([]);
+        }
+        else {
+            setFilterTransactions(filterData(transactions, [auth.wallet.id], inputs.category.value, inputs.note.value));
+        }
     }
 
     return <React.Fragment>
@@ -103,14 +149,27 @@ const UserTransaction = props => {
                     <button>&gt;</button>
                 </div>
             </div>
-            <FilterContainer />
-            <ExpenseRow />
-            <TransactionHistory
-                transactions={transactions}
+            <FilterContainer
+                onChange={filterChangeHandler}
+            />
+            <ExpenseRow expense={expense} />
+            {(futureTransactions && futureTransactions.length > 0) && <TransactionHistory
+                title="Giao dịch dự kiến"
+                showDate
+                transactions={futureTransactions}
                 categories={categories}
                 onUpdate={onUpdateTransaction}
                 onDelete={onDeleteHandler}
-            />
+            />}
+            <br />
+            {transactionsInDate && transactionsInDate.map(items => <TransactionHistory
+                key={items[0].dateTransaction.slice(0, 3).toString()}
+                title={formatArrayDate(items[0].dateTransaction.slice(0, 3))}
+                transactions={items}
+                categories={categories}
+                onUpdate={onUpdateTransaction}
+                onDelete={onDeleteHandler}
+            />)}
         </PageContent>
     </React.Fragment>
 

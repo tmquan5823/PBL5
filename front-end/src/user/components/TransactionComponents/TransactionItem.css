@@ -1,10 +1,11 @@
 .transaction-item {
     width: 100%;
-    padding: 7px;
+    padding: 10px 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .transaction-item:hover {
@@ -14,7 +15,7 @@
 .transaction-item__category {
     display: flex;
     align-items: center;
-    min-width: 30%;
+    width: 20%;
 }
 
 .transaction-item__icon {
@@ -28,12 +29,23 @@
 }
 
 .transaction-item__note {
-    width: 50%;
+    width: 30%;
+    text-align: center;
 }
 
 .transaction-item__icon img {
     width: 20px;
     height: 20px;
+}
+
+.transaction-item__date {
+    width: 20%;
+    text-align: center;
+}
+
+.transaction-item__money {
+    width: 20%;
+    text-align: end;
 }
 
 .transaction-item__money span {

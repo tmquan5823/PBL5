@@ -13,6 +13,10 @@
     border-radius: 7px;
 }
 
+.progress--red {
+    background-color: #f14c52;
+}
+
 .progress-text {
     position: absolute;
     top: 50%;

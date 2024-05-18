@@ -17,7 +17,9 @@ const BudgetAddCard = props => {
         <Modal
             show={formShow}
             onCancel={closeHandler}
-            content={<AddBudgetForm />}
+            content={<AddBudgetForm
+                onAdd={props.onAdd}
+                onClose={closeHandler} />}
         >
         </Modal>
         <div className="budget-add-card">

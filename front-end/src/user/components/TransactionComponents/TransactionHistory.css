@@ -1,9 +1,79 @@
+.transaction-history-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+}
+
+.transaction-history-container h3 {
+    margin: 0;
+}
+
+.thc__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.thc__header:hover {
+    cursor: pointer;
+}
+
+.thc__header h3 {
+    min-width: 30%;
+}
+
+.thc__header img {
+    width: 15px;
+    height: 15px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.rotateAnimation {
+    animation: rotateAnimation .5s forwards;
+}
+
+@keyframes rotateAnimation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes rotateAnimation2 {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(180deg);
+    }
+}
+
+.thc__header .money-amount {
+    color: #93a1aa;
+    text-align: end;
+}
+
 .transaction-history {
     display: flex;
     flex-direction: column;
     list-style: none;
-    background-color: #fff;
-    padding: 20px;
+    padding: 0;
 }
 
 .transaction-history__item {

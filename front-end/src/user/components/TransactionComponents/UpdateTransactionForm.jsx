@@ -11,6 +11,8 @@ import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import { convertMonthFormat } from "../../../shared/help/DateFormat";
+import { UTC7Date } from "../../../shared/help/DateFormat";
+
 
 const UpdateTransactionForm = props => {
     const auth = useContext(AuthContext);
@@ -40,11 +42,6 @@ const UpdateTransactionForm = props => {
             isValid: true
         }
     }, true);
-
-    useEffect(() => {
-        console.log(props.category);
-    }, [])
-
 
     const currancyChange = (event) => {
         setCurrancy(event.target.value);
@@ -84,8 +81,8 @@ const UpdateTransactionForm = props => {
                 JSON.stringify({
                     category_id: categoryValue.category.id,
                     transaction_id: props.id,
-                    transaction_date: formState.inputs.start_date.value,
-                    date_end: periodValue !== 'P0D' ? formState.inputs.end_date.value : null,
+                    transaction_date: UTC7Date(formState.inputs.start_date.value),
+                    date_end: periodValue !== 'P0D' ? UTC7Date(formState.inputs.end_date.value) : null,
                     cycle: periodValue === 'P0D' ? null : periodValue,
                     note: formState.inputs.note.value || null,
                     amount: categoryValue.category.income ? formState.inputs.money.value : -parseInt(formState.inputs.money.value, 10)
@@ -96,6 +93,7 @@ const UpdateTransactionForm = props => {
             if (resData.state) {
                 props.onClose();
                 props.onUpdate(resData.transaction);
+                auth.setWallet(resData.wallet);
             }
         } catch (err) {
             console.log(err);
@@ -111,6 +109,7 @@ const UpdateTransactionForm = props => {
             if (resData.state) {
                 props.onClose();
                 props.onDelete(props.id);
+                auth.setWallet(resData.wallet);
             }
         } catch (err) {
             console.log(err);

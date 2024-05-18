@@ -36,9 +36,7 @@
     margin: 0;
 }
 
-.signup-form 
-
-.confirm-password--invalid {
+.signup-form .confirm-password--invalid {
     margin: 0;
     color: red;
     font-size: 14px;

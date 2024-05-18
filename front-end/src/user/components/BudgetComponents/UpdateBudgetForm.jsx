@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./AddBudgetForm.css";
+import "./UpdateBudgetForm.css";
 import Input from "../../../shared/components/FormElements/Input";
 import { useForm } from "../../../shared/hooks/form-hook";
 import BudgetCurrency from "./BudgetCurrency";
@@ -9,33 +9,39 @@ import { VALIDATOR_REQUIRE } from "../../../shared/util/validators";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner"
+import { budgetDateFormat } from "../../../shared/help/DateFormat";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { UTC7Date } from "../../../shared/help/DateFormat";
 
-const AddBudgetForm = props => {
+const UpdateBudgetForm = props => {
     const auth = useContext(AuthContext);
     const [selectedOption, setSelectedOption] = useState('VND');
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date(props.start) || new Date);
+    const [endDate, setEndDate] = useState(new Date(props.end) || new Date);
     const [dateState, setDateState] = useState(true);
     const [budgetFormState, setBudgetFormState] = useState(false);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const history = useHistory();
 
     const [formState, inputHandler] = useForm({
         budgetName: {
-            value: "",
-            isValid: false
+            value: props.name,
+            isValid: true
         },
         budget: {
-            value: "",
-            isValid: false
+            value: props.money,
+            isValid: true
         }
-    }, false);
+    }, true);
 
-    async function createBudgetHandler(event) {
+
+
+    async function updateBudgetHandler(event) {
         event.preventDefault();
         try {
-            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget", "POST",
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget", "PUT",
                 JSON.stringify({
+                    budget_id: props.id,
                     budget_name: formState.inputs.budgetName.value,
                     budget_money: formState.inputs.budget.value,
                     date_start: UTC7Date(startDate),
@@ -46,7 +52,23 @@ const AddBudgetForm = props => {
             });
             if (resData.state) {
                 props.onClose();
-                props.onAdd(resData);
+                props.onUpdate(resData);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async function deleteHandler(event) {
+        event.preventDefault();
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/" + props.id, "DELETE",
+                null, {
+                'Authorization': "Bearer " + auth.token
+            });
+            if (resData.state) {
+                props.onClose();
+                history.push("/user/budget");
             }
         } catch (err) {
             console.log(err);
@@ -54,7 +76,12 @@ const AddBudgetForm = props => {
     }
 
     useEffect(() => {
-        const isEndDateValid = startDate.getDate() <= endDate.getDate();
+        const startDateWithoutTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        const endDateWithoutTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+
+        // So sánh phần ngày tháng năm của hai ngày
+        const isEndDateValid = startDateWithoutTime <= endDateWithoutTime;
+
         setDateState(isEndDateValid);
         setBudgetFormState(formState.isValid && isEndDateValid);
     }, [startDate, endDate, formState]);
@@ -73,8 +100,8 @@ const AddBudgetForm = props => {
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
-        <form action="" className="add-budget-form">
-            <h2>Thêm ngân sách mới</h2>
+        <form action="" className="update-budget-form">
+            <h2>Chỉnh sửa ngân sách</h2>
             <div className="budget-form__content">
                 <div className="general-info">
                     <h3>Thông tin chung</h3>
@@ -82,6 +109,7 @@ const AddBudgetForm = props => {
                         text="Tên ngân sách"
                         element="input"
                         type="text"
+                        value={formState.inputs.budgetName.value}
                         onInput={inputHandler}
                         validators={[VALIDATOR_REQUIRE()]}
                         width="45%" />
@@ -90,6 +118,7 @@ const AddBudgetForm = props => {
                             text="Ngân sách"
                             element="input"
                             numberOnly
+                            value={formState.inputs.budget.value}
                             type="text"
                             validators={[VALIDATOR_REQUIRE()]}
                             onInput={inputHandler}
@@ -120,11 +149,22 @@ const AddBudgetForm = props => {
                     </div>
                 </div>
             </div>
-            <div className={`add-budget__button ${!budgetFormState && 'budget-state--isvalid'}`}>
-                <button disabled={!budgetFormState} onClick={createBudgetHandler}>Tạo ngân sách</button>
+            <div className={`update-budget__button ${!budgetFormState && 'budget-state--isvalid'}`}>
+                <button disabled={!budgetFormState} onClick={updateBudgetHandler}>Cập nhật ngân sách</button>
+            </div>
+            <div className="cancel-update__button">
+                <button onClick={event => {
+                    event.preventDefault();
+                    props.onClose();
+                }}>
+                    Hủy
+                </button>
+            </div>
+            <div className="delete-budget">
+                <a onClick={deleteHandler} href="#">Xoá ngân sách</a>
             </div>
         </form>
     </React.Fragment>
 };
 
-export default AddBudgetForm;
+export default UpdateBudgetForm;

@@ -9,17 +9,23 @@ import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import StateModalCard from "../../../shared/components/UIElements/StateModalCard";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import Modal from "../../../shared/components/UIElements/Modal";
-import DeleteWalletConfirm from "./DeleteWalletConfirm";
+import { Modal } from "antd"
+import { errorNotification, successNotification, warningNotification } from "../../../shared/components/UIElements/Warning";
+
 
 const WalletSettingForm = props => {
     const auth = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const [deleteFail, setDeleteFail] = useState();
-    const [showModal, setShowModal] = useState();
-    const [message, setMessage] = useState();
     const [updateState, setUpdateState] = useState();
-    const [showConfirmForm, setShowConfirmForm] = useState();
+    const [open, setOpen] = useState(false);
+
+    const showModal = () => {
+        setOpen(true);
+    };
+
+    const hideModal = () => {
+        setOpen(false);
+    };
 
     const history = useHistory();
     const money_sources = [{
@@ -55,31 +61,22 @@ const WalletSettingForm = props => {
         }
     }, true);
 
-    function closeModalHandler() {
-        setShowModal(false);
-        clearError();
-    }
-
-    async function confirmDeleteHandler(isDelete) {
-        if (isDelete) {
-            try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/wallet/" + auth.wallet.id, "DELETE", null, {
-                    'Authorization': "Bearer " + auth.token
-                });
-                if (!resData.state) {
-                    setDeleteFail(true);
-                } else {
-                    auth.setWallet(null);
-                    history.push("/user/overview");
-                }
-                setMessage(resData.message || "");
-                setShowModal(true);
-
-            } catch (err) {
-                console.log(err);
+    async function confirmDeleteHandler() {
+        try {
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/wallet/" + auth.wallet.id, "DELETE", null, {
+                'Authorization': "Bearer " + auth.token
+            });
+            if (!resData.state) {
+                errorNotification(resData.message);
+            } else {
+                auth.setWallet(null);
+                history.push("/user/overview");
+                successNotification(resData.message);
             }
-        } else {
-            setShowConfirmForm(false);
+            hideModal();
+        } catch (err) {
+            console.log(err);
+            errorNotification(err);
         }
     }
 
@@ -114,14 +111,6 @@ const WalletSettingForm = props => {
         }, true);
     }
 
-    function hideConfirmFormHandler() {
-        setShowConfirmForm(false);
-    }
-
-    function deleteHandler() {
-        setShowConfirmForm(true);
-    }
-
     async function updateHandler(event) {
         event.preventDefault();
         try {
@@ -143,8 +132,12 @@ const WalletSettingForm = props => {
                     moneyLeft: responseData.money_left
                 })
                 setUpdateState(false);
+                successNotification(responseData.message)
+            } else {
+                warningNotification(responseData.message)
             }
         } catch (err) {
+            errorNotification(err)
             console.log(err);
         }
     }
@@ -152,19 +145,15 @@ const WalletSettingForm = props => {
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
         <Modal
-            show={showConfirmForm}
-            onCancel={hideConfirmFormHandler}
-            center
-            width="30%"
+            title="Modal"
+            open={open}
+            onOk={confirmDeleteHandler}
+            onCancel={hideModal}
+            okText="Xóa"
+            cancelText="Hủy"
         >
-            <DeleteWalletConfirm confirmHandler={confirmDeleteHandler} />
+            <p>Bạn có thực sự muốn xóa ví này?</p>
         </Modal>
-        <StateModalCard
-            show={showModal || deleteFail}
-            onCancel={closeModalHandler}
-            state={error ? 'error' : (deleteFail ? 'fail' : 'success')}
-            message={message}
-        />
         <div className="wallet-setting-container">
             <div className="wallet-setting-form">
                 <h3>Thông tin chung</h3>
@@ -222,7 +211,7 @@ const WalletSettingForm = props => {
                     />
                 </div>
             </div>
-            <h3 className="wallet-setting__delete"><a onClick={deleteHandler} href="#">Xóa ví</a></h3>
+            <h3 className="wallet-setting__delete"><a onClick={showModal} href="#">Xóa ví</a></h3>
         </div>
     </React.Fragment>
 };

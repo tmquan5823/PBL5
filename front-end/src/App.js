@@ -42,8 +42,9 @@ function App() {
     setToken(token);
     setAvatarUrl(url);
     setRole(role);
-    // Cookies.set("token", token);
-    // Cookies.set("url", url);
+    Cookies.set("token", token);
+    Cookies.set("url", url);
+    Cookies.set("role", role);
   }, []);
 
   const logout = useCallback(() => {
@@ -61,16 +62,20 @@ function App() {
     setWallet(id);
   }
 
-  // useEffect(() => {
-  //   const storedToken = Cookies.get("token");
-  //   const storedURL = Cookies.get("url");
-  //   if (storedToken) {
-  //     setToken(storedToken);
-  //   }
-  //   if (storedURL) {
-  //     setAvatarUrl(storedURL);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const storedToken = Cookies.get("token");
+    const storedURL = Cookies.get("url");
+    const storedRole = Cookies.get("role");
+    if (storedToken) {
+      setToken(storedToken);
+    }
+    if (storedURL) {
+      setAvatarUrl(storedURL);
+    }
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, []);
 
   const adminRoutes = (
     <Switch>

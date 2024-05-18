@@ -1,41 +1,50 @@
 const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateEnd, type) => {
-    return transactions.filter(item => {
-        // Check walletId
-        if (walletIds.length > 0 && !walletIds.includes(item.wallet_id)) {
-            return false;
-        }
+    if (transactions && transactions.length > 0) {
+        return transactions.filter(item => {
+            // Check walletId
+            // if (walletIds.length > 0 && !walletIds.includes(item.wallet_id)) {
+            //     console.log(1);
+            //     return false;
+            // }
 
-        // Check categoryId
-        if (categoryIds.length > 0 && !categoryIds.includes(item.category_id)) {
-            return false;
-        }
-
-        // Check note
-        if (note && item.note.toLowerCase().indexOf(note.toLowerCase()) === -1) {
-            return false;
-        }
-
-        // Check dateStart and dateEnd
-        if (dateStart && !isDateAfter(item.date_transaction, dateStart)) {
-            return false;
-        }
-        if (dateEnd && !isDateBefore(item.date_transaction, dateEnd)) {
-            return false;
-        }
-
-        if (type) {
-            const isIncome = item.amount > 0;
-            if (type === 'income' && !isIncome) {
+            // Check categoryId
+            if (categoryIds.length <= 0 || !categoryIds.includes(item.category.id)) {
+                console.log(2);
                 return false;
             }
-            if (type === 'outcome' && isIncome) {
+
+            //Check note
+            if (note && item.note.toLowerCase().indexOf(note.toLowerCase()) === -1) {
                 return false;
             }
-        }
 
-        // All conditions met, include item in filtered result
-        return true;
-    });
+            // Check dateStart and dateEnd
+            if (dateStart && !isDateAfter(item.date_transaction, dateStart)) {
+                console.log(3);
+                return false;
+            }
+            if (dateEnd && !isDateBefore(item.date_transaction, dateEnd)) {
+                console.log(4);
+                return false;
+            }
+
+            if (type) {
+                console.log(5);
+
+                const isIncome = item.amount > 0;
+                if (type === 'income' && !isIncome) {
+                    return false;
+                }
+                if (type === 'outcome' && isIncome) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }
+    console.log("@@@")
+    return true;
 }
 
 
