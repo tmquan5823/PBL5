@@ -5,16 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import com.eko.eko.cloudinary.CloudinaryService;
-import com.eko.eko.money.entity.Category;
-import com.eko.eko.money.entity.Wallet;
-import com.eko.eko.user.User;
+import com.eko.eko.money.model.Category;
+import com.eko.eko.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class DefaultCategories {
     @Value("${listIconUrlDefault.string-list}")
@@ -33,9 +31,6 @@ public class DefaultCategories {
     private final CloudinaryService cloudinaryService;
 
     public List<Category> createListCategoriesDefault(User user) {
-        System.out.println("CHECK");
-        System.out.println(
-                listIconColorDefault.size() + " " + listIconContentDefault.size() + " " + listIconUrlDefault.size());
         List<Category> categories = new ArrayList<>();
         for (int i = 0; i < 21; i++) {
             Category temp = Category.builder().iconUrl(cloudinaryService.generateImageUrl(listIconUrlDefault.get(i)))

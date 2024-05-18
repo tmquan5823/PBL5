@@ -1,6 +1,6 @@
 package com.eko.eko.money.dto;
 
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -13,17 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BudgetResponse {
-    @JsonProperty("budget_id")
+    @JsonProperty("id")
     private int budgetId;
-    @JsonProperty("budget_name")
+    @JsonProperty("name")
     private String budgetName;
-    @JsonProperty("budget_money")
+    @JsonProperty("money")
     private float budgetMoney;
-    @JsonProperty("budget_spend")
+    @JsonProperty("spend")
     private float budgetSpend;
-    @JsonProperty("date_start")
+    @JsonProperty("dateStart")
     private String dateStart;
-    @JsonProperty("date_end")
+    @JsonProperty("dateEnd")
     private String dateEnd;
     @JsonProperty("user")
     private User user;

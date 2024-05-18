@@ -1,17 +1,16 @@
-package com.eko.eko.user;
+package com.eko.eko.user.entity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.eko.eko.money.entity.Budget;
-import com.eko.eko.money.entity.Category;
-import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.money.model.Budget;
+import com.eko.eko.money.model.Category;
+import com.eko.eko.money.model.Wallet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -49,7 +48,6 @@ public class User implements UserDetails {
     private String password;
     private String firstname;
     private String lastname;
-    @JsonIgnore
     private boolean isDelete;
     private String telephone;
     private String address;

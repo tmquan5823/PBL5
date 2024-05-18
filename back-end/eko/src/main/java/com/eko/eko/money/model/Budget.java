@@ -1,7 +1,8 @@
-package com.eko.eko.money.entity;
+package com.eko.eko.money.model;
 
-import com.eko.eko.user.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDateTime;
+
+import com.eko.eko.user.entity.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,16 +25,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Category {
+public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String content;
-    private String iconUrl;
-    private String iconColor;
-    private boolean isIncome;
+    private String name;
+    private float money;
+    private float spend;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;

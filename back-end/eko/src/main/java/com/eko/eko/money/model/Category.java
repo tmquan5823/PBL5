@@ -1,8 +1,8 @@
-package com.eko.eko.money.entity;
+package com.eko.eko.money.model;
 
 import java.util.List;
 
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -28,13 +28,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Wallet {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String walletName;
-    private float moneyAtFirst;
-    private float moneyLeft;
+    private String content;
+    private String iconUrl;
+    private String iconColor;
+    private boolean isIncome;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -42,6 +43,6 @@ public class Wallet {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 }

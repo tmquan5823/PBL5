@@ -1,6 +1,6 @@
 package com.eko.eko.money.dto;
 
-import com.eko.eko.user.User;
+import com.eko.eko.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;

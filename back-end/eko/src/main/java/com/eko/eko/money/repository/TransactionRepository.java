@@ -7,16 +7,26 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.eko.eko.money.entity.Transaction;
+import com.eko.eko.money.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
     // List<Transaction> findAllByUserId(@Param("userId") int userId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.wallet.id = :walletId")
+    @Query("SELECT t FROM Transaction t JOIN t.wallet w JOIN w.user u WHERE u.id = :userId ORDER BY t.dateTransaction ASC")
+    List<Transaction> findTransactionsByUserId(@Param("userId") int userId);
+
+    @Query("SELECT t FROM Transaction t WHERE t.wallet.id = :walletId ORDER BY t.dateTransaction DESC")
     List<Transaction> findAllByWalletId(@Param("walletId") int walletId);
 
     @Query("SELECT t FROM Transaction t WHERE t.category.id = :categoryId")
     List<Transaction> findAllByCategoryId(@Param("categoryId") int categoryId);
+
+    @Query("SELECT t FROM Transaction t WHERE DATE(t.dateTransaction) = CURRENT_DATE AND t.cycle IS NOT NULL")
+    List<Transaction> findAllVerifyTransaction();
+
+    // @Query("SELECT t FROM Transaction t WHERE t.cycle IS NOT NULL AND
+    // t.dateTransaction BETWEEN CURRENT_DATE AND CURRENT_DATE + 1")
+    // List<Transaction> findAllVerifyTransaction();
 
     @Query("SELECT t FROM Transaction t " +
             "JOIN t.wallet w " +

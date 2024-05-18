@@ -46,4 +46,9 @@ public class BudgetController {
         return service.deleteBudget(request, budgetId);
     }
 
+    @GetMapping("/budget/{budgetId}")
+    public ResponseEntity<BudgetResponse> getBudget(HttpServletRequest request, @PathVariable int budgetId) {
+        return service.getBudget(request, budgetId);
+    }
+
 }

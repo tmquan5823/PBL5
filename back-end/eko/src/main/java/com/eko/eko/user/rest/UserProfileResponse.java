@@ -1,8 +1,5 @@
 package com.eko.eko.user.rest;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;

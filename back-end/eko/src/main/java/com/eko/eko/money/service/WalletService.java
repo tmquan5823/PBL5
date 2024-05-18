@@ -10,11 +10,9 @@ import com.eko.eko.config.JwtService;
 import com.eko.eko.money.dto.ListWalletRespone;
 import com.eko.eko.money.dto.WalletRequest;
 import com.eko.eko.money.dto.WalletResponse;
-import com.eko.eko.money.entity.Category;
-import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.money.model.Wallet;
 import com.eko.eko.money.repository.WalletRepository;
-import com.eko.eko.user.User;
-import com.eko.eko.util.DefaultCategories;
+import com.eko.eko.user.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class WalletService {
     private final WalletRepository walletRepository;
     private final JwtService jwtService;
-    private final DefaultCategories defaultCategories;
 
     public ResponseEntity<ListWalletRespone> getAllWallets(HttpServletRequest request) {
         try {

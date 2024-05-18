@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.money.model.Wallet;
 
 public interface WalletRepository extends JpaRepository<Wallet, Integer> {
     @Query("SELECT w FROM Wallet w JOIN FETCH w.user u WHERE u.id = :userId")

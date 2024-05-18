@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TransactionRequest {
     @JsonProperty("wallet_id")
-    private int waleltId;
+    private int walletId;
     @JsonProperty("category_id")
     private int categoryId;
     @JsonProperty("transaction_id")
