@@ -136,14 +136,14 @@ const UserTransaction = props => {
 
             />
             <ExpenseRow expense={expense} />
-            <TransactionHistory
+            {(futureTransactions && futureTransactions.length > 0) && <TransactionHistory
                 title="Giao dịch dự kiến"
                 showDate
                 transactions={futureTransactions}
                 categories={categories}
                 onUpdate={onUpdateTransaction}
                 onDelete={onDeleteHandler}
-            />
+            />}
             <br />
             {transactionsInDate && transactionsInDate.map(items => <TransactionHistory
                 key={items[0].dateTransaction.slice(0, 3).toString()}

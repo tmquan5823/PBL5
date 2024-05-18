@@ -9,14 +9,11 @@ import { useForm } from "../../../shared/hooks/form-hook";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
-import StateModalCard from "../../../shared/components/UIElements/StateModalCard";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { successNotification, errorNotification, warningNotification } from "../../../shared/components/UIElements/Warning";
 
 const LoginForm = props => {
     const auth = useContext(AuthContext);
-    const [showModal, setShowModal] = useState(false);
-    const [loginFail, setLoginFail] = useState(false);
-    const [loginMessage, setLoginMessage] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const history = useHistory();
 
@@ -31,6 +28,8 @@ const LoginForm = props => {
         }
     }, false);
 
+    
+
     async function onSubmitHandler(event) {
         event.preventDefault();
         try {
@@ -43,32 +42,23 @@ const LoginForm = props => {
                     "Content-Type": 'application/json'
                 });
             if (!responseData.state) {
-                setLoginFail(true);
-                setLoginMessage(responseData.message);
-                history.push("/verify/" + formState.inputs.email.value);
+                if (responseData.message === "Cần xác thực mail!!!") {
+                    history.push("/verify/" + formState.inputs.email.value);
+                } else {
+                    warningNotification(responseData.message);
+                }
             } else {
                 auth.login(responseData.access_token, responseData.avatar_url, responseData.role);
+                successNotification(responseData.message);
             }
         } catch (err) {
             console.log(err);
-            setLoginMessage(err.message);
-            setShowModal(true);
+            errorNotification(err);
         }
     }
 
-    function closeModalHandler() {
-        setShowModal(false);
-        setLoginFail(false);
-        clearError();
-    }
 
     return <React.Fragment>
-        <StateModalCard
-            show={showModal || loginFail}
-            onCancel={closeModalHandler}
-            state={error ? 'error' : (loginFail ? 'fail' : 'success')}
-            message={loginMessage}
-        />
         {isLoading && <LoadingSpinner asOverlay />}
         <form onSubmit={onSubmitHandler} className="login-form">
             <Input

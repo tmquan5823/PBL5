@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useEffect } from "react";
+import React, { useState, useReducer, useEffect, forwardRef, useImperativeHandle } from "react";
 
 import "./Input.css";
 import { validate } from "../../util/validators";
@@ -18,12 +18,19 @@ function inputReducer(state, action) {
                 ...state,
                 isTouched: true
             };
+        case 'SET':
+            return {
+                ...state,
+                value: action.val,
+                isValid: action.isValid,
+                isTouched: false
+            };
         default:
             return state;
     }
 }
 
-const Input = props => {
+const Input = forwardRef((props, ref) => {
     const [inputState, dispatch] = useReducer(inputReducer, { value: props.value || "", isValid: props.initialIsValid || false, isTouched: false });
     const [showPassword, setShowPassword] = useState(false);
 
@@ -51,6 +58,12 @@ const Input = props => {
         }
         dispatch({ type: 'CHANGE', val: event.target.value, validators: props.validators });
     }
+
+    useImperativeHandle(ref, () => ({
+        setData(value, isValid) {
+            dispatch({ type: 'SET', val: value, isValid });
+        }
+    }));
 
     function dateChangeHandler(date) {
         dispatch({ type: 'CHANGE', val: date, validators: props.validators });
@@ -127,6 +140,6 @@ const Input = props => {
         {element}
         {!inputState.isValid && inputState.isTouched && <p>{props.errorText}</p>}
     </div>
-};
+});
 
 export default Input;  

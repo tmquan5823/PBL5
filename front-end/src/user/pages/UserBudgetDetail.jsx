@@ -11,6 +11,7 @@ import Modal from "../../shared/components/UIElements/Modal";
 import UpdateBudgetForm from "../components/BudgetComponents/UpdateBudgetForm";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
+import { budgetDateFormat } from "../../shared/help/DateFormat";
 
 const UserBudgetDetail = props => {
     const auth = useContext(AuthContext);
@@ -56,19 +57,30 @@ const UserBudgetDetail = props => {
         setShowForm(true);
     }
 
+    function updateHandler(item) {
+        if (item) {
+            setBudget(item);
+        }
+    }
+
     return <PageContent title="Ngân sách">
         <Modal
             show={showForm}
             onCancel={closeHandler}
         >
-            <UpdateBudgetForm
-                onAdd={props.onAdd}
-                onClose={closeHandler} />
+            {budget && <UpdateBudgetForm
+                id={budgetID}
+                name={budget.name}
+                money={budget.money}
+                start={budget.dateStart}
+                end={budget.dateEnd}
+                onUpdate={updateHandler}
+                onClose={closeHandler} />}
         </Modal>
         {budget && <React.Fragment>
             <div className="calendar-container">
                 <button>&lt;</button>
-                <span>{new Date(budget.dateStart)} - {new Date(budget.dateEnd)}</span>
+                <span>{budgetDateFormat(budget.dateStart)} - {budgetDateFormat(budget.dateEnd)}</span>
                 <button>&gt;</button>
             </div>
             <div className="budget-detail__header">
@@ -92,8 +104,8 @@ const UserBudgetDetail = props => {
                     <div className="progress-bar__container">
                         <ProgressBar percent={(budget.money + budget.spend) / budget.money * 100} />
                         <div className="progress-bar__time">
-                            <p>{DateFormat(budget.dateStart)}</p>
-                            <p>{DateFormat(budget.dateEnd)}</p>
+                            <p>{budgetDateFormat(budget.dateStart)}</p>
+                            <p>{budgetDateFormat(budget.dateEnd)}</p>
                         </div>
                     </div>
 

@@ -35,7 +35,7 @@ const UserBudget = props => {
     }
 
     return <React.Fragment>
-        {isLoading && <LoadingSpinner asOverlay/>}
+        {isLoading && <LoadingSpinner asOverlay />}
         <PageContent title="Ngân sách">
             <div className="budget-container">
                 <BudgetAddCard

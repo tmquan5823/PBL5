@@ -9,34 +9,38 @@ import { VALIDATOR_REQUIRE } from "../../../shared/util/validators";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner"
+import { budgetDateFormat } from "../../../shared/help/DateFormat";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const UpdateBudgetForm = props => {
     const auth = useContext(AuthContext);
     const [selectedOption, setSelectedOption] = useState('VND');
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date(props.start) || new Date);
+    const [endDate, setEndDate] = useState(new Date(props.end) || new Date);
     const [dateState, setDateState] = useState(true);
     const [budgetFormState, setBudgetFormState] = useState(false);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const history = useHistory();
 
     const [formState, inputHandler] = useForm({
         budgetName: {
-            value: "",
-            isValid: false
+            value: props.name,
+            isValid: true
         },
         budget: {
-            value: "",
-            isValid: false
+            value: props.money,
+            isValid: true
         }
-    }, false);
+    }, true);
 
 
 
     async function updateBudgetHandler(event) {
         event.preventDefault();
         try {
-            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/5", "GET",
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget", "PUT",
                 JSON.stringify({
+                    budget_id: props.id,
                     budget_name: formState.inputs.budgetName.value,
                     budget_money: formState.inputs.budget.value,
                     date_start: startDate,
@@ -47,22 +51,23 @@ const UpdateBudgetForm = props => {
             });
             if (resData.state) {
                 props.onClose();
-                props.onAdd(resData);
+                props.onUpdate(resData);
             }
         } catch (err) {
             console.log(err);
         }
     }
 
-    async function deleteHandler() {
+    async function deleteHandler(event) {
+        event.preventDefault();
         try {
-            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/", "DELETE",
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/"+props.id, "DELETE",
                 null, {
                 'Authorization': "Bearer " + auth.token
             });
             if (resData.state) {
                 props.onClose();
-                props.onAdd(resData);
+                history.push("/user/budget");
             }
         } catch (err) {
             console.log(err);
@@ -98,6 +103,7 @@ const UpdateBudgetForm = props => {
                         text="Tên ngân sách"
                         element="input"
                         type="text"
+                        value={formState.inputs.budgetName.value}
                         onInput={inputHandler}
                         validators={[VALIDATOR_REQUIRE()]}
                         width="45%" />
@@ -106,6 +112,7 @@ const UpdateBudgetForm = props => {
                             text="Ngân sách"
                             element="input"
                             numberOnly
+                            value={formState.inputs.budget.value}
                             type="text"
                             validators={[VALIDATOR_REQUIRE()]}
                             onInput={inputHandler}
@@ -140,7 +147,12 @@ const UpdateBudgetForm = props => {
                 <button disabled={!budgetFormState} onClick={updateBudgetHandler}>Cập nhật ngân sách</button>
             </div>
             <div className="cancel-update__button">
-                <button onClick={props.onClose}>Hủy</button>
+                <button onClick={event => {
+                    event.preventDefault();
+                    props.onClose();
+                }}>
+                    Hủy
+                </button>
             </div>
             <div className="delete-budget">
                 <a onClick={deleteHandler} href="#">Xoá ngân sách</a>
