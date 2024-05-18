@@ -3,7 +3,6 @@ package com.eko.eko.money.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,12 +12,10 @@ import com.eko.eko.money.dto.CategoryRequest;
 import com.eko.eko.money.dto.CategoryResponse;
 import com.eko.eko.money.dto.ListCategoriesResponse;
 import com.eko.eko.money.dto.ListCategoriesResponse.CategoryWithTransactionTimes;
-import com.eko.eko.money.entity.Category;
-import com.eko.eko.money.entity.Transaction;
-import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.money.model.Category;
+import com.eko.eko.money.model.Transaction;
 import com.eko.eko.money.repository.CategoryRepository;
 import com.eko.eko.money.repository.TransactionRepository;
-import com.eko.eko.money.repository.WalletRepository;
 import com.eko.eko.user.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -122,7 +119,6 @@ public class CategoryService {
                         category.setIconUrl(categoryRequest.getIconUrl());
                         category.setIncome(categoryRequest.isIncome());
                         categoryRepository.save(category);
-                        System.out.println("CHECK CHECK");
                         return new ResponseEntity<>(CategoryResponse.builder()
                                         .categoryId(category.getId())
                                         .content(category.getContent())

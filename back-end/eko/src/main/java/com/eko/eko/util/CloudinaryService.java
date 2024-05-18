@@ -1,4 +1,4 @@
-package com.eko.eko.cloudinary;
+package com.eko.eko.util;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

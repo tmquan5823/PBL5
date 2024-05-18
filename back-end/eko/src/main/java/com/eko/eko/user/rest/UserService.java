@@ -10,10 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.eko.eko.cloudinary.CloudinaryService;
 import com.eko.eko.config.JwtService;
 import com.eko.eko.user.entity.User;
 import com.eko.eko.user.repository.UserRepository;
+import com.eko.eko.util.CloudinaryService;
 import com.eko.eko.util.FormatDate;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -144,10 +144,8 @@ public class UserService {
             responseMap.put("state", false);
             return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
         } else {
-            System.out.println("CHECK AVATAR : " + user.getAvatarUrl());
             if (!user.getAvatarUrl()
                     .equals("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")) {
-                System.out.println("CHECK IF ELSE");
                 cloudinaryService.deleteImageByUrl(user.getAvatarUrl());
             }
 

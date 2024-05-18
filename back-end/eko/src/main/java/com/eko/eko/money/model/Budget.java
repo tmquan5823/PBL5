@@ -1,10 +1,8 @@
-package com.eko.eko.money.entity;
+package com.eko.eko.money.model;
 
 import java.time.LocalDateTime;
-import java.time.Period;
 
 import com.eko.eko.user.entity.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -27,22 +25,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Transaction {
+public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDateTime dateTransaction;
-    private float amount;
-    private LocalDateTime dateEndCycle;
-    private Period cycle;
-    private String note;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "wallet_id")
-    private Wallet wallet;
+    private String name;
+    private float money;
+    private float spend;
+    private LocalDateTime dateStart;
+    private LocalDateTime dateEnd;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "user_id")
+    private User user;
 }

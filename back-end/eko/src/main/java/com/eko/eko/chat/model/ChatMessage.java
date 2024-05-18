@@ -1,4 +1,6 @@
-package com.eko.eko.chatroom;
+package com.eko.eko.chat.model;
+
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,11 +18,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class ChatRoom {
+public class ChatMessage {
     @Id
-    private int id;
+    private long id;
     private String chatId;
     private int senderId;
     private int recipientId;
-
+    private String content;
+    Date timeStamp;
 }

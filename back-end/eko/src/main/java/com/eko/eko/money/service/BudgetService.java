@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 import com.eko.eko.config.JwtService;
 import com.eko.eko.money.dto.BudgetRequest;
 import com.eko.eko.money.dto.BudgetResponse;
-import com.eko.eko.money.dto.CategoryResponse;
 import com.eko.eko.money.dto.ListBudgetResponse;
-import com.eko.eko.money.entity.Budget;
-import com.eko.eko.money.entity.Category;
-import com.eko.eko.money.entity.Transaction;
+import com.eko.eko.money.model.Budget;
+import com.eko.eko.money.model.Transaction;
 import com.eko.eko.money.repository.BudgetRepository;
 import com.eko.eko.money.repository.TransactionRepository;
 import com.eko.eko.user.entity.User;
@@ -181,6 +179,47 @@ public class BudgetService {
                         return new ResponseEntity<>(
                                         BudgetResponse.builder()
                                                         .message("Lỗi Xóa ngân sách!!!")
+                                                        .state(false).build(),
+                                        HttpStatus.BAD_REQUEST);
+                }
+        }
+
+        public ResponseEntity<BudgetResponse> getBudget(HttpServletRequest request, int budgetId) {
+                try {
+                        String authHeader = request.getHeader("Authorization");
+                        User user = jwtService.getUserFromAuthHeader(authHeader);
+                        if (user == null) {
+                                return new ResponseEntity<>(BudgetResponse.builder().state(false)
+                                                .message("Lỗi người dùng ; token hết hạn!!!").build(),
+                                                HttpStatus.OK);
+                        }
+                        if (user.getId() != budgetRepository.findById(budgetId).orElseThrow()
+                                        .getUser().getId()) {
+                                return new ResponseEntity<>(BudgetResponse.builder().state(false)
+                                                .message("Lỗi bảo mật!!!").build(), HttpStatus.OK);
+                        }
+                        Budget budget = budgetRepository.findById(budgetId).orElseThrow();
+                        budget.setSpend(reloadBudgetSpend(budget.getDateStart(), budget.getDateEnd(),
+                                        budget.getUser().getId()));
+                        return new ResponseEntity<>(
+                                        BudgetResponse.builder()
+                                                        .state(true)
+                                                        .message("Lấy ngân sách thành công!!!")
+                                                        .budgetId(budget.getId())
+                                                        .budgetName(budget.getName())
+                                                        .budgetSpend(budget.getSpend())
+                                                        .budgetMoney(budget.getMoney())
+                                                        .dateEnd(formatDate.formatLocalDateTimeToString(
+                                                                        budget.getDateEnd()))
+                                                        .dateStart(formatDate.formatLocalDateTimeToString(
+                                                                        budget.getDateStart()))
+                                                        .user(budget.getUser())
+                                                        .build(),
+                                        HttpStatus.OK);
+                } catch (Exception e) {
+                        return new ResponseEntity<>(
+                                        BudgetResponse.builder()
+                                                        .message("Lỗi lấy ngân sách!!!")
                                                         .state(false).build(),
                                         HttpStatus.BAD_REQUEST);
                 }

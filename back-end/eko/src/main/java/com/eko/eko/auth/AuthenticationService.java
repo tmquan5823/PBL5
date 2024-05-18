@@ -15,10 +15,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+//import org.springframework.web.client.RestTemplate;
 
 import com.eko.eko.config.JwtService;
-import com.eko.eko.money.entity.Category;
+import com.eko.eko.money.model.Category;
 import com.eko.eko.token.Token;
 import com.eko.eko.token.TokenRepository;
 import com.eko.eko.token.TokenType;
@@ -52,13 +52,13 @@ public class AuthenticationService {
         private final EmailUtil emailUtil;
         private final DefaultCategories defaultCategories;
 
-        public AuthenticationResponse register(RegisterRequest request) throws JsonProcessingException {
+        public ResponseEntity<AuthenticationResponse> register(RegisterRequest request) throws JsonProcessingException {
                 boolean existedUser = repository.findByEmail(request.getEmail())
                                 .isEmpty();
                 if (existedUser == false) {
-                        return AuthenticationResponse.builder()
-                                        .message("User with this email already exists!!!")
-                                        .build();
+                        return new ResponseEntity<>(AuthenticationResponse.builder()
+                                        .message("Có người đã đăng ký bằng mail này rồi!!!")
+                                        .build(), HttpStatus.OK);
                 }
 
                 var user = User.builder()
@@ -80,15 +80,15 @@ public class AuthenticationService {
                 var jwtToken = jwtService.generateToken(user);
                 var jwtRefreshToken = jwtService.generateRefreshToken(user);
                 saveUserToken(user, jwtToken);
-                return AuthenticationResponse.builder()
+                return new ResponseEntity<>(AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
                                 .avatarUrl("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")
                                 .role(Role.USER.name())
-                                .message("Register success!!!")
+                                .message("Đăng ký thành công!!!")
                                 .state(true)
                                 .id(user.getId())
-                                .build();
+                                .build(), HttpStatus.OK);
         }
 
         private void saveUserToken(User user, String jwtToken) {
@@ -102,7 +102,7 @@ public class AuthenticationService {
                 tokenRepository.save(token);
         }
 
-        public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {
 
                 try {
                         authenticationManager.authenticate(
@@ -110,33 +110,32 @@ public class AuthenticationService {
                                                         request.getPassword()));
                 } catch (BadCredentialsException ex) {
                         // Xử lý khi xác thực thất bại (sai email hoặc mật khẩu)
-                        return AuthenticationResponse.builder()
+                        return new ResponseEntity<>(AuthenticationResponse.builder()
                                         .message("Sai mật khẩu hoặc mail!!")
                                         .state(false)
-                                        .build();
+                                        .build(), HttpStatus.OK);
                 }
 
                 var user = repository.findByEmail(request.getEmail())
                                 .orElseThrow();
                 if (user.isVerify() == false) {
-                        return AuthenticationResponse.builder()
-                                        .message("Need to verify!!!")
-                                        .build();
+                        return new ResponseEntity<>(AuthenticationResponse.builder()
+                                        .message("Cần xác thực mail!!!")
+                                        .build(), HttpStatus.OK);
                 }
                 var jwtToken = jwtService.generateToken(user);
                 var jwtRefreshToken = jwtService.generateRefreshToken(user);
-                System.out.println(user.getId());
                 revokeAllUserTokens(user);
                 saveUserToken(user, jwtToken);
-                return AuthenticationResponse.builder()
+                return new ResponseEntity<>(AuthenticationResponse.builder()
                                 .accessToken(jwtToken)
                                 .refreshToken(jwtRefreshToken)
                                 .avatarUrl(user.getAvatarUrl())
                                 .id(user.getId())
                                 .role(user.getRole().name())
-                                .message("Login success!!!")
+                                .message("Đăng nhập thành công!!!")
                                 .state(true)
-                                .build();
+                                .build(), HttpStatus.OK);
         }
 
         private void revokeAllUserTokens(User user) {
@@ -177,11 +176,11 @@ public class AuthenticationService {
                 }
         }
 
-        private void revokeTokenGoogle(String googleToken) {
-                String url = "https://oauth2.googleapis.com/revoke?token=" + googleToken;
-                RestTemplate restTemplate = new RestTemplate();
-                restTemplate.postForEntity(url, null, String.class);
-        }
+        // private void revokeTokenGoogle(String googleToken) {
+        // String url = "https://oauth2.googleapis.com/revoke?token=" + googleToken;
+        // RestTemplate restTemplate = new RestTemplate();
+        // restTemplate.postForEntity(url, null, String.class);
+        // }
 
         public ResponseEntity<Map<String, Object>> revokeToken(HttpServletRequest request, HttpServletResponse response)
                         throws StreamWriteException, DatabindException, IOException {
@@ -262,17 +261,17 @@ public class AuthenticationService {
                                                         .getSeconds() < (1 * 300)) {
                                 user.setVerify(true);
                                 repository.save(user);
-                                responseMap.put("message", "OTP verified. You can login !!!");
+                                responseMap.put("message", "OTP đã được xác thực, hãy đăng nhập!!!");
                                 responseMap.put("state", true);
                                 return ResponseEntity.ok(responseMap);
                         }
-                        responseMap.put("message", "Please regenerate OTP and try again!!!");
+                        responseMap.put("message", "Vui lòng tạo OTP lại!!!");
                         responseMap.put("state", false);
                         return ResponseEntity.ok(responseMap);
                 }
 
                 // Trả về map mới nếu không tìm thấy người dùng
-                responseMap.put("message", "User not found with this email: " + email);
+                responseMap.put("message", "Không tìm thấy người dùng với mail này: " + email);
                 responseMap.put("state", false);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
@@ -288,17 +287,17 @@ public class AuthenticationService {
                                                         .getSeconds() < (1 * 300)) {
                                 user.setCanResetPassword(true);
                                 repository.save(user);
-                                responseMap.put("message", "OTP verified. You can change password!!!");
+                                responseMap.put("message", "OTP được xác thực, bạn có thể thay đổi mật khẩu!!!");
                                 responseMap.put("state", true);
-                                return ResponseEntity.ok(responseMap);
+                                return new ResponseEntity<>(responseMap, HttpStatus.OK);
                         }
-                        responseMap.put("message", "Please regenerate OTP and try again!!!");
+                        responseMap.put("message", "Vui lòng tạo lại OTP!!!");
                         responseMap.put("state", false);
-                        return ResponseEntity.ok(responseMap);
+                        return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 }
 
                 // Trả về map mới nếu không tìm thấy người dùng
-                responseMap.put("message", "User not found with this email: " + email);
+                responseMap.put("message", "Không tìm thấy người dùng với email này: " + email);
                 responseMap.put("state", false);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
@@ -312,36 +311,36 @@ public class AuthenticationService {
                         try {
                                 emailUtil.sendOtpEmail(email, otp);
                         } catch (MessagingException e) {
-                                responseMap.put("message", "Unable to send otp please try again!!!");
+                                responseMap.put("message", "Không thể gửi được OTP!!!");
                                 responseMap.put("state", false);
-                                return ResponseEntity.ok(responseMap);
+                                return new ResponseEntity<>(responseMap, HttpStatus.OK);
 
                         }
                         user.setOtp(otp);
                         user.setOtpGenerateTime(LocalDateTime.now());
                         repository.save(user);
-                        responseMap.put("message", "Otp just regenerated please verify in 1 minute!!!");
+                        responseMap.put("message", "OTP đã được gửi vào mail xin vui lòng nhập!!!");
                         responseMap.put("state", true);
-                        return ResponseEntity.ok(responseMap);
+                        return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 }
-                responseMap.put("message", "User not found with this email: " + email);
+                responseMap.put("message", "Không tìm thấy người dùng với email này: " + email);
                 responseMap.put("state", false);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
         }
 
-        public Map<String, Object> resetPassword(AuthenticationRequest request) {
+        public ResponseEntity<Map<String, Object>> resetPassword(AuthenticationRequest request) {
                 Map<String, Object> responseMap = new HashMap<>();
                 var user = repository.findByEmail(request.getEmail()).orElseThrow();
                 if (user.isCanResetPassword() == false) {
                         responseMap.put("message", "Không thể đặt lại mật khẩu!!");
                         responseMap.put("state", false);
-                        return responseMap;
+                        return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 }
                 user.setPassword(passwordEncoder.encode(request.getPassword()));
                 user.setCanResetPassword(false);
                 repository.save(user);
                 responseMap.put("message", "Đặt lại mật khẩu thành công!!");
                 responseMap.put("state", true);
-                return responseMap;
+                return new ResponseEntity<>(responseMap, HttpStatus.OK);
         }
 }

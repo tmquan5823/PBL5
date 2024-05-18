@@ -1,10 +1,7 @@
 package com.eko.eko.money.dto;
 
-import java.time.Period;
-
-import com.eko.eko.money.entity.Category;
-import com.eko.eko.money.entity.Transaction;
-import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.money.model.Transaction;
+import com.eko.eko.money.model.Wallet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
