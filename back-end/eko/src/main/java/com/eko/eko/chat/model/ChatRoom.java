@@ -1,6 +1,4 @@
-package com.eko.eko.chat;
-
-import java.time.LocalDateTime;
+package com.eko.eko.chat.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,12 +16,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Chat {
+public class ChatRoom {
     @Id
-    private long id;
+    private int id;
     private String chatId;
     private int senderId;
     private int recipientId;
-    private String content;
-    LocalDateTime timeStamp;
+
 }

@@ -2,7 +2,7 @@ package com.eko.eko.money.dto;
 
 import java.util.List;
 
-import com.eko.eko.money.entity.Transaction;
+import com.eko.eko.money.model.Transaction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;

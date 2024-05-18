@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.eko.eko.config.JwtService;
 import com.eko.eko.user.admin.dto.ListUserResponse;
 import com.eko.eko.user.admin.dto.UserTableResponse;
+import com.eko.eko.user.entity.Role;
 import com.eko.eko.user.entity.User;
 import com.eko.eko.user.repository.UserRepository;
 import com.eko.eko.user.repository.UserSpecifications;
@@ -105,7 +106,7 @@ public class AdminService {
             List<UserTableResponse> list = new ArrayList<>();
             List<User> users = userRepository.findAll();
             for (User userTemp : users) {
-                if (userTemp.getRole().equals("ADMIN"))
+                if (userTemp.getRole() == Role.ADMIN)
                     continue;
                 var data = UserTableResponse.builder()
                         .email(userTemp.getEmail())

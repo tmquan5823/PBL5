@@ -5,16 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import com.eko.eko.cloudinary.CloudinaryService;
-import com.eko.eko.money.entity.Category;
-import com.eko.eko.money.entity.Wallet;
+import com.eko.eko.money.model.Category;
 import com.eko.eko.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class DefaultCategories {
     @Value("${listIconUrlDefault.string-list}")

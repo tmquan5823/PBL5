@@ -1,11 +1,11 @@
-package com.eko.eko.money.entity;
+package com.eko.eko.money.model;
 
-import java.time.LocalDateTime;
-import java.time.Period;
+import java.util.List;
 
 import com.eko.eko.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,22 +28,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Transaction {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDateTime dateTransaction;
-    private float amount;
-    private LocalDateTime dateEndCycle;
-    private Period cycle;
-    private String note;
+    private String content;
+    private String iconUrl;
+    private String iconColor;
+    private boolean isIncome;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "wallet_id")
-    private Wallet wallet;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
 }

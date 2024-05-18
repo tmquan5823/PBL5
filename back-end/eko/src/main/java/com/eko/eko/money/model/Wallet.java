@@ -1,4 +1,4 @@
-package com.eko.eko.money.entity;
+package com.eko.eko.money.model;
 
 import java.util.List;
 
@@ -28,14 +28,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Category {
+public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String content;
-    private String iconUrl;
-    private String iconColor;
-    private boolean isIncome;
+    private String walletName;
+    private float moneyAtFirst;
+    private float moneyLeft;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -43,6 +42,6 @@ public class Category {
     private User user;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Transaction> transactions;
 }

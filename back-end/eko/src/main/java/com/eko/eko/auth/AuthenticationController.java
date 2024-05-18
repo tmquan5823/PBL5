@@ -28,13 +28,13 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request) throws JsonProcessingException {
 
-        return ResponseEntity.ok(service.register(request));
+        return service.register(request);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(service.authenticate(request));
+        return service.authenticate(request);
     }
 
     @PostMapping("/refresh-token")
@@ -65,7 +65,7 @@ public class AuthenticationController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<Map<String, Object>> resetPassword(@RequestBody AuthenticationRequest request) {
-        return new ResponseEntity<>(service.resetPassword(request), HttpStatus.OK);
+        return service.resetPassword(request);
     }
 
     @PostMapping("/regenerate-otp")
