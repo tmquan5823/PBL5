@@ -10,6 +10,7 @@ import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../../shared/util/validat
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
+import { UTC7Date } from "../../../shared/help/DateFormat";
 
 const AddTransactionForm = props => {
     const auth = useContext(AuthContext);
@@ -82,8 +83,8 @@ const AddTransactionForm = props => {
                 JSON.stringify({
                     wallet_id: auth.wallet.id,
                     category_id: categoryValue.category.id,
-                    transaction_date: formState.inputs.start_date.value,
-                    date_end: periodValue === 'P0D' ? null : formState.inputs.end_date.value,
+                    transaction_date: UTC7Date(formState.inputs.start_date.value),
+                    date_end: periodValue === 'P0D' ? null : UTC7Date(formState.inputs.end_date.value),
                     cycle: periodValue === 'P0D' ? null : periodValue,
                     note: formState.inputs.note.value || "",
                     amount: categoryValue.category.income ? parseInt(formState.inputs.money.value) : -parseInt(formState.inputs.money.value, 10)
@@ -93,6 +94,7 @@ const AddTransactionForm = props => {
             });
             if (resData.state) {
                 props.onClose();
+                console.log(formState.inputs.start_date.value);
                 props.onAdd(resData.list_transaction_present);
                 auth.setWallet(resData.wallet);
             }

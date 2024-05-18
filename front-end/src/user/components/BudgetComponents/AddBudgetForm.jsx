@@ -9,6 +9,7 @@ import { VALIDATOR_REQUIRE } from "../../../shared/util/validators";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner"
+import { UTC7Date } from "../../../shared/help/DateFormat";
 
 const AddBudgetForm = props => {
     const auth = useContext(AuthContext);
@@ -37,8 +38,8 @@ const AddBudgetForm = props => {
                 JSON.stringify({
                     budget_name: formState.inputs.budgetName.value,
                     budget_money: formState.inputs.budget.value,
-                    date_start: startDate,
-                    date_end: endDate
+                    date_start: UTC7Date(startDate),
+                    date_end: UTC7Date(endDate)
                 }), {
                 'Content-Type': 'application/json',
                 'Authorization': "Bearer " + auth.token

@@ -4,6 +4,9 @@ import "./Input.css";
 import { validate } from "../../util/validators";
 import Button from "./Button";
 import DatePicker from 'react-datepicker';
+import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import { Checkbox, Divider } from "antd";
+import Category from "../../../user/components/CategoryComponent/Category";
 
 function inputReducer(state, action) {
     switch (action.type) {
@@ -31,8 +34,16 @@ function inputReducer(state, action) {
 }
 
 const Input = forwardRef((props, ref) => {
-    const [inputState, dispatch] = useReducer(inputReducer, { value: props.value || "", isValid: props.initialIsValid || false, isTouched: false });
+    const options = props.options || [];
+    const [inputState, dispatch] = useReducer(inputReducer, {
+        value: props.value || "",
+        isValid: props.initialIsValid || false, isTouched: false
+    });
     const [showPassword, setShowPassword] = useState(false);
+    const [showSelect, setShowSelect] = useState();
+    const [checkedList, setCheckedList] = useState(options.map(item => item.value));
+    const [indeterminate, setIndeterminate] = useState(false);
+    const [checkAll, setCheckAll] = useState(true);
 
     const { id, onInput } = props;
     const { value, isValid } = inputState;
@@ -41,9 +52,31 @@ const Input = forwardRef((props, ref) => {
         magrin: props.magrin,
     }
 
+    const onChange = (list) => {
+        setCheckedList(list);
+        setIndeterminate(!!list.length && list.length < options.length);
+        setCheckAll(list.length === options.length);
+        dispatch({ type: 'CHANGE', val: list });
+    };
+
+    const onCheckAllChange = (e) => {
+        setCheckedList(e.target.checked ? options.map(item => item.value) : []);
+        setIndeterminate(false);
+        setCheckAll(e.target.checked);
+        dispatch({ type: 'CHANGE', val: e.target.checked ? options.map(item => item.value) : [] });
+    };
+
     useEffect(() => {
         onInput(id, value, isValid);
     }, [id, value, isValid])
+
+    useEffect(() => {
+        if (props.options) {
+            setCheckedList(options.map(item => item.value));
+            setCheckAll(true);
+            dispatch({ type: 'CHANGE', val: options.map(item => item.value) });
+        }
+    }, [props.options]);
 
     useEffect(() => {
         if (props.numberOnly && isNaN(props.value)) {
@@ -81,6 +114,10 @@ const Input = forwardRef((props, ref) => {
         setShowPassword(!showPassword);
     }
 
+    function openSelectList() {
+        setShowSelect(preval => !preval);
+    }
+
     let element = <input
         id={props.id}
         value={inputState.value}
@@ -115,21 +152,20 @@ const Input = forwardRef((props, ref) => {
     }
 
     if (props.element === 'select') {
-        element = <select
-            id={props.id}
-            value={inputState.value}
-            onChange={changeHandler}
-        >
-            {props.options.map(option => (
-                <option
-                    key={option.value}
-                    value={option.value}
-                    selected={inputState.value === option.value}
-                >
-                    <span>{option.label}</span>
-                </option>
-            ))}
-        </select>
+        element = <div className="select-list">
+            <div onClick={openSelectList} className="selected-content">
+                <input readOnly type="text" value={`${checkedList.length === options.length ? 'Tất cả' : checkedList.length} ${props.content}`}
+                />
+                <img src="/images/down-arrow.png" alt="" />
+            </div>
+
+            {showSelect && <div className="select-list-container">
+                <Checkbox className="cb-checkall" indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+                    Tất cả {props.content}
+                </Checkbox>
+                <Checkbox.Group value={checkedList} options={options} defaultValue={options.map(item => item.value)} onChange={onChange} />
+            </div>}
+        </div>
     }
 
     return <div style={myStyle} className={`form-control ${!inputState.isValid && inputState.isTouched && 'form-control--invalid'}`}>

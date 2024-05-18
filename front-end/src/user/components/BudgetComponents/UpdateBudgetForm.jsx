@@ -11,6 +11,7 @@ import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner"
 import { budgetDateFormat } from "../../../shared/help/DateFormat";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { UTC7Date } from "../../../shared/help/DateFormat";
 
 const UpdateBudgetForm = props => {
     const auth = useContext(AuthContext);
@@ -43,8 +44,8 @@ const UpdateBudgetForm = props => {
                     budget_id: props.id,
                     budget_name: formState.inputs.budgetName.value,
                     budget_money: formState.inputs.budget.value,
-                    date_start: startDate,
-                    date_end: endDate
+                    date_start: UTC7Date(startDate),
+                    date_end: UTC7Date(endDate)
                 }), {
                 'Content-Type': 'application/json',
                 'Authorization': "Bearer " + auth.token
@@ -61,7 +62,7 @@ const UpdateBudgetForm = props => {
     async function deleteHandler(event) {
         event.preventDefault();
         try {
-            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/"+props.id, "DELETE",
+            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/" + props.id, "DELETE",
                 null, {
                 'Authorization': "Bearer " + auth.token
             });
@@ -75,7 +76,12 @@ const UpdateBudgetForm = props => {
     }
 
     useEffect(() => {
-        const isEndDateValid = startDate.getDate() <= endDate.getDate();
+        const startDateWithoutTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+        const endDateWithoutTime = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+
+        // So sánh phần ngày tháng năm của hai ngày
+        const isEndDateValid = startDateWithoutTime <= endDateWithoutTime;
+
         setDateState(isEndDateValid);
         setBudgetFormState(formState.isValid && isEndDateValid);
     }, [startDate, endDate, formState]);

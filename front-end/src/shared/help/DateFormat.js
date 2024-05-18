@@ -66,3 +66,9 @@ export function budgetDateFormat(date) {
   }
   return new Date();
 }
+
+export function UTC7Date(date) {
+  const currentDate = new Date(date);
+  currentDate.setHours(currentDate.getHours() + 7);
+  return currentDate;
+}

@@ -11,7 +11,8 @@ import Modal from "../../shared/components/UIElements/Modal";
 import UpdateBudgetForm from "../components/BudgetComponents/UpdateBudgetForm";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import { budgetDateFormat } from "../../shared/help/DateFormat";
+import { formatArrayDate2 } from "../../shared/help/DateFormat";
+import { dateCaculate } from "../../shared/util/DateCaculator";
 
 const UserBudgetDetail = props => {
     const auth = useContext(AuthContext);
@@ -44,7 +45,7 @@ const UserBudgetDetail = props => {
             setExpense([{ title: 'Ngân sách ban đầu', money: budget.money },
             { title: 'Số tiền đã chi', money: budget.spend },
             { title: 'Ngân sách còn lại', money: budget.money + budget.spend },
-            { title: 'Số tiền có thể dùng', money: (budget.money + budget.spend) / 30, no_mark: true, perDay: true }]);
+            { title: 'Số tiền có thể dùng', money: (budget.money + budget.spend > 0) ? (budget.money + budget.spend) / dateCaculate(new Date, budget.dateEnd) : '0', no_mark: true, perDay: true }]);
         }
     }, [budget]);
 
@@ -72,15 +73,15 @@ const UserBudgetDetail = props => {
                 id={budgetID}
                 name={budget.name}
                 money={budget.money}
-                start={budget.dateStart}
-                end={budget.dateEnd}
+                start={formatArrayDate2(budget.dateStart)}
+                end={formatArrayDate2(budget.dateEnd)}
                 onUpdate={updateHandler}
                 onClose={closeHandler} />}
         </Modal>
         {budget && <React.Fragment>
             <div className="calendar-container">
                 <button>&lt;</button>
-                <span>{budgetDateFormat(budget.dateStart)} - {budgetDateFormat(budget.dateEnd)}</span>
+                <span>{formatArrayDate2(budget.dateStart)} - {formatArrayDate2(budget.dateEnd)}</span>
                 <button>&gt;</button>
             </div>
             <div className="budget-detail__header">
@@ -100,12 +101,12 @@ const UserBudgetDetail = props => {
             <div className="budget-detail__progress">
                 <h3 className="budget-detail__progress-title">Tiến độ ngân sách</h3>
                 <div className="budget-detail__progress-content">
-                    <h3>Tiếp tục chi tiêu. Bạn có thể chi tiêu {((budget.money + budget.spend) / 30).toLocaleString('vi-VN')} VNĐ mỗi ngày cho phần còn lại của thời kỳ.</h3>
+                    <h3>Tiếp tục chi tiêu. Bạn có thể chi tiêu {(expense && expense[3].money > 0) ? expense[3].money.toLocaleString('vi-VN') : '0'} VNĐ mỗi ngày cho phần còn lại của thời kỳ.</h3>
                     <div className="progress-bar__container">
                         <ProgressBar percent={(budget.money + budget.spend) / budget.money * 100} />
                         <div className="progress-bar__time">
-                            <p>{budgetDateFormat(budget.dateStart)}</p>
-                            <p>{budgetDateFormat(budget.dateEnd)}</p>
+                            <p>{formatArrayDate2(budget.dateStart)}</p>
+                            <p>{formatArrayDate2(budget.dateEnd)}</p>
                         </div>
                     </div>
 
