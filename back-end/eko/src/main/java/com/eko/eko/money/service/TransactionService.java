@@ -137,7 +137,6 @@ public class TransactionService {
                         long numOfLoop = days / (transaction.getCycle().getMonths() * 30
                                         + transaction.getCycle().getDays());
                         LocalDateTime checkDate = transaction.getDateTransaction();
-                        System.out.println("CHECK:" + numOfLoop);
                         // ham them ngay tu qua khu den hien tai
                         for (int i = 1; i <= numOfLoop; i++) {
                                 checkDate = checkDate.plus(transaction.getCycle());
@@ -153,7 +152,6 @@ public class TransactionService {
                                 for (int j = 0; j < i; j++) {
                                         tempDate = tempDate.plus(transaction.getCycle());
                                 }
-                                System.out.println(tempDate);
                                 temp.setDateTransaction(tempDate);
                                 transactions.add(temp);
                                 transactionRepository.save(temp);
@@ -192,7 +190,6 @@ public class TransactionService {
                         TransactionRequest transactionRequest) {
                 try {
                         String authHeader = request.getHeader("Authorization");
-                        System.out.println(authHeader);
                         User user = jwtService.getUserFromAuthHeader(authHeader);
                         if (user == null) {
                                 return new ResponseEntity<>(TransactionResponse.builder().state(false)
@@ -242,7 +239,6 @@ public class TransactionService {
         public ResponseEntity<TransactionResponse> deleteTransaction(HttpServletRequest request, int transactionId) {
                 try {
                         String authHeader = request.getHeader("Authorization");
-                        System.out.println(authHeader);
                         User user = jwtService.getUserFromAuthHeader(authHeader);
                         if (user == null) {
                                 return new ResponseEntity<>(TransactionResponse.builder().state(false)
@@ -277,7 +273,6 @@ public class TransactionService {
                         int walletId) {
                 try {
                         String authHeader = request.getHeader("Authorization");
-                        System.out.println(authHeader);
                         User user = jwtService.getUserFromAuthHeader(authHeader);
                         if (user == null) {
                                 return new ResponseEntity<>(ListAllTransactionResponse.builder().state(false)
@@ -314,7 +309,6 @@ public class TransactionService {
         public ResponseEntity<DiagramDataResponse> getDiagramDataByUserId(HttpServletRequest request) {
                 try {
                         String authHeader = request.getHeader("Authorization");
-                        System.out.println(authHeader);
                         User user = jwtService.getUserFromAuthHeader(authHeader);
                         if (user == null) {
                                 return new ResponseEntity<>(DiagramDataResponse.builder().state(false)

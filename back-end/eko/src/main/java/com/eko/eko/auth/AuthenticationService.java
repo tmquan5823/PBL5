@@ -58,7 +58,7 @@ public class AuthenticationService {
                 if (existedUser == false) {
                         return new ResponseEntity<>(AuthenticationResponse.builder()
                                         .message("Có người đã đăng ký bằng mail này rồi!!!")
-                                        .build(), HttpStatus.BAD_REQUEST);
+                                        .build(), HttpStatus.OK);
                 }
 
                 var user = User.builder()
@@ -121,7 +121,7 @@ public class AuthenticationService {
                 if (user.isVerify() == false) {
                         return new ResponseEntity<>(AuthenticationResponse.builder()
                                         .message("Cần xác thực mail!!!")
-                                        .build(), HttpStatus.BAD_REQUEST);
+                                        .build(), HttpStatus.OK);
                 }
                 var jwtToken = jwtService.generateToken(user);
                 var jwtRefreshToken = jwtService.generateRefreshToken(user);
@@ -293,7 +293,7 @@ public class AuthenticationService {
                         }
                         responseMap.put("message", "Vui lòng tạo lại OTP!!!");
                         responseMap.put("state", false);
-                        return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+                        return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 }
 
                 // Trả về map mới nếu không tìm thấy người dùng
@@ -313,7 +313,7 @@ public class AuthenticationService {
                         } catch (MessagingException e) {
                                 responseMap.put("message", "Không thể gửi được OTP!!!");
                                 responseMap.put("state", false);
-                                return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+                                return new ResponseEntity<>(responseMap, HttpStatus.OK);
 
                         }
                         user.setOtp(otp);
@@ -334,7 +334,7 @@ public class AuthenticationService {
                 if (user.isCanResetPassword() == false) {
                         responseMap.put("message", "Không thể đặt lại mật khẩu!!");
                         responseMap.put("state", false);
-                        return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+                        return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 }
                 user.setPassword(passwordEncoder.encode(request.getPassword()));
                 user.setCanResetPassword(false);

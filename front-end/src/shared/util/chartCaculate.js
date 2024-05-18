@@ -48,8 +48,11 @@ const filterWallet = (wallets, walletIds) => {
     })
 }
 
-const filterCategory = (categories, type) => {
+const filterCategory = (categories, type, categoryIds) => {
     return categories.filter(item => {
+        if (categoryIds.length > 0 && !categoryIds.includes(item.category_id)) {
+            return false;
+        }
         if (type) {
             const isIncome = item.category.income
             if (type === 'income' && !isIncome) {

@@ -119,7 +119,6 @@ public class CategoryService {
                         category.setIconUrl(categoryRequest.getIconUrl());
                         category.setIncome(categoryRequest.isIncome());
                         categoryRepository.save(category);
-                        System.out.println("CHECK CHECK");
                         return new ResponseEntity<>(CategoryResponse.builder()
                                         .categoryId(category.getId())
                                         .content(category.getContent())

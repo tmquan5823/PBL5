@@ -16,7 +16,7 @@ import { filterData, filterWallet, filterCategory, dataAreaChart, dataBarChart, 
         const filteredTransactions = filterData(
             transactions,
             [4], // walletIds
-            [], // categoryIds
+            [30, 31, 32], // categoryIds
             null, // note
             [2024, 5, 1], // dateStart
             [2024, 5, 31], // dateEnd
@@ -30,7 +30,8 @@ import { filterData, filterWallet, filterCategory, dataAreaChart, dataBarChart, 
 
         const filteredCategories = filterCategory(
             categories,
-            "outcome"
+            "outcome",
+            [30, 31, 32]
         )
         console.log(filteredTransactions)
         console.log(filteredWallets)
