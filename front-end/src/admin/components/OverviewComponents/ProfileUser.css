@@ -24,9 +24,9 @@
 }
 
 .containerPf .bodyPf_start .informationPf .bodyPf_start1 {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  gap: 17px;
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
 }
 
 .containerPf .bodyPf_start .informationPf .bodyPf_start1 Input {
@@ -34,7 +34,7 @@
   width: 280px;
 }
 
-.containerPf .bodyPf_start .informationPf #name {
+.containerPf .bodyPf_start .informationPf #email {
   /* width: 350%; */
   width: 614px;
 }
@@ -46,11 +46,12 @@
 }
 
 .containerPf .bodyPf_end .bodyPf_end1 Input {
-  width: 300%;
+  width: 400px;
 }
 
 .containerPf .bodyPf_end #address {
-  width: 629%;
+  width: 1010px;
+  margin-bottom: 20px;
 }
 
 .containerPf .ant-row.ant-form-item-row.css-dev-only-do-not-override-1okl62o {
@@ -65,11 +66,13 @@
 
 .containerPf Input {
   padding: 7px;
+  outline: solid 1px rgba(102, 102, 102, 0.3490196078);
+
 }
 
 .containerPf a {
   width: 85px;
-  color: #99f8eb;
+  color: #fff;
   font-size: 20px;
   background-color: #24B6B7;
   padding: 15px 20px 15px 20px;

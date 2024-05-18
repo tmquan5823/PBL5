@@ -73,3 +73,7 @@ td:last-child {
 .user-item .adForm .tblUser .ant-table-thead th {
   font-size: 120%;
 }
+
+.ant-modal-content {
+  margin-top: 100px;
+}
