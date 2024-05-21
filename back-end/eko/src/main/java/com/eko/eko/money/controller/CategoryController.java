@@ -47,4 +47,10 @@ public class CategoryController {
     public ResponseEntity<CategoryResponse> deleteCategory(HttpServletRequest request, @PathVariable int categoryId) {
         return service.deleteCategory(request, categoryId);
     }
+
+    @GetMapping("/categories/{walletId}")
+    public ResponseEntity<ListCategoriesResponse> getAllCategoriesByWalletId(HttpServletRequest request,
+            @PathVariable int walletId) {
+        return service.getAllCategoriesByWalletId(request, walletId);
+    }
 }

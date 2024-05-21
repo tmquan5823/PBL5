@@ -1,5 +1,7 @@
 package com.eko.eko.money.dto;
 
+import java.time.LocalDateTime;
+
 import com.eko.eko.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,9 +24,9 @@ public class BudgetResponse {
     @JsonProperty("spend")
     private float budgetSpend;
     @JsonProperty("dateStart")
-    private String dateStart;
+    private LocalDateTime dateStart;
     @JsonProperty("dateEnd")
-    private String dateEnd;
+    private LocalDateTime dateEnd;
     @JsonProperty("user")
     private User user;
     @JsonProperty("state")

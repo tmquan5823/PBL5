@@ -11,4 +11,7 @@ import com.eko.eko.money.model.Category;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("SELECT c FROM Category c JOIN FETCH c.user u WHERE u.id= :userId")
     List<Category> findAllByUserId(@Param("userId") int userId);
+
+    @Query("SELECT DISTINCT c FROM Category c JOIN c.transactions t WHERE t.wallet.id = :walletId")
+    List<Category> findCategoriesByWalletId(@Param("walletId") int walletId);
 }

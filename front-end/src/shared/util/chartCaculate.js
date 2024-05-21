@@ -185,6 +185,11 @@ const dataDoughnutChart = (categories, transactions) => {
         }]
     };
 
+    const categoryData = [];
+
+    // Calculate total amount for all categories
+    const totalAmountAllCategories = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+
     categories.forEach(categoryItem => {
         const category = categoryItem.category;
         const categoryId = category.id;
@@ -195,14 +200,29 @@ const dataDoughnutChart = (categories, transactions) => {
         // Tính tổng số tiền của các giao dịch thuộc category hiện tại
         const totalAmount = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
 
+        // Calculate the percentage for the current category
+        const percentage = (totalAmount / totalAmountAllCategories) * 100;
+
         // Thêm label, data và backgroundColor vào dữ liệu của biểu đồ
         data.labels.push(category.content);
-        data.datasets[0].data.push(totalAmount);
+        data.datasets[0].data.push(percentage);
         data.datasets[0].backgroundColor.push(category.iconColor);
+
+        // Tạo dữ liệu chi tiết cho từng category
+        categoryData.push({
+            id: category.id,
+            iconUrl: category.iconUrl,
+            iconColor: category.iconColor,
+            amount: totalAmount,
+            transactionTimes: categoryTransactions.length,
+            content: category.content // Add category content here
+        });
     });
 
-    return data;
-}
+    return { chartData: data, categoryData: categoryData };
+};
+
+
 
 
 
