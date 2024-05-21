@@ -72,3 +72,10 @@ export function UTC7Date(date) {
   currentDate.setHours(currentDate.getHours() + 7);
   return currentDate;
 }
+
+export function dateToArray(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // Tháng trong JavaScript được đếm từ 0 (0 là tháng 1)
+  const day = date.getDate();
+  return [year, month, day];
+};

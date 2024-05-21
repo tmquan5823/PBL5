@@ -14,6 +14,8 @@ import TransactionHistory from "../components/TransactionComponents/TransactionH
 import { totalAmount } from "../../shared/util/TransactionsCaculator";
 import { formatArrayDate } from "../../shared/help/DateFormat";
 import { filterData } from "../../shared/util/chartCaculate";
+import DateRangePickerComp from "../../shared/components/FormElements/DateRangePickerComp";
+import DatePickerComponent from "../../shared/components/FormElements/DatePickerComponent";
 
 const UserTransaction = props => {
     const [formShow, setFormShow] = useState(false);
@@ -23,6 +25,15 @@ const UserTransaction = props => {
     const [futureTransactions, setFutureTransactions] = useState();
     const [transactionsInDate, setTransactionsInDate] = useState();
     const [expense, setExpense] = useState();
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    const endOfMonth = new Date(startOfMonth);
+    endOfMonth.setMonth(endOfMonth.getMonth() + 1);
+    endOfMonth.setDate(0);
+    const [date, setDate] = useState({
+        startDate: startOfMonth,
+        endDate: endOfMonth
+    });
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const auth = useContext(AuthContext);
 
@@ -113,14 +124,25 @@ const UserTransaction = props => {
         fetchData();
     }, [fetchData]);
 
-    function filterChangeHandler(inputs) {
-        console.log(inputs.user.value);
-
+    const filterChangeHandler = (inputs) => {
         if (inputs.user.value && inputs.user.value.length <= 0) {
             setFilterTransactions([]);
         }
         else {
-            setFilterTransactions(filterData(transactions, [auth.wallet.id], inputs.category.value, inputs.note.value));
+            setFilterTransactions(filterData(transactions, auth.wallet.id, inputs.category.value, inputs.note.value, date.startDate, date.endDate));
+        }
+    };
+
+    useEffect(() => {
+
+    }, [date.startDate, date.endDate]);
+
+    function dateChangeHandler(startDate, endDate) {
+        if (startDate && endDate) {
+            setDate({
+                startDate: startDate,
+                endDate: endDate
+            })
         }
     }
 
@@ -143,13 +165,13 @@ const UserTransaction = props => {
                 <button onClick={createButtonHandler} className="add-transaction__btn">
                     Thêm giao dịch
                 </button>
-                <div className="calendar-container">
-                    <button>&lt;</button>
-                    <span>{DateFormat(moment().format('DD/MM/YYYY'))}</span>
-                    <button>&gt;</button>
-                </div>
+                <DatePickerComponent
+                    onChange={dateChangeHandler}
+                />
             </div>
             <FilterContainer
+                startDate={date.startDate}
+                endDate={date.endDate}
                 onChange={filterChangeHandler}
             />
             <ExpenseRow expense={expense} />

@@ -12,7 +12,7 @@ const WalletContainer = props => {
     const [showForm, setShowForm] = useState();
     const auth = useContext(AuthContext);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    const [wallets, setWallets] = useState();
+    const [wallets, setWallets] = useState(props.wallets);
 
     function closeHandler() {
         setShowForm(false);
@@ -32,25 +32,10 @@ const WalletContainer = props => {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + '/api/user/all-wallets', 'GET', null,
-                    {
-                        'Authorization': "Bearer " + auth.token
-                    }
-                )
-                if (resData.state) {
-                    setWallets(resData.list_wallet);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        fetchData();
-    }, []);
+        setWallets(props.wallets)
+    }, [props.wallets]);
 
     return <React.Fragment>
-        {isLoading && <LoadingSpinner asOverlay />}
         <Modal
             show={showForm}
             onCancel={closeHandler}

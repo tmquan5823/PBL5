@@ -94,6 +94,11 @@ const Input = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         setData(value, isValid) {
+            if (props.element === 'select') {
+                setCheckedList(value);
+                setIndeterminate(!!value.length && value.length < options.length);
+                setCheckAll(value.length === options.length);
+            }
             dispatch({ type: 'SET', val: value, isValid });
         }
     }));

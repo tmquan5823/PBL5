@@ -1,14 +1,16 @@
+import { dateToArray } from "../help/DateFormat";
+
 const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateEnd, type) => {
     if (transactions && transactions.length > 0) {
         return transactions.filter(item => {
             // Check walletId
-            // if (walletIds.length > 0 && !walletIds.includes(item.wallet_id)) {
-            //     console.log(1);
-            //     return false;
-            // }
+            if (walletIds.length >= 0 && !walletIds.includes(item.wallet_id)) {
+                console.log(1);
+                return false;
+            }
 
             // Check categoryId
-            if (categoryIds.length <= 0 || !categoryIds.includes(item.category.id)) {
+            if (categoryIds && (categoryIds.length <= 0 || !categoryIds.includes(item.category ? item.category.id : item.category_id))) {
                 console.log(2);
                 return false;
             }
@@ -19,11 +21,13 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
             }
 
             // Check dateStart and dateEnd
-            if (dateStart && !isDateAfter(item.date_transaction, dateStart)) {
+            if (dateStart && !isDateAfter(item.dateTransaction.slice(0, 3), dateToArray(new Date(dateStart)))) {
                 console.log(3);
                 return false;
             }
-            if (dateEnd && !isDateBefore(item.date_transaction, dateEnd)) {
+            if (dateEnd && !isDateBefore(item.dateTransaction.slice(0, 3), dateToArray(new Date(dateEnd)))) {
+                console.log((item.dateTransaction.slice(0, 3)))
+                console.log(dateToArray(new Date(dateEnd)))
                 console.log(4);
                 return false;
             }
@@ -39,22 +43,23 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
                     return false;
                 }
             }
-
-            return true;
+            return [];
         });
     }
-    console.log("@@@")
-    return true;
+    return [];
 }
 
 
 const filterWallet = (wallets, walletIds) => {
-    return wallets.filter(item => {
-        if (walletIds.length > 0 && !walletIds.includes(item.id)) {
-            return false;
-        }
-        return true;
-    })
+    if (wallets && walletIds.length > 0) {
+        return wallets.filter(item => {
+            if (!walletIds.includes(item.id)) {
+                return false;
+            }
+            return true;
+        })
+    }
+    return [];
 }
 
 const filterCategory = (categories, type, categoryIds) => {
@@ -205,20 +210,26 @@ const dataDoughnutChart = (categories, transactions) => {
 
 // Function to check if a date is after another date
 const isDateAfter = (dateArray, comparisonDate) => {
-    const [year, month, day] = dateArray;
-    const [compYear, compMonth, compDay] = comparisonDate;
-    const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
-    const compDate = new Date(compYear, compMonth - 1, compDay);
-    return date >= compDate;
+    if (dateArray && comparisonDate) {
+        const [year, month, day] = dateArray;
+        const [compYear, compMonth, compDay] = comparisonDate;
+        const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
+        const compDate = new Date(compYear, compMonth - 1, compDay);
+        return date >= compDate;
+    }
+    return false;
 }
 
 // Function to check if a date is before another date
 const isDateBefore = (dateArray, comparisonDate) => {
-    const [year, month, day] = dateArray;
-    const [compYear, compMonth, compDay] = comparisonDate;
-    const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
-    const compDate = new Date(compYear, compMonth - 1, compDay);
-    return date <= compDate;
+    if (dateArray && comparisonDate) {
+        const [year, month, day] = dateArray;
+        const [compYear, compMonth, compDay] = comparisonDate;
+        const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
+        const compDate = new Date(compYear, compMonth - 1, compDay);
+        return date <= compDate;
+    }
+    return false;
 }
 
 

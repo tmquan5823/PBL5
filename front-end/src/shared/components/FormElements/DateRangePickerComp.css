@@ -1,0 +1,18 @@
+.date-range__container {
+    display: flex;
+    justify-content: center;
+    align-items: 100px;
+    height: 100px;
+    position: relative;
+}
+
+.date-range__container .calender {
+    padding: 20px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.date-range__container .date-range {
+    position: absolute;
+    top: 120px;
+}

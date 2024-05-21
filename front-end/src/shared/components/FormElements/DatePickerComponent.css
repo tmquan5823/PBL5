@@ -1,0 +1,31 @@
+.datepicker-component {
+    margin: 0;
+    display: flex;
+    height: 100%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+}
+
+.datepicker-component button {
+    padding: 10px;
+    height: 100%;
+    border: none;
+    background-color: #fff;
+    color: #000;
+}
+
+.datepicker-component span {}
+
+.react-datepicker__input-container {}
+
+.react-datepicker__input-container input {
+    height: 100%;
+    padding: 10px;
+    border: none;
+    text-align: center;
+}

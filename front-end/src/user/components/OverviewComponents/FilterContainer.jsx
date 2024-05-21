@@ -8,12 +8,11 @@ import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import Category from "../CategoryComponent/Category";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
-import UserItem from "../UserProfile/UserItem";
 
 const FilterContainer = props => {
     const auth = useContext(AuthContext);
-    const [categories, setCategories] = useState();
-    const [users, setUsers] = useState();
+    const [categories, setCategories] = useState(props.categories);
+    const [wallets, setWallets] = useState(props.wallets);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const inputRef = [
         useRef(null),
@@ -21,12 +20,12 @@ const FilterContainer = props => {
         useRef(null)
     ];
     const [formState, inputHandler, setFormData] = useForm({
-        category: {
-            value: "",
+        wallet: {
+            value: props.wallets,
             isValid: false
         },
-        user: {
-            value: "",
+        category: {
+            value: props.categories,
             isValid: false
         },
         note: {
@@ -36,38 +35,18 @@ const FilterContainer = props => {
     }, isValid);
 
     useEffect(() => {
-        props.onChange && props.onChange(formState.inputs, props.startDate, props.endDate);
-    }, [formState.inputs, props.startDate, props.endDate]);
-
-    useEffect(() => {
         async function fetchData() {
             try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user", "GET", null, {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions", "GET", null, {
                     'Authorization': "Bearer " + auth.token
                 });
                 if (resData.state) {
-                    setUsers([{
-                        label: <UserItem
-                            avt={resData.avatar_url}
-                            name={resData.first_name + " " + resData.last_name}
-                        />,
-                        value: 1,
-                    }]);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchData();
-    }, [sendRequest]);
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/categories/" + auth.wallet.id, "GET", null, {
-                    'Authorization': "Bearer " + auth.token
-                });
-                if (resData.state) {
+                    setWallets(resData.list_wallets.map(item => {
+                        return {
+                            label: <span className="wallet-item">{item.walletName}</span>,
+                            value: item.id,
+                        }
+                    }));
                     setCategories(resData.list_categories.map(item => {
                         return {
                             label: <Category
@@ -79,27 +58,30 @@ const FilterContainer = props => {
                             value: item.category.id,
                         }
                     }));
-                    console.log(categories);
                 }
             } catch (err) {
                 console.log(err);
             }
         };
         fetchData();
-    }, [sendRequest]);
+    }, []);
+
+    useEffect(() => {
+        props.onChange && props.onChange(formState.inputs);
+    }, [formState.inputs, props.onChange]);
+
 
     function filterResetHandler() {
         if (inputRef[0].current) {
-            inputRef[0].current.setData(categories.map(item => item.value), true); // Thay đổi giá trị và isValid theo nhu cầu
+            inputRef[0].current.setData(wallets.map(item => item.value), true);
         }
         if (inputRef[1].current) {
-            inputRef[1].current.setData(users.map(item => item.value), true); // Thay đổi giá trị và isValid theo nhu cầu
+            inputRef[1].current.setData(categories.map(item => item.value), true);
         }
         if (inputRef[2].current) {
-            inputRef[2].current.setData("", true); // Thay đổi giá trị và isValid theo nhu cầu
+            inputRef[2].current.setData("", true);
         }
     }
-
 
     return <React.Fragment >
         {isLoading && <LoadingSpinner asOverlay />}
@@ -109,27 +91,26 @@ const FilterContainer = props => {
                 <span onClick={filterResetHandler}>Đặt lại bộ lọc</span>
             </div>
             <div className="filter__content">
+                <Input id="wallet"
+                    text="Theo ví"
+                    element="select"
+                    type="text"
+                    onInput={inputHandler}
+                    initialIsValid={true}
+                    width="20%"
+                    options={wallets}
+                    content="nguời dùng"
+                    ref={inputRef[0]}
+                />
                 <Input id="category"
                     text="Theo danh mục"
                     element="select"
                     type="text"
-                    value={formState.inputs.category.value}
                     onInput={inputHandler}
                     initialIsValid={true}
                     width="20%"
                     options={categories}
                     content="danh mục"
-                    ref={inputRef[0]}
-                />
-                <Input id="user"
-                    text="Theo người"
-                    element="select"
-                    type="text"
-                    onInput={inputHandler}
-                    initialIsValid={true}
-                    width="20%"
-                    options={users}
-                    content="nguời dùng"
                     ref={inputRef[1]}
                 />
                 <Input id="note"
