@@ -47,7 +47,7 @@ public class CategoryService {
                                 }
                                 return new ResponseEntity<>(
                                                 ListCategoriesResponse.builder()
-                                                                .message("Lấy danh mục thành công!!!")
+                                                                .message("Lấy danh sách danh mục thành công!!!")
                                                                 .state(true)
                                                                 .categories(transactionTimes)
                                                                 .build(),
@@ -161,6 +161,42 @@ public class CategoryService {
                                                         .message("Lỗi xóa danh mục!!!")
                                                         .state(false).build(),
                                         HttpStatus.BAD_REQUEST);
+                }
+        }
+
+        public ResponseEntity<ListCategoriesResponse> getAllCategoriesByWalletId(HttpServletRequest request,
+                        int walletId) {
+                try {
+                        String authHeader = request.getHeader("Authorization");
+                        User user = jwtService.getUserFromAuthHeader(authHeader);
+                        if (user == null) {
+                                return new ResponseEntity<>(ListCategoriesResponse.builder().state(false)
+                                                .message("Lỗi người dùng ; token hết hạn!!!").build(),
+                                                HttpStatus.OK);
+                        } else {
+                                List<Category> categories = categoryRepository.findCategoriesByWalletId(walletId);
+                                List<CategoryWithTransactionTimes> transactionTimes = new ArrayList<>();
+                                for (Category category : categories) {
+                                        List<Transaction> transactions = transactionRepository
+                                                        .findAllByCategoryIdAndWalletId(category.getId(), walletId);
+                                        transactionTimes.add(CategoryWithTransactionTimes.builder().category(category)
+                                                        .transactionTime(transactions.size()).build());
+                                }
+                                return new ResponseEntity<>(
+                                                ListCategoriesResponse.builder()
+                                                                .message("Lấy danh sách danh mục theo ví thành công!!!")
+                                                                .state(true)
+                                                                .categories(transactionTimes)
+                                                                .build(),
+                                                HttpStatus.OK);
+                        }
+
+                } catch (Exception e) {
+                        return new ResponseEntity<>(
+                                        ListCategoriesResponse.builder()
+                                                        .message("Lỗi lấy danh sách danh mục theo ví!!!")
+                                                        .state(false).build(),
+                                        HttpStatus.OK);
                 }
         }
 
