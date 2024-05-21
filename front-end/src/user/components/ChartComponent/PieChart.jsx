@@ -3,7 +3,7 @@ import { Chart } from "chart.js";
 import { Table } from "antd";
 import Category from "../CategoryComponent/Category";
 import Icon from "@ant-design/icons/lib/components/Icon";
-import "./PieChart.css";
+// import "./PieChart.css";
 
 const PieChart = (props) => {
   const [data, setData] = useState({});
@@ -56,6 +56,7 @@ const PieChart = (props) => {
   ];
 
   useEffect(() => {
+    console.log(data);
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
@@ -116,16 +117,12 @@ const PieChart = (props) => {
     <div>
       <h1>Pie Chart with Table</h1>
       <canvas ref={chartRef} className="doughnut" />
-      <ul className="categories-list">
-        {props.data && props.data.map(item => <li className="category-item">
-          <Category
-            icon={item.category.iconUrl}
-            color={item.category.iconColor}
-            content={item.category.content}
-          />
-          <span>{item.transaction_times}</span>
-        </li>)}
-      </ul>
+      <Table
+        dataSource={categoryData}
+        columns={columns}
+        rowKey="id"
+        pagination={false}
+      />
     </div>
   );
 };
