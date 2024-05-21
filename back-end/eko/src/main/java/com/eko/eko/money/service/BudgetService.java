@@ -64,10 +64,8 @@ public class BudgetService {
                                         BudgetResponse.builder().budgetId(budget.getId()).budgetMoney(budget.getMoney())
                                                         .budgetSpend(budget.getSpend())
                                                         .budgetName(budget.getName())
-                                                        .dateStart(formatDate.formatLocalDateTimeToString(
-                                                                        budget.getDateStart()))
-                                                        .dateEnd(formatDate.formatLocalDateTimeToString(
-                                                                        budget.getDateEnd()))
+                                                        .dateStart(budget.getDateStart())
+                                                        .dateEnd(budget.getDateEnd())
                                                         .user(budget.getUser())
                                                         .state(true)
                                                         .message("Tạo ngân sách thành công!!!")
@@ -135,10 +133,8 @@ public class BudgetService {
                                         BudgetResponse.builder().budgetId(budget.getId()).budgetMoney(budget.getMoney())
                                                         .budgetSpend(budget.getSpend())
                                                         .budgetName(budget.getName())
-                                                        .dateStart(formatDate.formatLocalDateTimeToString(
-                                                                        budget.getDateStart()))
-                                                        .dateEnd(formatDate.formatLocalDateTimeToString(
-                                                                        budget.getDateEnd()))
+                                                        .dateStart(budget.getDateStart())
+                                                        .dateEnd(budget.getDateEnd())
                                                         .user(budget.getUser())
                                                         .state(true)
                                                         .message("Cập nhật ngân sách thành công!!!")
@@ -209,10 +205,8 @@ public class BudgetService {
                                                         .budgetName(budget.getName())
                                                         .budgetSpend(budget.getSpend())
                                                         .budgetMoney(budget.getMoney())
-                                                        .dateEnd(formatDate.formatLocalDateTimeToString(
-                                                                        budget.getDateEnd()))
-                                                        .dateStart(formatDate.formatLocalDateTimeToString(
-                                                                        budget.getDateStart()))
+                                                        .dateEnd(budget.getDateEnd())
+                                                        .dateStart(budget.getDateStart())
                                                         .user(budget.getUser())
                                                         .build(),
                                         HttpStatus.OK);
