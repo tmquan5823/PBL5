@@ -13,12 +13,16 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import { formatArrayDate2 } from "../../shared/help/DateFormat";
 import { dateCaculate } from "../../shared/util/DateCaculator";
+import PieChart from "../components/ChartComponent/PieChart";
+import { dataDoughnutChart } from "../../shared/util/chartCaculate";
 
 const UserBudgetDetail = props => {
     const auth = useContext(AuthContext);
     const budgetID = useParams().budgetID;
     const [showForm, setShowForm] = useState();
     const [budget, setBudget] = useState();
+    const [categories, setCategories] = useState([]);
+    const [transactions, setTransactions] = useState([]);
     const [expense, setExpense] = useState();
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -41,12 +45,32 @@ const UserBudgetDetail = props => {
     }, []);
 
     useEffect(() => {
+        async function fetchData() {
+            try {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/budget/transaction/" + budgetID, "GET",
+                    null, {
+                    'Authorization': "Bearer " + auth.token
+                });
+                if (resData.state) {
+                    setCategories(resData.list_categories)
+                    setTransactions(resData.list_transactions)
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
         if (budget) {
             setExpense([{ title: 'Ngân sách ban đầu', money: budget.money },
             { title: 'Số tiền đã chi', money: budget.spend },
             { title: 'Ngân sách còn lại', money: budget.money + budget.spend },
             { title: 'Số tiền có thể dùng', money: (budget.money + budget.spend > 0) ? (budget.money + budget.spend) / dateCaculate(new Date, budget.dateEnd) : '0', no_mark: true, perDay: true }]);
         }
+        console.log(dataDoughnutChart(categories.filter(item => item.category.income), transactions.filter(item => item.amount >= 0)))
     }, [budget]);
 
     function closeHandler() {
@@ -103,7 +127,7 @@ const UserBudgetDetail = props => {
                 <div className="budget-detail__progress-content">
                     <h3>Tiếp tục chi tiêu. Bạn có thể chi tiêu {(expense && expense[3].money > 0) ? expense[3].money.toLocaleString('vi-VN') : '0'} VNĐ mỗi ngày cho phần còn lại của thời kỳ.</h3>
                     <div className="progress-bar__container">
-                        <ProgressBar percent={(budget.money + budget.spend) / budget.money * 100} />
+                        <ProgressBar percent={(-1 * budget.spend) / budget.money * 100} />
                         <div className="progress-bar__time">
                             <p>{formatArrayDate2(budget.dateStart)}</p>
                             <p>{formatArrayDate2(budget.dateEnd)}</p>
@@ -111,6 +135,12 @@ const UserBudgetDetail = props => {
                     </div>
 
                 </div>
+            </div>
+            <div className="budget__piechart">
+                {categories.length > 0 && transactions.length > 0 && <PieChart
+                    title="Chi phí theo kì"
+                    data={dataDoughnutChart(categories.filter(item => !item.category.income), transactions.filter(item => item.amount < 0))}
+                />}
             </div>
         </React.Fragment>}
     </PageContent>

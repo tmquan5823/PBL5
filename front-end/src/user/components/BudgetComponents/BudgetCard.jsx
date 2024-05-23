@@ -23,7 +23,7 @@ const BudgetCard = props => {
             <p className="budget__money">
                 From <p className="green-color">{money}</p>
             </p>
-            <ProcessBar percent={(props.money + props.moneySpend) / props.money * 100} />
+            <ProcessBar percent={(-1 * props.moneySpend) / props.money * 100} />
             <div className="budget__date">
                 <p>{formatArrayDate2((props.start))}</p>
                 <p>{formatArrayDate2((props.end))}</p>

@@ -5,6 +5,7 @@ import { useForm } from "../../../shared/hooks/form-hook";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import axios from "axios"
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
+import Cookies from "js-cookie";
 
 const UserProfileHeader = props => {
     const [file, setFile] = useState();
@@ -78,6 +79,7 @@ const UserProfileHeader = props => {
             if (resData.state) {
                 setPreviewURL(resData.avatar);
                 auth.updateAvt(resData.avatar);
+                Cookies.set("url", resData.avatar);
             }
         } catch (err) {
             console.log(err);

@@ -78,7 +78,7 @@ const PieChart = (props) => {
     }))
   }, [props.data]);
 
-  return (
+  return props.data && (
     <div className="chart-container">
       <h2>{props.title}</h2>
       <canvas ref={chartRef} className="doughnut" />
@@ -89,7 +89,7 @@ const PieChart = (props) => {
         rowKey="category"
       />}
     </div>
-  );
+  )
 };
 
 export default PieChart;

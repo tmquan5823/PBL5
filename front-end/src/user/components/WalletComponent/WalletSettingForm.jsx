@@ -26,39 +26,16 @@ const WalletSettingForm = props => {
     const hideModal = () => {
         setOpen(false);
     };
-
     const history = useHistory();
-    const money_sources = [{
-        label: "Tiền mặt",
-        value: "cash",
-    }];
-
-    const currency = [{
-        label: "VNĐ",
-        value: "vnd",
-    }, ,
-    {
-        label: "USD",
-        value: "usd",
-    },];
-
     const [formState, inputHandler, setFormData] = useForm({
         wallet_name: {
             value: auth.wallet.walletName || "",
             isValid: true
         },
-        money_source: {
-            value: "",
-            isValid: true
-        },
         initial_money: {
-            value: auth.wallet.moneyAtFirst.toString() || "",
+            value: auth.wallet.moneyAtFirst,
             isValid: true
         },
-        currency: {
-            value: "",
-            isValid: true
-        }
     }, true);
 
     async function confirmDeleteHandler() {
@@ -81,6 +58,7 @@ const WalletSettingForm = props => {
     }
 
     useEffect(() => {
+        console.log(formState.inputs)
         if (formState.inputs.wallet_name.value != auth.wallet.walletName ||
             formState.inputs.initial_money.value != auth.wallet.moneyAtFirst) {
             setUpdateState(true);
@@ -96,18 +74,11 @@ const WalletSettingForm = props => {
                 value: auth.wallet.walletName || "",
                 isValid: true
             },
-            money_source: {
-                value: "",
-                isValid: true
-            },
             initial_money: {
                 value: auth.wallet.moneyAtFirst.toString() || "",
                 isValid: true
             },
-            currency: {
-                value: "",
-                isValid: true
-            }
+
         }, true);
     }
 
@@ -162,18 +133,10 @@ const WalletSettingForm = props => {
                         text="Tên"
                         element="input"
                         type="text"
-                        value={formState.inputs.wallet_name.value}
+                        value={formState.inputs && formState.inputs.wallet_name.value}
                         onInput={inputHandler}
                         validators={[VALIDATOR_REQUIRE()]}
                         width="48%"
-                    />
-                    <Input id="money_source"
-                        text="Nguồn tiền"
-                        element="select"
-                        value={formState.inputs.money_source.value}
-                        onInput={inputHandler}
-                        width="48%"
-                        options={money_sources}
                     />
                 </div>
                 <div className="wallet-form__row">
@@ -182,19 +145,10 @@ const WalletSettingForm = props => {
                         element="input"
                         type="text"
                         numberOnly
-                        value={formState.inputs.initial_money.value}
+                        value={formState.inputs.initial_money && formState.inputs.initial_money.value}
                         onInput={inputHandler}
                         validators={[VALIDATOR_REQUIRE()]}
                         width="48%"
-                    />
-                    <Input id="currency"
-                        text="Đơn vị tiền tệ"
-                        element="select"
-                        value={formState.inputs.currency.value}
-                        onInput={inputHandler}
-                        options={currency}
-                        width="48%"
-                        initialIsValid={true}
                     />
                 </div>
                 {updateState && <div className="update-wallet__buttons">

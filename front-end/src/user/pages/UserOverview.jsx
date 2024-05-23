@@ -22,9 +22,9 @@ const UserOverview = props => {
     const [wallets, setWallets] = useState();
     const [filterWallets, setFilterWallets] = useState();
     const [expense, setExpense] = useState();
-    const [categories, setCategories] = useState();
-    const [transactions, setTransactions] = useState();
-    const [filterTransactions, setFilterTransactions] = useState();
+    const [categories, setCategories] = useState([]);
+    const [transactions, setTransactions] = useState([]);
+    const [filterTransactions, setFilterTransactions] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -81,13 +81,13 @@ const UserOverview = props => {
                     {categories && filterTransactions && <AreaChart />}
                 </div> */}
                 <div className="chart-item">
-                    {categories && filterTransactions && <PieChart
+                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
                         title="Thu nhập theo kì"
                         data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
                     />}
                 </div>
                 <div className="chart-item">
-                    {categories && filterTransactions && <PieChart
+                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
                         title="Chi phí theo kì"
                         data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}
                     />}

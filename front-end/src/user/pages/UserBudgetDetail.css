@@ -74,6 +74,8 @@ h4 {
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
+    margin-bottom: 40px;
+
 }
 
 .budget-detail__progress-content {
@@ -101,4 +103,9 @@ h4 {
 
 .progress-bar__time p {
     margin: 0;
+}
+
+.budget__piechart {
+    width: 50%;
+    background-color: #fff;
 }

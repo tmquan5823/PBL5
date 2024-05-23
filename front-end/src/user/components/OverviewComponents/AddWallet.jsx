@@ -27,18 +27,11 @@ const AddWallet = props => {
             value: "",
             isValid: false
         },
-        money_source: {
-            value: "",
-            isValid: false
-        },
         initial_money: {
             value: "",
             isValid: false
         },
-        currency: {
-            value: "",
-            isValid: false
-        }
+
     }, false);
 
     async function addWalletHandler(event) {
@@ -82,14 +75,6 @@ const AddWallet = props => {
                     validators={[VALIDATOR_REQUIRE()]}
                     width="48%"
                 />
-                <Input id="money_source"
-                    text="Nguồn tiền"
-                    element="select"
-                    value={formState.inputs.money_source.value}
-                    onInput={inputHandler}
-                    width="48%"
-                    options={money_sources}
-                />
             </div>
             <div className="wallet-form__row">
                 <Input id="initial_money"
@@ -101,15 +86,6 @@ const AddWallet = props => {
                     onInput={inputHandler}
                     validators={[VALIDATOR_REQUIRE()]}
                     width="48%"
-                />
-                <Input id="currency"
-                    text="Đơn vị tiền tệ"
-                    element="select"
-                    value={formState.inputs.currency.value}
-                    onInput={inputHandler}
-                    options={currency}
-                    width="48%"
-                    initialIsValid={true}
                 />
             </div>
             <h3>Thành viên ví</h3>

@@ -13,16 +13,36 @@ import { AuthContext } from "../../shared/context/auth-context";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { totalAmount } from "../../shared/util/TransactionsCaculator";
 import Category from "../components/CategoryComponent/Category";
-import { filterData } from "../../shared/util/chartCaculate";
+import { dataDoughnutChart, filterData } from "../../shared/util/chartCaculate";
+import Categories from "../models/Categories";
+import PieChart from "../components/ChartComponent/PieChart";
+
 
 const UserWalletDetail = props => {
     const auth = useContext(AuthContext);
     const [wallet, setWallet] = useState();
     const [expense, setExpense] = useState();
-    const [transactions, setTransactions] = useState();
-    const [filterTransactions, setFilterTransactions] = useState();
+    const [transactions, setTransactions] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [filterTransactions, setFilterTransactions] = useState([]);
     const [formShow, setFormShow] = useState(false);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/categories/" + auth.wallet.id, "GET", null, {
+                    'Authorization': "Bearer " + auth.token
+                });
+                if (resData.state) {
+                    setCategories(resData.list_categories);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchData();
+    }, [auth.token, auth.wallet.id, sendRequest]);
 
     useEffect(() => {
         async function fetchData() {
@@ -40,6 +60,7 @@ const UserWalletDetail = props => {
         };
         fetchData();
     }, [auth.token, auth.wallet.id, sendRequest]);
+
 
     useEffect(() => {
         setExpense([{ title: 'Số dư Ví hiện tại', money: auth.wallet.moneyLeft },
@@ -84,6 +105,20 @@ const UserWalletDetail = props => {
             <FilterContainer
                 onChange={filterChangeHandler} />
             <ExpenseRow expense={expense} />
+            <div className="charts-container">
+                <div className="chart-item">
+                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
+                        title="Thu nhập theo kì"
+                        data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
+                    />}
+                </div>
+                <div className="chart-item">
+                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
+                        title="Chi phí theo kì"
+                        data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}
+                    />}
+                </div>
+            </div>
         </PageContent>
     </React.Fragment>
 

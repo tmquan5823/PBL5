@@ -26,9 +26,6 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
                 return false;
             }
             if (dateEnd && !isDateBefore(item.dateTransaction.slice(0, 3), dateToArray(new Date(dateEnd)))) {
-                console.log((item.dateTransaction.slice(0, 3)))
-                console.log(dateToArray(new Date(dateEnd)))
-                console.log(4);
                 return false;
             }
 

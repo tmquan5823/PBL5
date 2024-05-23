@@ -5,7 +5,6 @@ import Input from "../../../shared/components/FormElements/Input";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import Modal from "../../../shared/components/UIElements/Modal";
-import StateCard from "../../../shared/components/UIElements/StateCard";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useForm } from "../../../shared/hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../../shared/util/validators";
@@ -14,8 +13,6 @@ const VerifyForm = (props) => {
   const [verifyState, setVerifyState] = useState(false);
   const [verifyCode, setVerifyCode] = useState();
   const [verifySuccess, setVerifySuccess] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [resMessage, setResMessage] = useState();
   const [forgotPasswordParam, setForgotPasswordParam] = useState();
   const [passwordMatchError, setPasswordMatchError] = useState(false); // State để kiểm tra lỗi mật khẩu không trùng khớp
   const email = useParams().email;
@@ -90,8 +87,6 @@ const VerifyForm = (props) => {
       }
     } catch (err) {
       console.log(err);
-      setResMessage(err.message);
-      setShowModal(true);
     }
   }
 
@@ -100,8 +95,6 @@ const VerifyForm = (props) => {
     try {
       // Your existing code
     } catch (err) {
-      setResMessage(err.message);
-      setShowModal(true);
       console.log(err);
     }
   }
@@ -119,34 +112,26 @@ const VerifyForm = (props) => {
     event.preventDefault();
     try {
       // quenpass ? /api/auth/verify-password?email= : /api/auth/verify-account?email=
-      const url = forgotPasswordParam ? "/api/auth/verify-password?email=" : " /api/auth/verify-account?email=";
+      const url = forgotPasswordParam ? "/api/auth/verify-password?email=" : "/api/auth/verify-account?email=";
       const responseData = await sendRequest(
         process.env.REACT_APP_URL +
         url +
         email +
         "&otp=" +
         verifyCode,
-        "POST"  
+        "POST", null, null
       );
       console.log(responseData);
       if (responseData.state) {
         setVerifySuccess(true);
         setVerifyState(false);
       } else {
-        setResMessage(responseData.message);
         setVerifySuccess(false);
-        setShowModal(true);
       }
     } catch (err) {
-      setResMessage(err.message);
       console.log(err);
     }
   }
-
-  function closeModalHandler() {
-    setShowModal(false);
-  }
-
   //   useEffect(() => {
   //     const params = new URLSearchParams(location.search);
   //     const forgotPasswordParam = params.get("forgotpassword");
@@ -159,22 +144,6 @@ const VerifyForm = (props) => {
 
   return (
     <React.Fragment>
-      {
-        <Modal
-          show={showModal || error}
-          onCancel={closeModalHandler}
-          center
-          width="30%"
-        >
-          <StateCard
-            onClose={closeModalHandler}
-            fail={!verifySuccess}
-            error={error}
-            message={resMessage}
-          />
-        </Modal>
-      }
-
       {isLoading && <LoadingSpinner asOverlay />}
       <div className="verify-container">
         <img src="/images/teal-logo.png" alt="" className="logoVe" />

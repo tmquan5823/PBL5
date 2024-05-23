@@ -1,6 +1,5 @@
 export function dateCaculate(start, end) {
     if (start && end) {
-        console.log(start)
         const startDate = new Date(start);
         const endDate = new Date(...end);
 
@@ -11,5 +10,5 @@ export function dateCaculate(start, end) {
         const numberOfDays = timeDifference / (1000 * 3600 * 24);
         return numberOfDays
     }
-    return 0;   
+    return 0;
 }
