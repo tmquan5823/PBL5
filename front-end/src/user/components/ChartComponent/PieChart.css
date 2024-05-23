@@ -1,3 +1,51 @@
-.category-item {
+.chart-container {
+    width: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container .doughnut {
+    width: 70% !important;
+    height: 100% !important;
+}
+
+.chart-container .chart-money {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2dba75;
+}
+
+.chart-container .chart-money--red {
+    color: #f14c52;
+}
+
+
+.custom-table .ant-table-thead>tr>th {
+    background-color: #f0f0f0;
+    /* Màu nền cho tiêu đề bảng */
+    color: #333;
+    /* Màu chữ cho tiêu đề bảng */
+    font-weight: bold;
+    /* Đậm chữ cho tiêu đề bảng */
+}
+
+.custom-table .ant-table-tbody>tr>td {
+    background-color: #fff;
+    /* Màu nền cho các hàng */
+    color: #333;
+    /* Màu chữ cho các hàng */
+    padding: 16px;
+    /* Khoảng cách giữa các hàng */
+}
+
+.custom-table .ant-table-tbody>tr:nth-child(odd)>td {
+    background-color: #fafafa;
+    /* Màu nền xen kẽ cho các hàng lẻ */
+}
+
+.custom-table .ant-table-tbody>tr:hover>td {
+    background-color: #e6f7ff;
+    /* Màu nền khi hover vào hàng */
 }

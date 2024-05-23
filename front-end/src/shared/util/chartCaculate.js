@@ -4,7 +4,7 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
     if (transactions && transactions.length > 0) {
         return transactions.filter(item => {
             // Check walletId
-            if (walletIds.length >= 0 && !walletIds.includes(item.wallet_id)) {
+            if (walletIds && walletIds.length >= 0 && !walletIds.includes(item.wallet_id)) {
                 console.log(1);
                 return false;
             }
@@ -51,7 +51,7 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
 
 
 const filterWallet = (wallets, walletIds) => {
-    if (wallets && walletIds.length > 0) {
+    if (wallets && walletIds && walletIds.length > 0) {
         return wallets.filter(item => {
             if (!walletIds.includes(item.id)) {
                 return false;
@@ -188,40 +188,43 @@ const dataDoughnutChart = (categories, transactions) => {
     const categoryData = [];
 
     // Calculate total amount for all categories
+    console.log(transactions)
     const totalAmountAllCategories = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
 
-    categories.forEach(categoryItem => {
-        const category = categoryItem.category;
-        const categoryId = category.id;
+    if (categories) {
+        categories.forEach(categoryItem => {
+            const category = categoryItem.category;
+            const categoryId = category.id;
 
-        // Lọc các giao dịch thuộc category hiện tại
-        const categoryTransactions = transactions.filter(transaction => transaction.category_id === categoryId);
+            // Lọc các giao dịch thuộc category hiện tại
+            const categoryTransactions = transactions.filter(transaction => transaction.category_id === categoryId);
 
-        // Tính tổng số tiền của các giao dịch thuộc category hiện tại
-        const totalAmount = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+            // Tính tổng số tiền của các giao dịch thuộc category hiện tại
+            const totalAmount = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
 
-        // Calculate the percentage for the current category
-        const percentage = (totalAmount / totalAmountAllCategories) * 100;
+            // Calculate the percentage for the current category
+            const percentage = (totalAmount / totalAmountAllCategories) * 100;
 
-        // Thêm label, data và backgroundColor vào dữ liệu của biểu đồ
-        data.labels.push(category.content);
-        data.datasets[0].data.push(percentage);
-        data.datasets[0].backgroundColor.push(category.iconColor);
+            // Thêm label, data và backgroundColor vào dữ liệu của biểu đồ
+            data.labels.push(category.content);
+            data.datasets[0].data.push(percentage);
+            data.datasets[0].backgroundColor.push(category.iconColor);
 
-        // Tạo dữ liệu chi tiết cho từng category
-        categoryData.push({
-            id: category.id,
-            iconUrl: category.iconUrl,
-            iconColor: category.iconColor,
-            amount: totalAmount,
-            transactionTimes: categoryTransactions.length,
-            content: category.content // Add category content here
+            // Tạo dữ liệu chi tiết cho từng category
+            categoryData.push({
+                id: category.id,
+                iconUrl: category.iconUrl,
+                iconColor: category.iconColor,
+                content: category.content,
+                amount: totalAmount,
+                transactionTimes: categoryTransactions.length
+            });
         });
-    });
+    }
+
 
     return { chartData: data, categoryData: categoryData };
 };
-
 
 
 

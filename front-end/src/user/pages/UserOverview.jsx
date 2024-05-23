@@ -8,11 +8,12 @@ import WalletContainer from "../components/OverviewComponents/WalletContainer";
 import FilterContainer from "../components/OverviewComponents/FilterContainer";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import { filterData, filterWallet } from "../../shared/util/chartCaculate";
+import { dataDoughnutChart, filterData, filterWallet } from "../../shared/util/chartCaculate";
 import { totalAmount } from "../../shared/util/TransactionsCaculator";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import AreaChart from "../components/ChartComponent/AreaChart";
 import PieChart from "../components/ChartComponent/PieChart";
+import BarChart from "../components/ChartComponent/BarChart";
+import AreaChart from "../components/ChartComponent/AreaChart";
 
 
 const UserOverview = props => {
@@ -57,7 +58,6 @@ const UserOverview = props => {
     }, [filterTransactions, filterWallets]);
 
     const filterChangeHandler = useCallback((inputs) => {
-        console.log(inputs);
         setFilterTransactions(filterData(transactions, inputs.wallet.value, inputs.category.value, inputs.note.value));
         setFilterWallets(filterWallet(wallets, inputs.wallet.value));
     }, [filterData, transactions, wallets]);
@@ -73,10 +73,25 @@ const UserOverview = props => {
                 />
                 <ExpenseRow expense={expense} />
             </div>
-            <div className="chart-container">
-                <PieChart
-                    data={categories}
-                />
+            <div className="charts-container">
+                {/* <div className="chart-item">
+                    {categories && filterTransactions && <BarChart />}
+                </div>
+                <div className="chart-item">
+                    {categories && filterTransactions && <AreaChart />}
+                </div> */}
+                <div className="chart-item">
+                    {categories && filterTransactions && <PieChart
+                        title="Thu nhập theo kì"
+                        data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
+                    />}
+                </div>
+                <div className="chart-item">
+                    {categories && filterTransactions && <PieChart
+                        title="Chi phí theo kì"
+                        data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}
+                    />}
+                </div>
             </div>
         </PageContent>
     </React.Fragment>

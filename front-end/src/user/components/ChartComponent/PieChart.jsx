@@ -3,60 +3,31 @@ import { Chart } from "chart.js";
 import { Table } from "antd";
 import Category from "../CategoryComponent/Category";
 import Icon from "@ant-design/icons/lib/components/Icon";
-// import "./PieChart.css";
+import "./PieChart.css";
+import MoneyFormat from "../../../shared/help/MoneyFormat";
 
 const PieChart = (props) => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
-  useEffect(() => {
-    if (props.data) {
-      const total = props.data.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue.transaction_times;
-      }, 0);
-      setData({
-        labels: props.data.map(item => item.category.content),
-        datasets: [{
-          data: props.data.map(item => item.transaction_times / total * 100),
-          backgroundColor: props.data.map(item => item.category.iconColor)
-        }]
-      });
-    }
-  }, props.data);
-
-  const categoryData = [
-    {
-      id: 30,
-      label: "Nhà cửa",
-      iconUrl:
-        "https://res.cloudinary.com/dwzhz9qkm/image/upload/v1642157004/house_mgwfge.png",
-      iconColor: "#8B4513",
-      amount: -2000000,
-      transactionTimes: 1,
-    },
-    {
-      id: 31,
-      label: "Mua sắm",
-      iconUrl:
-        "https://res.cloudinary.com/dwzhz9qkm/image/upload/v1642157004/shopping_bag_a2afjc.png",
-      iconColor: "#FF69B4",
-      amount: -200000,
-      transactionTimes: 1,
-    },
-    {
-      id: 32,
-      label: "Đồ ăn & Đồ uống",
-      iconUrl:
-        "https://res.cloudinary.com/dwzhz9qkm/image/upload/v1642157004/food_beverage_zdp3bz.png",
-      iconColor: "#FFA500",
-      amount: -30000,
-      transactionTimes: 1,
-    },
-  ];
+  // useEffect(() => {
+  //   if (props.data) {
+  //     const total = props.data.reduce((accumulator, currentValue) => {
+  //       return accumulator + currentValue.transaction_times;
+  //     }, 0);
+  //     setData({
+  //       labels: props.data.map(item => item.category.content),
+  //       datasets: [{
+  //         data: props.data.map(item => item.transaction_times / total * 100),
+  //         backgroundColor: props.data.map(item => item.category.iconColor)
+  //       }]
+  //     });
+  //   }
+  // }, props.data);
 
   useEffect(() => {
-    console.log(data);
+    console.log(props.data.chartData);
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
@@ -64,7 +35,7 @@ const PieChart = (props) => {
 
     chartInstance.current = new Chart(myChartRef, {
       type: "doughnut",
-      data: data && data,
+      data: props.data && props.data.chartData,
     });
 
     return () => {
@@ -72,57 +43,51 @@ const PieChart = (props) => {
         chartInstance.current.destroy();
       }
     };
-  }, [data]);
+  }, [props.data]);
 
   const columns = [
     {
-      title: "",
-      dataIndex: "iconUrl",
-      key: "iconUrl",
-      render: (text, record) => (
-        <img
-          src={record.iconUrl}
-          alt={record.label}
-          style={{ width: 50, height: 50 }}
-        />
-      ),
+      title: "Danh mục",
+      dataIndex: "category",
+      key: "category",
     },
     {
-      title: "",
-      dataIndex: "label",
-      key: "label",
+      title: "Số lần giao dịch",
+      dataIndex: "transaction_times",
+      key: "transaction_times",
     },
     {
-      title: "",
-      dataIndex: "transactionTimes",
-      key: "transactionTimes",
-      render: (text) => `${text} giao dịch`,
-    },
-    {
-      title: "",
-      dataIndex: "amount",
-      key: "amount",
-      render: (amount) => (
-        <span style={{ color: amount < 0 ? "red" : "green" }}>
-          {new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-          }).format(amount)}
-        </span>
-      ),
+      title: "Số tiền",
+      dataIndex: "percentage",
+      key: "percentage",
     },
   ];
 
+  useEffect(() => {
+    setData(props.data.categoryData.map(item => {
+      return {
+        category: <Category
+          key={item.id}
+          id={item.id}
+          color={item.iconColor}
+          icon={item.iconUrl}
+          content={item.content} />,
+        transaction_times: item.transactionTimes + ' giao dịch',
+        percentage: <span className={`chart-money ${item.amount < 0 && 'chart-money--red'}`}>{MoneyFormat(item.amount) + ' VND'}</span>,
+      }
+    }))
+  }, [props.data]);
+
   return (
-    <div>
-      <h1>Pie Chart with Table</h1>
+    <div className="chart-container">
+      <h2>{props.title}</h2>
       <canvas ref={chartRef} className="doughnut" />
-      <Table
-        dataSource={categoryData}
+      {data && <Table
         columns={columns}
-        rowKey="id"
+        dataSource={data}
         pagination={false}
-      />
+        rowKey="category"
+      />}
     </div>
   );
 };
