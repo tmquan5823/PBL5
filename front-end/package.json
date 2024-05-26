@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@mantine/core": "^7.9.2",
     "@mantine/dates": "^7.9.2",
     "@mantine/hooks": "^7.9.2",
