@@ -80,18 +80,24 @@ const UserOverview = props => {
                 <div className="chart-item">
                     {categories && filterTransactions && <AreaChart />}
                 </div> */}
-                <div className="chart-item">
-                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
+                {categories.filter(item => item.category.income).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
+                    <AreaChart
+                    // title="Thu nhập theo kì"
+                    // data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
+                    />
+                </div>}
+                {categories.filter(item => item.category.income).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
+                    <PieChart
                         title="Thu nhập theo kì"
                         data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
-                    />}
-                </div>
-                <div className="chart-item">
-                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
+                    />
+                </div>}
+                {categories.length > 0 && filterTransactions.length > 0 && <div className="chart-item">
+                    <PieChart
                         title="Chi phí theo kì"
                         data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}
-                    />}
-                </div>
+                    />
+                </div>}
             </div>
         </PageContent>
     </React.Fragment>

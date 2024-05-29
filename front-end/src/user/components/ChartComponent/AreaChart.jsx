@@ -27,7 +27,7 @@ class AreaChart extends Component {
 
   createChart(labels, data) {
     const canvas = document.getElementById('canvas');
-    
+
     // Hủy biểu đồ nếu đã tồn tại
     if (this.chart) {
       this.chart.destroy();
@@ -59,6 +59,7 @@ class AreaChart extends Component {
   render() {
     return (
       <div className="container">
+        <h3></h3>
         <canvas id="canvas"></canvas>
       </div>
     );

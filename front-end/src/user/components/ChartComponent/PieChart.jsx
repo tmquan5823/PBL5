@@ -27,7 +27,6 @@ const PieChart = (props) => {
   // }, props.data);
 
   useEffect(() => {
-    console.log(props.data.chartData);
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }

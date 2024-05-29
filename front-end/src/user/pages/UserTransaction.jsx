@@ -65,30 +65,34 @@ const UserTransaction = props => {
     }, []);
 
     const fetchData = async () => {
-        try {
-            const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/" + auth.wallet.id, "GET", null, {
-                'Authorization': "Bearer " + auth.token
-            });
-            if (resData.state) {
-                setTransactions(resData.list_transaction_present);
-                setFilterTransactions(resData.list_transaction_present);
-                setFutureTransactions(resData.list_transaction_future);
-                console.log(resData);
+        if (auth.wallet) {
+            try {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/" + auth.wallet.id, "GET", null, {
+                    'Authorization': "Bearer " + auth.token
+                });
+                if (resData.state) {
+                    setTransactions(resData.list_transaction_present);
+                    setFilterTransactions(resData.list_transaction_present);
+                    setFutureTransactions(resData.list_transaction_future);
+                    console.log(resData);
+                }
+            } catch (err) {
+                console.log(err);
             }
-        } catch (err) {
-            console.log(err);
         }
     };
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [auth.wallet]);
 
     useEffect(() => {
-        setExpense([{ title: 'Số dư Ví hiện tại', money: auth.wallet.moneyLeft },
-        { title: 'Tổng thay đổi theo kì', money: totalAmount(filterTransactions, false) + totalAmount(filterTransactions, true) },
-        { title: 'Tổng Chi Phí Theo Kì', money: totalAmount(filterTransactions, false) },
-        { title: 'Tổng Thu Nhập Theo Kì', money: totalAmount(filterTransactions, true) }]);
+        if (auth.wallet) {
+            setExpense([{ title: 'Số dư Ví hiện tại', money: auth.wallet.moneyLeft },
+            { title: 'Tổng thay đổi theo kì', money: totalAmount(filterTransactions, false) + totalAmount(filterTransactions, true) },
+            { title: 'Tổng Chi Phí Theo Kì', money: totalAmount(filterTransactions, false) },
+            { title: 'Tổng Thu Nhập Theo Kì', money: totalAmount(filterTransactions, true) }]);
+        }
 
         if (filterTransactions && filterTransactions.length > 0) {
             let transactionArray = [];
@@ -125,7 +129,7 @@ const UserTransaction = props => {
     }, [fetchData]);
 
     const filterChangeHandler = (inputs) => {
-        if (inputs.user.value && inputs.user.value.length <= 0) {
+        if (!auth.wallet || (inputs.user.value && inputs.user.value.length <= 0)) {
             setFilterTransactions([]);
         }
         else {
@@ -161,37 +165,43 @@ const UserTransaction = props => {
         >
         </Modal>
         <PageContent title='Giao dịch' >
-            <div className="transaction-header">
-                <button onClick={createButtonHandler} className="add-transaction__btn">
-                    Thêm giao dịch
-                </button>
-                <DatePickerComponent
-                    onChange={dateChangeHandler}
+            {auth.wallet ? <React.Fragment>
+                <div className="transaction-header">
+                    <button onClick={createButtonHandler} className="add-transaction__btn">
+                        Thêm giao dịch
+                    </button>
+                    <DatePickerComponent
+                        onChange={dateChangeHandler}
+                    />
+                </div>
+                <FilterContainer
+                    startDate={date.startDate}
+                    endDate={date.endDate}
+                    onChange={filterChangeHandler}
                 />
-            </div>
-            <FilterContainer
-                startDate={date.startDate}
-                endDate={date.endDate}
-                onChange={filterChangeHandler}
-            />
-            <ExpenseRow expense={expense} />
-            {(futureTransactions && futureTransactions.length > 0) && <TransactionHistory
-                title="Giao dịch dự kiến"
-                showDate
-                transactions={futureTransactions}
-                categories={categories}
-                onUpdate={onUpdateTransaction}
-                onDelete={onDeleteHandler}
-            />}
-            <br />
-            {transactionsInDate && transactionsInDate.map(items => <TransactionHistory
-                key={items[0].dateTransaction.slice(0, 3).toString()}
-                title={formatArrayDate(items[0].dateTransaction.slice(0, 3))}
-                transactions={items}
-                categories={categories}
-                onUpdate={onUpdateTransaction}
-                onDelete={onDeleteHandler}
-            />)}
+                <ExpenseRow expense={expense} />
+                {(futureTransactions && futureTransactions.length > 0) && <TransactionHistory
+                    title="Giao dịch dự kiến"
+                    showDate
+                    transactions={futureTransactions}
+                    categories={categories}
+                    onUpdate={onUpdateTransaction}
+                    onDelete={onDeleteHandler}
+                />}
+                <br />
+                {transactionsInDate && transactionsInDate.map(items => <TransactionHistory
+                    key={items[0].dateTransaction.slice(0, 3).toString()}
+                    title={formatArrayDate(items[0].dateTransaction.slice(0, 3))}
+                    transactions={items}
+                    categories={categories}
+                    onUpdate={onUpdateTransaction}
+                    onDelete={onDeleteHandler}
+                />)}
+            </React.Fragment> :
+                <div className="undefined-budget">
+                    <img src="/images/warning.png" alt="" />
+                    <span>Ngân sách không tồn tại hoặc đã bị xóa!</span>
+                </div>}
         </PageContent>
     </React.Fragment>
 

@@ -37,7 +37,7 @@ const SignUpForm = props => {
             value: "",
             isValid: false
         },
-        phonenumber: {
+        telephone: {
             value: "",
             isValid: false
         },
@@ -52,7 +52,7 @@ const SignUpForm = props => {
                     password: formState.inputs.password.value,
                     lastname: formState.inputs.last_name.value,
                     firstname: formState.inputs.first_name.value,
-                    phonenumber: formState.inputs.phonenumber.value,
+                    telephone: formState.inputs.telephone.value,
                 }),
                 {
                     "Content-Type": 'application/json'
@@ -117,7 +117,7 @@ const SignUpForm = props => {
                 validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL]}>
             </Input>
             <Input
-                id="phonenumber"
+                id="telephone"
                 element="input"
                 type="text"
                 numberOnly

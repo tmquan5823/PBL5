@@ -31,28 +31,13 @@ const UserWalletDetail = props => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/categories/" + auth.wallet.id, "GET", null, {
+                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/wallet/" + auth.wallet.id, "GET", null, {
                     'Authorization': "Bearer " + auth.token
                 });
                 if (resData.state) {
+                    setTransactions(resData.list_transactions);
+                    setFilterTransactions(resData.list_transactions);
                     setCategories(resData.list_categories);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        fetchData();
-    }, [auth.token, auth.wallet.id, sendRequest]);
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions/" + auth.wallet.id, "GET", null, {
-                    'Authorization': "Bearer " + auth.token
-                });
-                if (resData.state) {
-                    setTransactions(resData.list_transaction_present);
-                    setFilterTransactions(resData.list_transaction_present);
                 }
             } catch (err) {
                 console.log(err);
@@ -106,18 +91,18 @@ const UserWalletDetail = props => {
                 onChange={filterChangeHandler} />
             <ExpenseRow expense={expense} />
             <div className="charts-container">
-                <div className="chart-item">
-                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
+                {categories.filter(item => item.category.income).length > 0 && <div className="chart-item">
+                    <PieChart
                         title="Thu nhập theo kì"
                         data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
-                    />}
-                </div>
-                <div className="chart-item">
-                    {categories.length > 0 && filterTransactions.length > 0 && <PieChart
+                    />
+                </div>}
+                {categories.filter(item => !item.category.income).length > 0 && <div className="chart-item">
+                    <PieChart
                         title="Chi phí theo kì"
                         data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}
-                    />}
-                </div>
+                    />
+                </div>}
             </div>
         </PageContent>
     </React.Fragment>

@@ -5,13 +5,11 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
         return transactions.filter(item => {
             // Check walletId
             if (walletIds && walletIds.length >= 0 && !walletIds.includes(item.wallet_id)) {
-                console.log(1);
                 return false;
             }
 
             // Check categoryId
             if (categoryIds && (categoryIds.length <= 0 || !categoryIds.includes(item.category ? item.category.id : item.category_id))) {
-                console.log(2);
                 return false;
             }
 
@@ -22,7 +20,6 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
 
             // Check dateStart and dateEnd
             if (dateStart && !isDateAfter(item.dateTransaction.slice(0, 3), dateToArray(new Date(dateStart)))) {
-                console.log(3);
                 return false;
             }
             if (dateEnd && !isDateBefore(item.dateTransaction.slice(0, 3), dateToArray(new Date(dateEnd)))) {
@@ -30,8 +27,6 @@ const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateE
             }
 
             if (type) {
-                console.log(5);
-
                 const isIncome = item.amount > 0;
                 if (type === 'income' && !isIncome) {
                     return false;
@@ -185,9 +180,8 @@ const dataDoughnutChart = (categories, transactions) => {
     const categoryData = [];
 
     // Calculate total amount for all categories
-    console.log(transactions)
     const totalAmountAllCategories = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
-
+    console.log(transactions)
     if (categories) {
         categories.forEach(categoryItem => {
             const category = categoryItem.category;

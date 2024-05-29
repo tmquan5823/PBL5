@@ -15,6 +15,7 @@ import { formatArrayDate2 } from "../../shared/help/DateFormat";
 import { dateCaculate } from "../../shared/util/DateCaculator";
 import PieChart from "../components/ChartComponent/PieChart";
 import { dataDoughnutChart } from "../../shared/util/chartCaculate";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const UserBudgetDetail = props => {
     const auth = useContext(AuthContext);
@@ -42,7 +43,7 @@ const UserBudgetDetail = props => {
         };
 
         fetchData();
-    }, []);
+    }, [budgetID]);
 
     useEffect(() => {
         async function fetchData() {
@@ -89,6 +90,7 @@ const UserBudgetDetail = props => {
     }
 
     return <PageContent title="Ngân sách">
+        {isLoading && <LoadingSpinner asOverlay />}
         <Modal
             show={showForm}
             onCancel={closeHandler}
@@ -102,7 +104,7 @@ const UserBudgetDetail = props => {
                 onUpdate={updateHandler}
                 onClose={closeHandler} />}
         </Modal>
-        {budget && <React.Fragment>
+        {budget ? <React.Fragment>
             <div className="calendar-container">
                 <button>&lt;</button>
                 <span>{formatArrayDate2(budget.dateStart)} - {formatArrayDate2(budget.dateEnd)}</span>
@@ -142,7 +144,12 @@ const UserBudgetDetail = props => {
                     data={dataDoughnutChart(categories.filter(item => !item.category.income), transactions.filter(item => item.amount < 0))}
                 />}
             </div>
-        </React.Fragment>}
+        </React.Fragment> :
+            <div className="undefined-budget">
+                <img src="/images/warning.png" alt="" />
+                <span>Ngân sách không tồn tại hoặc đã bị xóa!</span>
+            </div>
+        }
     </PageContent>
 };
 

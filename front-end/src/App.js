@@ -28,6 +28,9 @@ import AdminOverview from "./admin/pages/AdminOverview";
 import AdminMessage from "./admin/pages/AdminMessage";
 import AdminProfile from "./admin/pages/AdminProfile";
 import ProfileUser from "./admin/components/OverviewComponents/ProfileUser";
+import store from "./shared/store/index";
+import { Provider } from "react-redux";
+
 
 function App() {
   const [isLoggedIn, setLoginState] = useState(false);
@@ -35,16 +38,15 @@ function App() {
   const [avatarURL, setAvatarUrl] = useState(null);
   const [wallet, setWallet] = useState();
   const [role, setRole] = useState();
+  const [userId, setUserId] = useState();
   const history = useHistory();
 
-  const login = useCallback((token, url, role) => {
+  const login = useCallback((token, url, role, userId) => {
     setLoginState(true);
     setToken(token);
     setAvatarUrl(url);
     setRole(role);
-    Cookies.set("token", token);
-    Cookies.set("url", url);
-    Cookies.set("role", role);
+    setUserId(userId);
   }, []);
 
   const logout = useCallback(() => {
@@ -61,21 +63,6 @@ function App() {
   function setUserWallet(id) {
     setWallet(id);
   }
-
-  useEffect(() => {
-    const storedToken = Cookies.get("token");
-    const storedURL = Cookies.get("url");
-    const storedRole = Cookies.get("role");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-    if (storedURL) {
-      setAvatarUrl(storedURL);
-    }
-    if (storedRole) {
-      setRole(storedRole);
-    }
-  }, []);
 
   const adminRoutes = (
     <Switch>
@@ -167,20 +154,24 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{
-      isLoggedIn: !!token,
-      avatarURL: avatarURL,
-      token: token,
-      login: login,
-      logout: logout,
-      updateAvt: updateAvatarURL,
-      wallet: wallet,
-      setWallet: setUserWallet
-    }}>
-      <BrowserRouter>
-        {routes}
-      </BrowserRouter>
-    </AuthContext.Provider>
+    <Provider store={store}>
+      <AuthContext.Provider
+        value={{
+          userID: userId,
+          isLoggedIn: !!token,
+          avatarURL: avatarURL,
+          token: token,
+          login: login,
+          logout: logout,
+          updateAvt: updateAvatarURL,
+          wallet: wallet,
+          setWallet: setUserWallet
+        }}>
+        <BrowserRouter>
+          {routes}
+        </BrowserRouter>
+      </AuthContext.Provider>
+    </Provider>
   );
 }
 

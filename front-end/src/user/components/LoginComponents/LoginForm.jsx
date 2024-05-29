@@ -28,7 +28,7 @@ const LoginForm = props => {
         }
     }, false);
 
-    
+
 
     async function onSubmitHandler(event) {
         event.preventDefault();
@@ -48,7 +48,7 @@ const LoginForm = props => {
                     warningNotification(responseData.message);
                 }
             } else {
-                auth.login(responseData.access_token, responseData.avatar_url, responseData.role);
+                auth.login(responseData.access_token, responseData.avatar_url, responseData.role, responseData.user_id);
                 successNotification(responseData.message);
             }
         } catch (err) {

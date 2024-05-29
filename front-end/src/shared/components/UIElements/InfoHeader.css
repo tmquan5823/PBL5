@@ -40,6 +40,7 @@
     align-items: center;
     border-radius: 10px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    position: relative;
 }
 
 .info-header__user .notification img {
@@ -104,4 +105,28 @@
 
 .info-header__wallet:hover .wallet-detail {
     display: block;
+}
+
+/* .notification::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid rgb(239, 239, 239);
+    position: absolute;
+    top: 56px;
+    left: 13px;
+} */
+
+.notification::before {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 20px;
+    background-color: transparent;
+    position: absolute;
+    top: 50px;
+    left: -4px;
 }

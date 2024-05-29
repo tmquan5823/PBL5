@@ -8,12 +8,13 @@
 
 .charts-container {
     display: flex;
-    justify-content: space-around;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .chart-item {
+    margin-top: 20px;
     width: 48%;
     background-color: #FFF;
 }
