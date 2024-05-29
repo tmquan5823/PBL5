@@ -15,6 +15,6 @@
 
 .chart-item {
     margin-top: 20px;
-    width: 48%;
+    min-width: 48%;
     background-color: #FFF;
 }

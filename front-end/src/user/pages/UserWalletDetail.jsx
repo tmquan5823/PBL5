@@ -13,9 +13,11 @@ import { AuthContext } from "../../shared/context/auth-context";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { totalAmount } from "../../shared/util/TransactionsCaculator";
 import Category from "../components/CategoryComponent/Category";
-import { dataDoughnutChart, filterData } from "../../shared/util/chartCaculate";
+import { dataAreaChart, dataBarChart, dataDoughnutChart, filterData } from "../../shared/util/chartCaculate";
 import Categories from "../models/Categories";
 import PieChart from "../components/ChartComponent/PieChart";
+import BarChart from "../components/ChartComponent/BarChart";
+import AreaChart from "../components/ChartComponent/AreaChart";
 
 
 const UserWalletDetail = props => {
@@ -91,6 +93,18 @@ const UserWalletDetail = props => {
                 onChange={filterChangeHandler} />
             <ExpenseRow expense={expense} />
             <div className="charts-container">
+                {filterTransactions.length > 0 && <div className="chart-item">
+                    <BarChart
+                        title="Giao dịch theo kì"
+                        data={dataBarChart(filterTransactions)}
+                    />
+                </div>}
+                {filterTransactions.length > 0 && <div className="chart-item">
+                    <AreaChart
+                        title="Thu chi theo kì"
+                        data={dataAreaChart(filterTransactions, [auth.wallet])}
+                    />
+                </div>}
                 {categories.filter(item => item.category.income).length > 0 && <div className="chart-item">
                     <PieChart
                         title="Thu nhập theo kì"

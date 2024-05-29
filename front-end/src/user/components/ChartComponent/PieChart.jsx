@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Chart } from "chart.js";
+import { Chart,registerables  } from "chart.js";
 import { Table } from "antd";
 import Category from "../CategoryComponent/Category";
-import Icon from "@ant-design/icons/lib/components/Icon";
 import "./PieChart.css";
 import MoneyFormat from "../../../shared/help/MoneyFormat";
+
+Chart.register(...registerables);
 
 const PieChart = (props) => {
   const [data, setData] = useState([]);

@@ -8,7 +8,7 @@ import WalletContainer from "../components/OverviewComponents/WalletContainer";
 import FilterContainer from "../components/OverviewComponents/FilterContainer";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import { dataDoughnutChart, filterData, filterWallet } from "../../shared/util/chartCaculate";
+import { dataAreaChart, dataBarChart, dataDoughnutChart, filterData, filterWallet } from "../../shared/util/chartCaculate";
 import { totalAmount } from "../../shared/util/TransactionsCaculator";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import PieChart from "../components/ChartComponent/PieChart";
@@ -80,10 +80,16 @@ const UserOverview = props => {
                 <div className="chart-item">
                     {categories && filterTransactions && <AreaChart />}
                 </div> */}
-                {categories.filter(item => item.category.income).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
+                {filterTransactions.length > 0 && <div className="chart-item">
+                    <BarChart
+                        title="Giao dịch theo kì"
+                        data={dataBarChart(filterTransactions)}
+                    />
+                </div>}
+                {filterTransactions.length > 0 && filterWallets.length > 0 && <div className="chart-item">
                     <AreaChart
-                    // title="Thu nhập theo kì"
-                    // data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
+                        title="Thu chi theo kì"
+                        data={dataAreaChart(filterTransactions, filterWallets)}
                     />
                 </div>}
                 {categories.filter(item => item.category.income).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">

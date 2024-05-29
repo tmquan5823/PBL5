@@ -146,6 +146,7 @@ const dataBarChart = (transactions) => {
         };
     });
 
+    console.log(formattedResult)
     return formattedResult;
 };
 
@@ -181,7 +182,6 @@ const dataDoughnutChart = (categories, transactions) => {
 
     // Calculate total amount for all categories
     const totalAmountAllCategories = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
-    console.log(transactions)
     if (categories) {
         categories.forEach(categoryItem => {
             const category = categoryItem.category;

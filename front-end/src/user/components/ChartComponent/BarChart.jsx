@@ -46,17 +46,27 @@ const data = [
   },
 ];
 
-const MyBarChart = () => {
+const MyBarChart = props => {
   return (
-    <BarChart width={730} height={250} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="pv" fill="#8884d8" />
-      <Bar dataKey="uv" fill="#82ca9d" />
-    </BarChart>
+    <div style={{
+      padding: "0 10px"
+    }}>
+      <h3>{props.title}</h3>
+      <BarChart width={1000} height={350} data={props.data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis
+          dataKey="name"
+          tick={{ fontSize: 12 }}
+        />
+        <YAxis
+          tick={{ fontSize: 10 }} />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="Chi tiêu" fill="red" />
+        <Bar dataKey="Thu nhập" fill="#2CB64B" />
+      </BarChart>
+    </div>
+
   );
 };
 
