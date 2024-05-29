@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eko.eko.money.dto.BudgetRequest;
 import com.eko.eko.money.dto.BudgetResponse;
+import com.eko.eko.money.dto.DiagramDataResponse;
 import com.eko.eko.money.dto.ListBudgetResponse;
 import com.eko.eko.money.service.BudgetService;
 
@@ -49,6 +50,12 @@ public class BudgetController {
     @GetMapping("/budget/{budgetId}")
     public ResponseEntity<BudgetResponse> getBudget(HttpServletRequest request, @PathVariable int budgetId) {
         return service.getBudget(request, budgetId);
+    }
+
+    @GetMapping("/budget/transaction/{budgetId}")
+    public ResponseEntity<DiagramDataResponse> getDataDiagramBudget(HttpServletRequest request,
+            @PathVariable int budgetId) {
+        return service.getAllTransactionByBudgetId(request, budgetId);
     }
 
 }

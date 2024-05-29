@@ -35,7 +35,7 @@ public class CategoryService {
                         if (user == null) {
                                 return new ResponseEntity<>(ListCategoriesResponse.builder().state(false)
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
-                                                HttpStatus.BAD_REQUEST);
+                                                HttpStatus.OK);
                         } else {
                                 List<Category> categories = categoryRepository.findAllByUserId(user.getId());
                                 List<CategoryWithTransactionTimes> transactionTimes = new ArrayList<>();
@@ -59,7 +59,7 @@ public class CategoryService {
                                         ListCategoriesResponse.builder()
                                                         .message("Lỗi lấy danh sách danh mục!!!")
                                                         .state(false).build(),
-                                        HttpStatus.BAD_REQUEST);
+                                        HttpStatus.OK);
                 }
         }
 
@@ -71,7 +71,7 @@ public class CategoryService {
                         if (user == null) {
                                 return new ResponseEntity<>(CategoryResponse.builder().state(false)
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
-                                                HttpStatus.BAD_REQUEST);
+                                                HttpStatus.OK);
                         }
                         Category category = Category.builder().content(categoryRequest.getContent())
                                         .iconUrl(categoryRequest.getIconUrl())
@@ -94,7 +94,7 @@ public class CategoryService {
                                         CategoryResponse.builder()
                                                         .message("Lỗi tạo danh mục!!")
                                                         .state(false).build(),
-                                        HttpStatus.BAD_REQUEST);
+                                        HttpStatus.OK);
                 }
         }
 
@@ -106,12 +106,12 @@ public class CategoryService {
                         if (user == null) {
                                 return new ResponseEntity<>(CategoryResponse.builder().state(false)
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
-                                                HttpStatus.BAD_REQUEST);
+                                                HttpStatus.OK);
                         }
                         if (user.getId() != categoryRepository.findById(categoryRequest.getCategoryId()).orElseThrow()
                                         .getUser().getId()) {
                                 return new ResponseEntity<>(CategoryResponse.builder().state(false)
-                                                .message("Lỗi bảo mật!!!").build(), HttpStatus.BAD_REQUEST);
+                                                .message("Lỗi bảo mật!!!").build(), HttpStatus.OK);
                         }
                         Category category = categoryRepository.findById(categoryRequest.getCategoryId()).orElseThrow();
                         category.setContent(categoryRequest.getContent());
@@ -133,7 +133,7 @@ public class CategoryService {
                                         CategoryResponse.builder()
                                                         .message("Lỗi cập nhật danh mục!!!")
                                                         .state(false).build(),
-                                        HttpStatus.BAD_REQUEST);
+                                        HttpStatus.OK);
                 }
         }
 
@@ -144,11 +144,11 @@ public class CategoryService {
                         if (user == null) {
                                 return new ResponseEntity<>(CategoryResponse.builder().state(false)
                                                 .message("Lỗi người dùng ; token hết hạn!!!").build(),
-                                                HttpStatus.BAD_REQUEST);
+                                                HttpStatus.OK);
                         }
                         if (user.getId() != categoryRepository.findById(categoryId).orElseThrow().getUser().getId()) {
                                 return new ResponseEntity<>(CategoryResponse.builder().state(false)
-                                                .message("Lỗi bảo mật!!!").build(), HttpStatus.BAD_REQUEST);
+                                                .message("Lỗi bảo mật!!!").build(), HttpStatus.OK);
                         }
                         Category category = categoryRepository.findById(categoryId).orElseThrow();
                         categoryRepository.delete(category);
@@ -160,7 +160,7 @@ public class CategoryService {
                                         CategoryResponse.builder()
                                                         .message("Lỗi xóa danh mục!!!")
                                                         .state(false).build(),
-                                        HttpStatus.BAD_REQUEST);
+                                        HttpStatus.OK);
                 }
         }
 

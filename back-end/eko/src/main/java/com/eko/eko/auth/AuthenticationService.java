@@ -252,7 +252,6 @@ public class AuthenticationService {
 
         public ResponseEntity<Map<String, Object>> verifyAccount(String email, String otp) {
                 Map<String, Object> responseMap = new HashMap<>();
-
                 Optional<User> userOptional = repository.findByEmail(email);
                 if (userOptional.isPresent()) {
                         User user = userOptional.get();

@@ -68,7 +68,7 @@ public class AdminService {
     // if (user == null) {
     // return new ResponseEntity<>(ListUserResponse.builder().state(false)
     // .message("Lỗi người dùng ; token hết hạn!!!").build(),
-    // HttpStatus.BAD_REQUEST);
+    // HttpStatus.OK);
     // }
     // Pageable pageable;
     // if (sortField != null && sortOrder != null) {
@@ -87,7 +87,7 @@ public class AdminService {
     // return new ResponseEntity<>(
     // ListUserResponse.builder().state(false).message("Lỗi lấy danh sách người
     // dùng!!!").build(),
-    // HttpStatus.BAD_REQUEST);
+    // HttpStatus.OK);
     // }
     // }
 
@@ -98,7 +98,7 @@ public class AdminService {
             if (user == null) {
                 return new ResponseEntity<>(ListUserResponse.builder().state(false)
                         .message("Lỗi người dùng ; token hết hạn!!!").build(),
-                        HttpStatus.BAD_REQUEST);
+                        HttpStatus.OK);
             }
             List<UserTableResponse> list = new ArrayList<>();
             List<User> users = userRepository.findAll();
@@ -119,7 +119,7 @@ public class AdminService {
         } catch (Exception e) {
             return new ResponseEntity<>(
                     ListUserResponse.builder().state(false).message("Lỗi lấy danh sách người dùng!!!").build(),
-                    HttpStatus.BAD_REQUEST);
+                    HttpStatus.OK);
         }
     }
 
@@ -131,7 +131,7 @@ public class AdminService {
             if (user == null) {
                 responseMap.put("message", "Lỗi người dùng ; token hết hạn!!!");
                 responseMap.put("state", false);
-                return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(responseMap, HttpStatus.OK);
             }
             User changeUser = userRepository.findById(userId).orElseThrow();
             changeUser.setDelete(!changeUser.isDelete());
@@ -142,7 +142,7 @@ public class AdminService {
         } catch (Exception e) {
             responseMap.put("message", "Lỗi sửa trạng thái người dùng!!!");
             responseMap.put("state", false);
-            return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
         }
     }
 
@@ -154,7 +154,7 @@ public class AdminService {
                 return new ResponseEntity<>(UserProfileResponse.builder()
                         .message("Lỗi người dùng ; token hết hạn!!!")
                         .state(false)
-                        .build(), HttpStatus.BAD_REQUEST);
+                        .build(), HttpStatus.OK);
             } else {
                 User getProfileUser = userRepository.findById(userId).orElseThrow();
                 return new ResponseEntity<>(UserProfileResponse.builder()
@@ -174,7 +174,7 @@ public class AdminService {
             return new ResponseEntity<>(UserProfileResponse.builder()
                     .message("Lỗi lấy hồ sơ người dùng!!!")
                     .state(false)
-                    .build(), HttpStatus.BAD_REQUEST);
+                    .build(), HttpStatus.OK);
         }
     }
 
