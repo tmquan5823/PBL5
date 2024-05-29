@@ -142,7 +142,7 @@ public class UserService {
         if (user == null) {
             responseMap.put("message", "Can't find user or token is expired!!");
             responseMap.put("state", false);
-            return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseMap, HttpStatus.OK);
         } else {
             if (!user.getAvatarUrl()
                     .equals("http://res.cloudinary.com/dwzhz9qkm/image/upload/v1714200690/srytaqzmgzbz7af5cgks.jpg")) {

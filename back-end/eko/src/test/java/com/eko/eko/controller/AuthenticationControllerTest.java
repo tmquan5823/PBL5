@@ -149,12 +149,12 @@ class AuthenticationControllerTest {
                                 .build();
 
                 when(authenticationService.authenticate(any(AuthenticationRequest.class)))
-                                .thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(authenticationResponse));
+                                .thenReturn(ResponseEntity.status(HttpStatus.OK).body(authenticationResponse));
 
                 mockMvc.perform(post("/api/auth/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(asJsonString(request)))
-                                // Kiểm tra kết quả trả về có phải là HTTP status code 400 (BAD_REQUEST) không
+                                // Kiểm tra kết quả trả về có phải là HTTP status code 400 (OK) không
                                 .andExpect(status().isBadRequest())
                                 // Kiểm tra body của response có phải là JSON tương ứng với
                                 // authenticationResponse không

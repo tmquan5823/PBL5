@@ -37,7 +37,7 @@ public class WalletService {
             }
         } catch (Exception e) {
             return new ResponseEntity<>(ListWalletRespone.builder().state(false)
-                    .message("Lỗi tìm tất cả ví!!!").build(), HttpStatus.BAD_REQUEST);
+                    .message("Lỗi tìm tất cả ví!!!").build(), HttpStatus.OK);
         }
     }
 
@@ -47,7 +47,7 @@ public class WalletService {
             User user = jwtService.getUserFromAuthHeader(authHeader);
             if (user == null) {
                 return new ResponseEntity<>(WalletResponse.builder().state(false)
-                        .message("Không tìm thấy người dùng ; token hết hạn!!!").build(), HttpStatus.BAD_REQUEST);
+                        .message("Không tìm thấy người dùng ; token hết hạn!!!").build(), HttpStatus.OK);
 
             } else {
                 Wallet wallet = Wallet.builder().moneyAtFirst(walletRequest.getMoneyAtFirst())
@@ -63,7 +63,7 @@ public class WalletService {
             }
         } catch (Exception e) {
             return new ResponseEntity<>(WalletResponse.builder().state(false)
-                    .message("Lỗi tạo ví !!").build(), HttpStatus.BAD_REQUEST);
+                    .message("Lỗi tạo ví !!").build(), HttpStatus.OK);
         }
     }
 
@@ -73,11 +73,11 @@ public class WalletService {
             User user = jwtService.getUserFromAuthHeader(authHeader);
             if (user == null) {
                 return new ResponseEntity<>(WalletResponse.builder().state(false)
-                        .message("Lỗi người dùng ; token hết hạn!!!").build(), HttpStatus.BAD_REQUEST);
+                        .message("Lỗi người dùng ; token hết hạn!!!").build(), HttpStatus.OK);
             }
             if (user.getId() != walletRepository.findById(walletId).orElseThrow().getUser().getId()) {
                 return new ResponseEntity<>(WalletResponse.builder().state(false)
-                        .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
+                        .message("Lỗi bảo mật").build(), HttpStatus.OK);
             } else {
                 walletRepository.deleteById(walletId);
                 return new ResponseEntity<>(WalletResponse.builder().state(true).message("Xóa ví thành công!!!")
@@ -85,7 +85,7 @@ public class WalletService {
             }
         } catch (Exception e) {
             return new ResponseEntity<>(WalletResponse.builder().state(false)
-                    .message("Lỗi xóa ví !!").build(), HttpStatus.BAD_REQUEST);
+                    .message("Lỗi xóa ví !!").build(), HttpStatus.OK);
         }
     }
 
@@ -97,7 +97,7 @@ public class WalletService {
             if (user == null
                     && user.getId() != walletRepository.findById(walletRequest.getWalletId()).orElseThrow().getId()) {
                 return new ResponseEntity<>(WalletResponse.builder().state(false)
-                        .message("Không tìm thấy người dùng ; token hết hạn!!!").build(), HttpStatus.BAD_REQUEST);
+                        .message("Không tìm thấy người dùng ; token hết hạn!!!").build(), HttpStatus.OK);
 
             } else {
                 Wallet wallet = walletRepository.findById(walletRequest.getWalletId()).orElseThrow();
@@ -114,7 +114,7 @@ public class WalletService {
             }
         } catch (Exception e) {
             return new ResponseEntity<>(WalletResponse.builder().state(false)
-                    .message("Lỗi cập nhật ví !!").build(), HttpStatus.BAD_REQUEST);
+                    .message("Lỗi cập nhật ví !!").build(), HttpStatus.OK);
         }
     }
 
@@ -124,12 +124,12 @@ public class WalletService {
             User user = jwtService.getUserFromAuthHeader(authHeader);
             if (user == null) {
                 return new ResponseEntity<>(WalletResponse.builder().state(false)
-                        .message("Không tìm thấy người dùng ; token hết hạn!!!").build(), HttpStatus.BAD_REQUEST);
+                        .message("Không tìm thấy người dùng ; token hết hạn!!!").build(), HttpStatus.OK);
 
             }
             if (user.getId() != walletRepository.findById(walletId).orElseThrow().getUser().getId()) {
                 return new ResponseEntity<>(WalletResponse.builder().state(false)
-                        .message("Lỗi bảo mật").build(), HttpStatus.BAD_REQUEST);
+                        .message("Lỗi bảo mật").build(), HttpStatus.OK);
             } else {
                 Wallet wallet = walletRepository.findById(walletId).orElseThrow();
                 return new ResponseEntity<>(WalletResponse.builder().state(true).message("Lấy ví thành công!!!")
@@ -140,7 +140,7 @@ public class WalletService {
             }
         } catch (Exception e) {
             return new ResponseEntity<>(WalletResponse.builder().state(false)
-                    .message("Lỗi lấy ví !!").build(), HttpStatus.BAD_REQUEST);
+                    .message("Lỗi lấy ví !!").build(), HttpStatus.OK);
         }
     }
 }
