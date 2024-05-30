@@ -3,6 +3,7 @@ package com.eko.eko.money.model;
 import java.time.LocalDateTime;
 
 import com.eko.eko.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,5 +38,6 @@ public class Budget {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 }

@@ -55,4 +55,10 @@ public class TransactionController {
         return service.getDiagramDataByUserId(request);
     }
 
+    @GetMapping("/transactions/wallet/{walletId}")
+    public ResponseEntity<DiagramDataResponse> getDiagramDataByWalletId(HttpServletRequest request,
+            @PathVariable int walletId) {
+        return service.getDiagramDataByWalletId(request, walletId);
+    }
+
 }
