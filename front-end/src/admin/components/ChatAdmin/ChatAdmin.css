@@ -6,31 +6,29 @@ body {
 
 .chat-containerAd {
   display: flex;
-  height: 100vh;
   margin: 0;
+  height: 100%;
 }
 
 .user-list {
-  width: 15%;
+  width: 20%;
   background-color: #d3e7dd;
-  overflow-y: auto;
 }
 
 .user-list-container {
-  height: calc(
-    100vh - 88px
-  ); /* Adjust based on the height of the search input */
+  height: calc(100vh - 88px);
+  /* Adjust based on the height of the search input */
   overflow-y: auto;
+  padding: 5px;
 }
 
 .user-item:hover {
-  background-color: #9fd8d2;
   cursor: pointer;
 }
 
 li.ant-list-item.user-item {
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
 }
 
 .chat-boxAd {
@@ -41,7 +39,7 @@ li.ant-list-item.user-item {
 }
 
 .chat-header {
-  padding: 15px;
+  padding: 10px;
   background-color: #d3e7dd;
   color: rgb(0, 0, 0);
   display: flex;
@@ -63,11 +61,20 @@ li.ant-list-item.user-item {
 }
 
 .message-bot {
-  background-color: #ffffff;
+  background-color: #8DD4CE;
   border-radius: 10px;
-  padding: 5px;
+  padding: 10px;
   margin-top: 10px;
+  max-width: 70%;
+  width: fit-content;
+  word-wrap: break-word;
 }
+
+.user-message .message-bot {
+  background-color: #fff;
+}
+
+.message-bot span {}
 
 .chat-footer {
   display: flex;
@@ -81,7 +88,7 @@ li.ant-list-item.user-item {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 10px 12px;
+  padding: 10px 30px;
   margin-left: 5px;
   cursor: pointer;
 }
@@ -107,4 +114,27 @@ li.ant-list-item.user-item {
 .outgoing {
   background-color: #d9f7ff;
   align-self: flex-end;
+}
+
+
+.message-bot__container {
+  display: flex;
+  align-items: end;
+}
+
+.user-message__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 5px;
+}
+
+.user-message__avatar img {
+  object-fit: cover;
+  width: 100%;
+}
+
+.message-bot__container.admin-message {
+  justify-content: end;
 }

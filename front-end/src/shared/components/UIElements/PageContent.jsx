@@ -5,9 +5,9 @@ import { AuthContext } from "../../context/auth-context";
 
 const PageContent = props => {
     const auth = useContext(AuthContext);
-    return <div className="page-content">
+    return <div className={`page-content`}>
         <InfoHeader title={props.title} />
-        <div className={`content__main ${auth.role === 'admin' && 'admin-main-content'}`}>
+        <div style={{ padding: props.nopadding && '0', overflow: props.overflow, }} className={`content__main ${auth.role === 'ADMIN' && 'main-content--admin'}`}>
             {props.children}
         </div>
     </div>

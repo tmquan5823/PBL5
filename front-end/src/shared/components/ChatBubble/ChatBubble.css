@@ -2,6 +2,9 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
+  position: fixed;
+  z-index: 800;
+  right: 25px;
 }
 
 .chat-button {
@@ -33,12 +36,14 @@
 }
 
 .iconchat {
-  font-size: 24px; /* Điều chỉnh kích thước biểu tượng */
+  font-size: 24px;
+  /* Điều chỉnh kích thước biểu tượng */
 }
 
 .chat-box {
   position: fixed;
-  bottom: 100px; /* Điều chỉnh khoảng cách từ đáy */
+  bottom: 75px;
+  /* Điều chỉnh khoảng cách từ đáy */
   right: 20px;
   width: 300px;
   height: 400px;
@@ -75,6 +80,11 @@
   overflow-y: auto;
 }
 
+.message-container {
+  width: 100%;
+  display: flex;
+}
+
 .message {
   margin-bottom: 10px;
   display: flex;
@@ -87,7 +97,15 @@
   background-color: #e5e5ea;
   border-radius: 10px;
   padding: 5px;
-  width: 190px;
+  max-width: 70%;
+}
+
+.message-container.user-message {
+  justify-content: end;
+}
+
+.message-container.user-message .message {
+  background-color: rgb(205, 241, 241);
 }
 
 .chat-box-footer {
@@ -98,7 +116,7 @@
 
 .chat-box-footer input {
   flex: 1;
-  padding: 5px;
+  padding: 7px 5px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -108,7 +126,7 @@
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 20px;
   margin-left: 5px;
   cursor: pointer;
 }

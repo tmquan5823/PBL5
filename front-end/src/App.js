@@ -30,6 +30,7 @@ import AdminProfile from "./admin/pages/AdminProfile";
 import ProfileUser from "./admin/components/OverviewComponents/ProfileUser";
 import store from "./shared/store/index";
 import { Provider } from "react-redux";
+import ChatBubble from "./shared/components/ChatBubble/ChatBubble";
 
 
 function App() {
@@ -94,6 +95,7 @@ function App() {
       <Route path="/user">
         <div className="users-routes">
           <UserSideBar />
+          <ChatBubble />
           <Switch>
             <Route path="/user/overview" exact>
               <UserOverview />
@@ -163,6 +165,7 @@ function App() {
           token: token,
           login: login,
           logout: logout,
+          role: role,
           updateAvt: updateAvatarURL,
           wallet: wallet,
           setWallet: setUserWallet
