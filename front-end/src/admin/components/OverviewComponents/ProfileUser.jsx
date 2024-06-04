@@ -37,7 +37,7 @@ const ProfileUser = () => {
           first_name: responseData.first_name || "",
           last_name: responseData.last_name || "",
           email: responseData.email || "",
-          date_of_birth: responseData.date_of_birth || "",
+          date_of_birth: responseData.date_of_birth ? responseData.date_of_birth.split('T')[0] : "",
           phone_num: responseData.phone_num || "",
           address: responseData.address || "",
           avatar_url: responseData.avatar_url || "",

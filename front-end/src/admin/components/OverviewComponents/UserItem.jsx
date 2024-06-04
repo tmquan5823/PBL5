@@ -5,6 +5,11 @@ import "./UserItem.css";
 import { SearchOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
+import {
+  successNotification,
+  errorNotification,
+  warningNotification,
+} from "../../../shared/components/UIElements/Warning";
 
 const UserItem = (props) => {
   const [listUser, setListUser] = useState([]);
@@ -106,12 +111,10 @@ const UserItem = (props) => {
         console.log(resData);
         if (resData) {
           getListUser();
-          alert("Cập nhật trạng thái thành công");
+          successNotification(resData.message);
         }
-        console.log("Cập nhật trạng thái thành công");
       } catch (error) {
-        alert("Cập nhật trạng thái thất bại");
-        console.error("Lỗi khi cập nhật trạng thái:", error);
+        errorNotification("Lỗi khi cập nhật trạng thái:", error);
       } finally {
         setIsModalVisible(false);
       }
@@ -197,7 +200,7 @@ const UserItem = (props) => {
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
       ),
-      onFilter: (value, record) => record.phone === value,
+      onFilter: (value, record) => record.phone.includes(value),
     },
     {
       title: "Name",
@@ -342,7 +345,7 @@ const UserItem = (props) => {
           columns={columns}
           pagination={{
             current: page,
-            pageSize: pageSize,
+            pageSize: 6,
             onChange: (page, pageSize) => {
               setPage(page);
               setPageSize(pageSize);
