@@ -23,6 +23,7 @@ const UserOverview = props => {
     const [wallets, setWallets] = useState();
     const [filterWallets, setFilterWallets] = useState();
     const [expense, setExpense] = useState();
+    const [newWallet, setNewWallet] = useState();
     const [categories, setCategories] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [filterTransactions, setFilterTransactions] = useState([]);
@@ -81,10 +82,16 @@ const UserOverview = props => {
         }
     }
 
+    function addNewWalletHandler(wallet) {
+        setNewWallet(wallet)
+    }
+
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
         <PageContent title='Tổng quan' >
-            <WalletContainer wallets={wallets} />
+            <WalletContainer
+                onAddWallet={addNewWalletHandler}
+                wallets={wallets} />
             <div className="overview-content">
                 <h2>Tổng quan</h2>
                 <div className="overview-content__header">
@@ -93,6 +100,7 @@ const UserOverview = props => {
                     />
                 </div>
                 <FilterContainer
+                    newWallet={newWallet}
                     startDate={date.startDate}
                     endDate={date.endDate}
                     onChange={filterChangeHandler}
@@ -112,13 +120,13 @@ const UserOverview = props => {
                         data={dataAreaChart(filterTransactions, filterWallets)}
                     />
                 </div>}
-                {filterTransactions.filter(item => item.amount > 0).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
+                {filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item doughnut-chart">
                     <PieChart
                         title="Thu nhập theo kì"
                         data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
                     />
                 </div>}
-                {filterTransactions.filter(item => item.amount < 0).length > 0 && <div className="chart-item">
+                {filterTransactions.filter(item => item.amount < 0).length > 0 && <div className="chart-item  doughnut-chart">
                     <PieChart
                         title="Chi phí theo kì"
                         data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}

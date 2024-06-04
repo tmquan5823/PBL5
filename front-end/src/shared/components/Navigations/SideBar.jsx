@@ -30,16 +30,10 @@ const SideBar = props => {
             <a href="/home" className="signout-btn">
                 <button onClick={logoutHandler}>
                     <div className="signout-btn__content">
-                        <p>Sign out</p>
+                        <p>Đăng xuất</p>
                         <img src="/images/logout.png" alt="" />
                     </div>
                 </button>
-            </a>
-            <a href="" className="side-bar__help">
-                <div>
-                    <img src="/images/question.png" alt="" />
-                    Help
-                </div>
             </a>
         </aside>
     </React.Fragment>

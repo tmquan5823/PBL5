@@ -8,10 +8,10 @@ import "./LoginNavigation.css";
 
 const SignUpNavigation = props => {
     return <header className="login-nav">
-        <Link to="/">← Back</Link>
+        <Link to="/login">← Quay lại</Link>
         <Link to="/login" >
             <Button confirm>
-                LOGIN
+                ĐĂNG NHẬP
             </Button>
         </Link>
     </header>

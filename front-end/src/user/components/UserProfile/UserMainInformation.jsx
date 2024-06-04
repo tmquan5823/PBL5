@@ -2,11 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import "./UserMainInformation.css";
 import { useForm } from "../../../shared/hooks/form-hook";
 import Input from "../../../shared/components/FormElements/Input";
-import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../../shared/util/validators";
+import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_MIN, VALIDATOR_START_WITH } from "../../../shared/util/validators";
 import DatePicker from 'react-datepicker';
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import { AuthContext } from "../../../shared/context/auth-context";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
+import { successNotification, errorNotification, warningNotification } from "../../../shared/components/UIElements/Warning";
 
 const UserMainInformation = props => {
     const auth = useContext(AuthContext);
@@ -242,7 +243,9 @@ const UserMainInformation = props => {
                     type="text"
                     numberOnly
                     onInput={inputChangeHandler}
+                    validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_START_WITH('0')]}
                     width="48%"
+                    errorText="Số điện thoại không hợp lệ!"
                     value={formState.inputs.phone_num.value}
                     initialIsValid={true} />
             </div>
@@ -254,7 +257,7 @@ const UserMainInformation = props => {
                 width="90%"
                 value={formState.inputs.address.value}
                 initialIsValid={true} />
-            {updateState && (
+            {(updateState && formState.isValid) && (
                 <div className="buttons-container">
                     <button onClick={submitUpdateHandler} className="save-btn">
                         Lưu

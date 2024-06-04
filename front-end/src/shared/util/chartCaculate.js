@@ -179,36 +179,33 @@ const dataDoughnutChart = (categories, transactions) => {
 
     const categoryData = [];
 
-    // Calculate total amount for all categories
+    const transactionCategoryIds = new Set(transactions.map(transaction => transaction.category_id));
+
     const totalAmountAllCategories = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
     if (categories) {
         categories.forEach(categoryItem => {
             const category = categoryItem.category;
             const categoryId = category.id;
+            if (transactionCategoryIds.has(categoryId)) {
+                const categoryTransactions = transactions.filter(transaction => transaction.category_id === categoryId);
 
-            // Lọc các giao dịch thuộc category hiện tại
-            const categoryTransactions = transactions.filter(transaction => transaction.category_id === categoryId);
+                const totalAmount = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
 
-            // Tính tổng số tiền của các giao dịch thuộc category hiện tại
-            const totalAmount = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+                const percentage = (totalAmount / totalAmountAllCategories) * 100;
 
-            // Calculate the percentage for the current category
-            const percentage = (totalAmount / totalAmountAllCategories) * 100;
+                data.labels.push(category.content);
+                data.datasets[0].data.push(percentage);
+                data.datasets[0].backgroundColor.push(category.iconColor);
 
-            // Thêm label, data và backgroundColor vào dữ liệu của biểu đồ
-            data.labels.push(category.content);
-            data.datasets[0].data.push(percentage);
-            data.datasets[0].backgroundColor.push(category.iconColor);
-
-            // Tạo dữ liệu chi tiết cho từng category
-            categoryData.push({
-                id: category.id,
-                iconUrl: category.iconUrl,
-                iconColor: category.iconColor,
-                amount: totalAmount,
-                transactionTimes: categoryTransactions.length,
-                content: category.content // Add category content here
-            });
+                categoryData.push({
+                    id: category.id,
+                    iconUrl: category.iconUrl,
+                    iconColor: category.iconColor,
+                    amount: totalAmount,
+                    transactionTimes: categoryTransactions.length,
+                    content: category.content // Add category content here
+                });
+            }
         })
     }
     return { chartData: data, categoryData: categoryData };

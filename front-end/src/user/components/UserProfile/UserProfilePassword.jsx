@@ -6,7 +6,7 @@ import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from "../../../shared/util/val
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import { AuthContext } from "../../../shared/context/auth-context";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
-import StateModalCard from "../../../shared/components/UIElements/StateModalCard";
+import { successNotification, errorNotification, warningNotification } from "../../../shared/components/UIElements/Warning";
 
 const UserProfilePassword = props => {
     const auth = useContext(AuthContext);
@@ -44,8 +44,10 @@ const UserProfilePassword = props => {
                 {
                     'Authorization': "Bearer " + auth.token
                 });
-            if (!resData.state) {
-                setUpdateFail(true);
+            if (resData.state) {
+                successNotification(resData.message);
+            } else {
+                warningNotification(resData.message);
             }
             setFormData({
                 current_password: {
@@ -65,6 +67,7 @@ const UserProfilePassword = props => {
             setMessage(resData.message);
         } catch (err) {
             console.log(err);
+            errorNotification(err);
         }
     }
 
@@ -93,12 +96,6 @@ const UserProfilePassword = props => {
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
-        <StateModalCard
-            show={showModal || updateFail}
-            onCancel={closeModalHandler}
-            state={error ? 'error' : (updateFail ? 'fail' : 'success')}
-            message={message}
-        />
         <form action="" className="user-profile-password">
             <h2>Đổi mật khẩu</h2>
             <Input id="current_password"

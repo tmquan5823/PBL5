@@ -15,7 +15,7 @@ const Login = props => {
                 <div className="logo-container">
                     <img className="logo-image" src="/images/logo.png" alt="" />
                 </div>
-                <h2>LOGIN</h2>
+                <h2>ĐĂNG NHẬP</h2>
             </div>
             <LoginCotent />
             <LoginFooter />

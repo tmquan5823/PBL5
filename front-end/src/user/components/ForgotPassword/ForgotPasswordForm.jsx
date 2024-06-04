@@ -2,22 +2,26 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./ForgotPasswordForm.css";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
+import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL, validate } from "../../../shared/util/validators";
+import { useForm } from "antd/es/form/Form";
 
 const ForgotPasswordForm = (props) => {
   const [email, setEmail] = useState();
-  const [emailError, setEmailError] = useState("");
-  const history = useHistory();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [emailIsValid, setEmailIsvalid] = useState(false);
+
+  const [formState, inputHandler] = useForm({
+    email: {
+      value: "",
+      isValid: false
+    },
+  }, false);
 
   const handleChange = (event) => {
-    setEmail(event.target.value);
-    // Clear email error when user types
-    setEmailError("");
-  };
-
-  const handleClick = (event) => {
-    event.preventDefault();
-    // history.push("/verify/" + email);
+    const value = event.target.value;
+    if (value) {
+      setEmailIsvalid(validate(value, [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]));
+    }
+    setEmail(value);
   };
 
   return (
@@ -33,13 +37,16 @@ const ForgotPasswordForm = (props) => {
         </p>
         <div className="fieldFg">
           <input
-            id="text"
+            id="email"
             type="text"
             value={email}
             onChange={handleChange}
             placeholder="Email đăng nhập"
           />
-          <a id="accept" href={`/verify/${email}?forgotpassword=true`}>
+          <a
+            className={`${!emailIsValid && 'email-invalid'} accept`}
+            disabled={!emailIsValid}
+            href={`${emailIsValid ? '/verify/' + email + '?forgotpassword=true' : "#"}`}>
             Xác nhận
           </a>
           <Link id="linkFo" to="/login">

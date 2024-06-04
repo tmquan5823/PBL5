@@ -14,3 +14,7 @@
 .login-footer p {
     opacity: 80%;
 }
+
+.login-footer .forgot-password {
+    text-decoration: underline;
+}

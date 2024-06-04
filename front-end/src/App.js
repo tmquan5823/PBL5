@@ -174,8 +174,6 @@ function App() {
           updateAvt: updateAvatarURL,
           wallet: wallet,
           setWallet: setUserWallet,
-          chatUser: chatUser,
-          setChatUser: setAdminChatUser
         }}>
         <BrowserRouter>
           {routes}

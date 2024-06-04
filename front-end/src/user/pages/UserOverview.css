@@ -24,3 +24,7 @@
     min-width: 48%;
     background-color: #FFF;
 }
+
+.chart-item.doughnut-chart {
+    width: 48%;
+}

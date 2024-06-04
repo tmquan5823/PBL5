@@ -141,6 +141,7 @@ const UpdateTransactionForm = props => {
             </div>
             <div className="update-transaction__item">
                 <Input id="start_date"
+                    disabled={!props.updateStartDate}
                     text="Ngày bắt đầu"
                     element="datepicker"
                     onInput={inputHandler}

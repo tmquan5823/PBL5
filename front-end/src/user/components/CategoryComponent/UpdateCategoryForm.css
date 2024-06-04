@@ -63,7 +63,7 @@
     cursor: pointer;
 }
 
-.disabled-btn {
+.ucf__item-btn .disabled-btn {
     background-color: #e5ebee;
     color: #7b93a4;
     cursor: default;

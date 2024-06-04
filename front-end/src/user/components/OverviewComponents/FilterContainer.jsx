@@ -70,6 +70,15 @@ const FilterContainer = props => {
         props.onChange && props.onChange(formState.inputs);
     }, [formState.inputs, props.onChange]);
 
+    useEffect(() => {
+        console.log(props.newWallet)
+        if (props.newWallet) {
+            setWallets(val => [...val, {
+                label: <span className="wallet-item">{props.newWallet.walletName}</span>,
+                value: props.newWallet.id,
+            }])
+        }
+    }, [props.newWallet]);
 
     function filterResetHandler() {
         if (inputRef[0].current) {

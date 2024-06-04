@@ -28,6 +28,7 @@ const WalletContainer = props => {
     }
 
     const handleWalletAdded = (newWallet) => {
+        props.onAddWallet(newWallet);
         setWallets(prevWallets => [...prevWallets, newWallet]);
     }
 

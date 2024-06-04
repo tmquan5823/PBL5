@@ -193,9 +193,9 @@ const AddTransactionForm = props => {
                     </Select>
                 </div>
                 <button
-                    disabled={!formState.isValid || isLoading}
+                    disabled={!(formState.isValid && new Date(formState.inputs.start_date.value) < new Date(formState.inputs.end_date.value)) || isLoading}
                     onClick={addTransactionHandler}
-                    className={`add-btn ${!formState.isValid && 'disabled-btn'} 
+                    className={`add-btn ${!(formState.isValid && (formState.isValid && new Date(formState.inputs.start_date.value) < new Date(formState.inputs.end_date.value))) && 'disabled-btn'} 
                     ${isLoading && 'isLoading-btn'}`}>
                     Thêm giao dịch
                 </button>

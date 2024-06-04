@@ -38,7 +38,7 @@ const selectReducer = (state, action) => {
                 if (inputId !== action.inputId) {
                     isValid = isValid && !!state.inputs[inputId].value;
                 } else {
-                    isValid = isValid && action.value;
+                    isValid = isValid && !!action.value;
                 }
             }
             return {
@@ -198,8 +198,8 @@ const UpdateCategoryForm = props => {
             </div>
             <div className="ucf__item ucf__item-btn">
                 <button
-                    disabled={isLoading}
-                    className={`update-btn ${!updateState && "disabled-btn"} ${isLoading && "isloading-btn"}`}
+                    disabled={isLoading || !selectState.isValid}
+                    className={`update-btn ${!selectState.isValid && "disabled-btn"} ${isLoading && "isloading-btn"}`}
                     onClick={updateHandler}
                 >
                     {!isLoading ? 'Cập nhật danh mục' : ""}

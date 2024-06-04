@@ -19,6 +19,7 @@ export const VALIDATOR_MAXLENGTH = val => ({
 export const VALIDATOR_MIN = val => ({ type: VALIDATOR_TYPE_MIN, val: val });
 export const VALIDATOR_MAX = val => ({ type: VALIDATOR_TYPE_MAX, val: val });
 export const VALIDATOR_EMAIL = () => ({ type: VALIDATOR_TYPE_EMAIL });
+export const VALIDATOR_START_WITH = (char) => ({ type: 'START_WITH', char: char });
 
 export const validate = (val, validators) => {
   let isValid = true;
@@ -45,6 +46,9 @@ export const validate = (val, validators) => {
       }
       if (validator.type === VALIDATOR_TYPE_EMAIL) {
         isValid = isValid && /^\S+@\S+\.\S+$/.test(value);
+      }
+      if (validator.type === 'START_WITH') {
+        isValid = isValid && value.trim().startsWith(validator.char);
       }
     }
   } else {

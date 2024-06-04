@@ -179,6 +179,7 @@ const UserTransaction = props => {
                 {(futureTransactions && futureTransactions.length > 0) && <TransactionHistory
                     title="Giao dịch dự kiến"
                     showDate
+                    updateStartDate={false}
                     transactions={futureTransactions}
                     categories={categories}
                     onUpdate={onUpdateTransaction}
@@ -189,6 +190,7 @@ const UserTransaction = props => {
                     key={items[0].dateTransaction.slice(0, 3).toString()}
                     title={formatArrayDate(items[0].dateTransaction.slice(0, 3))}
                     transactions={items}
+                    updateStartDate={true}
                     categories={categories}
                     onUpdate={onUpdateTransaction}
                     onDelete={onDeleteHandler}

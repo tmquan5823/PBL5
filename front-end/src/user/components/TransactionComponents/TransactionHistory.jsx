@@ -34,6 +34,7 @@ const TransactionHistory = props => {
                     <SubModal
                         width="100%"
                         content={<UpdateTransactionForm
+                            updateStartDate={props.updateStartDate}
                             id={item.id}
                             color={item.category.iconColor}
                             category={item}

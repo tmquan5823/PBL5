@@ -49,7 +49,7 @@ const AddWallet = props => {
             if (resData.state) {
                 props.onClose();
                 props.onWalletAdded({
-                    "id": resData.id,
+                    "id": resData.wallet_id,
                     "walletName": resData.wallet_name,
                     "moneyAtFirst": resData.money_at_first,
                     "moneyLeft": resData.money_left

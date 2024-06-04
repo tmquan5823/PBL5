@@ -154,7 +154,7 @@ const SignUpForm = props => {
                         onClick={signupHandler} type="submit"
                         confirm
                     >
-                        Sign Up
+                        Đăng ký
                     </Button>
                 </div>
                 <p>Đã có tài khoản? <a href="/login">Đăng nhập</a>  </p>

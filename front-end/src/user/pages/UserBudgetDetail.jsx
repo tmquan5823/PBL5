@@ -62,7 +62,7 @@ const UserBudgetDetail = props => {
         };
 
         fetchData();
-    }, []);
+    }, [budget]);
 
     useEffect(() => {
         if (budget) {

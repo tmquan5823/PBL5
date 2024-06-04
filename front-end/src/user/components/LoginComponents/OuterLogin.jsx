@@ -19,9 +19,9 @@ const OuterLogin = props => {
 
     return <React.Fragment>
         <div className="outer-login-container">
-            <Button onClick={googleLoginHandler} image="https://cdn-icons-png.flaticon.com/256/300/300221.png" whilte>Continue with Google</Button>
-            <Button onClick={googleLoginHandler} image="https://cdn-icons-png.flaticon.com/256/5968/5968764.png" whilte>Continue with Facebook</Button>
-            <Button onClick={googleLoginHandler} image="https://cdn-icons-png.flaticon.com/256/542/542689.png" whilte>Continue with Email</Button>
+            <Button onClick={googleLoginHandler} image="https://cdn-icons-png.flaticon.com/256/300/300221.png" whilte>Đăng nhập bằng Google</Button>
+            <Button onClick={googleLoginHandler} image="https://cdn-icons-png.flaticon.com/256/5968/5968764.png" whilte>Đăng nhập bằng Facebook</Button>
+            <Button onClick={googleLoginHandler} image="https://cdn-icons-png.flaticon.com/256/542/542689.png" whilte>Đăng nhập bằng Email</Button>
         </div>
     </React.Fragment>
 };

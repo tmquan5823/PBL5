@@ -10,6 +10,7 @@ import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner"
 import { UTC7Date } from "../../../shared/help/DateFormat";
+import { dateCompare } from "../../../shared/help/DateCompare";
 
 const AddBudgetForm = props => {
     const auth = useContext(AuthContext);
@@ -54,7 +55,8 @@ const AddBudgetForm = props => {
     }
 
     useEffect(() => {
-        const isEndDateValid = startDate.getDate() <= endDate.getDate();
+        console.log(startDate)
+        const isEndDateValid = new Date(startDate) <= new Date(endDate);
         setDateState(isEndDateValid);
         setBudgetFormState(formState.isValid && isEndDateValid);
     }, [startDate, endDate, formState]);

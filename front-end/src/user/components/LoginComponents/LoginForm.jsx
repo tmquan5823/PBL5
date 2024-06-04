@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 
 import Input from "../../../shared/components/FormElements/Input";
 import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../../shared/util/validators";
-
 import "./LoginForm.css";
 import Button from "../../../shared/components/FormElements/Button";
 import { useForm } from "../../../shared/hooks/form-hook";
@@ -67,7 +66,7 @@ const LoginForm = props => {
                 type="text"
                 text="Email"
                 onInput={inputHandler}
-                errorText="Invalid email!"
+                errorText="Email không hợp lệ!"
                 validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
                 width="90%">
             </Input>
@@ -75,13 +74,13 @@ const LoginForm = props => {
                 id="password"
                 element="input"
                 type="password"
-                text="Password"
+                text="Mật khẩu"
                 onInput={inputHandler}
-                errorText="Invalid password!"
+                errorText="Vui lòng nhập mật khẩu!"
                 validators={[VALIDATOR_REQUIRE()]}
                 width="90%">
             </Input>
-            <Button type="submit" disabled={!formState.isValid} confirm>Login</Button>
+            <Button type="submit" disabled={!formState.isValid} confirm>Đăng nhập</Button>
         </form>
     </React.Fragment >
 };

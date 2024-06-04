@@ -13,6 +13,7 @@ const ChatBubble = (props) => {
   const [text, setText] = useState("");
   const [activeContact, setActiveContact] = useState();
   const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState([]);
   const [chatNoti, setChatNoti] = useState();
   const auth = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -43,6 +44,17 @@ const ChatBubble = (props) => {
     connect();
   }, []);
 
+  useEffect(() => {
+    if (newMessage) {
+      if (newMessage.recipientId === auth.userID && !showChatBox) {
+        setChatNoti(true);
+      }
+      if (newMessage.recipientId === auth.userID && showChatBox) {
+        setChatNoti(false);
+      }
+      findChatMessage()
+    }
+  }, [newMessage]);
 
   useEffect(() => {
     if (stompClient) {
@@ -51,16 +63,8 @@ const ChatBubble = (props) => {
   }, [stompClient]);
 
   const onMessageReceived = (msg) => {
-      const notification = JSON.parse(msg.body);
-      if (notification.recipientId === auth.userID && !showChatBox) {
-        console.log(1)
-        setChatNoti(true);
-      }
-      if (notification.recipientId === auth.userID && showChatBox) {
-        console.log(2)
-        setChatNoti(false);
-      }
-      findChatMessage()
+    const notification = JSON.parse(msg.body);
+    setNewMessage(notification);
   };
 
   const findChatMessage = async () => {

@@ -51,28 +51,34 @@ const PieChart = (props) => {
 
   useEffect(() => {
     setData(props.data.categoryData.map(item => {
-      return {
-        category: <Category
-          key={item.id}
-          color={item.iconColor}
-          icon={item.iconUrl}
-          content={item.content} />,
-        transaction_times: item.transactionTimes + ' giao dịch',
-        percentage: <span className={`chart-money ${item.amount < 0 && 'chart-money--red'}`}>{MoneyFormat(item.amount) + ' VND'}</span>,
+      if (item.transactionTimes > 0) {
+        return {
+          category: <Category
+            key={item.id}
+            color={item.iconColor}
+            icon={item.iconUrl}
+            content={item.content} />,
+          transaction_times: item.transactionTimes + ' giao dịch',
+          percentage: <span className={`chart-money ${item.amount < 0 && 'chart-money--red'}`}>{MoneyFormat(item.amount) + ' VND'}</span>,
+        }
       }
     }))
   }, [props.data]);
 
   return props.data && (
     <div className="chart-container">
-      <h2>{props.title}</h2>
-      <canvas ref={chartRef} className="doughnut" />
-      {data && <Table
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-        rowKey="category"
-      />}
+      <div className="chart-main-container">
+        <h2>{props.title}</h2>
+        <canvas ref={chartRef} className="doughnut" />
+      </div>
+      {data && <div className="chart-table-container">
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          rowKey="category"
+        />
+      </div>}
     </div>
   )
 };

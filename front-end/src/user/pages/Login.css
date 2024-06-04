@@ -11,6 +11,9 @@
 
 .login-logo {
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .login-container h2 {

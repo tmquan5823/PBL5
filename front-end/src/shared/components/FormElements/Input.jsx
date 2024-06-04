@@ -147,6 +147,7 @@ const Input = forwardRef((props, ref) => {
 
     if (props.element === 'datepicker') {
         element = <DatePicker
+            disabled={props.disabled}
             id={props.id}
             selected={props.value || (inputState.value && new Date(inputState.value))}
             onChange={dateChangeHandler}

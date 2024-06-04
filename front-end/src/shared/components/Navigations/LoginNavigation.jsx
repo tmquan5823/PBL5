@@ -6,8 +6,8 @@ import "./LoginNavigation.css";
 
 const LoginNavigation = props => {
     return <header className="login-nav">
-        <Link to="/">← Back</Link>
-        <Link to="/signup">Create an account</Link>
+        <Link to="/">← Quay lại</Link>
+        <Link to="/signup">Đăng ký</Link>
     </header>
 };
 
