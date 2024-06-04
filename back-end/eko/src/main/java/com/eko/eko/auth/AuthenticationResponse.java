@@ -1,5 +1,7 @@
 package com.eko.eko.auth;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +26,9 @@ public class AuthenticationResponse {
     private String message;
     @JsonProperty("user_id")
     private Integer id;
+    @Value("${admin.id}")
+    @JsonProperty("admin_id")
+    private int admin_id;
     @JsonProperty("role")
     private String role;
     @JsonProperty("state")

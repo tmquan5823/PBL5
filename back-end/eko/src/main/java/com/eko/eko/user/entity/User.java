@@ -41,7 +41,6 @@ import lombok.Setter;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Integer id;
     private String email;
     @JsonIgnore
@@ -51,7 +50,6 @@ public class User implements UserDetails {
     private boolean isDelete;
     private String telephone;
     private String address;
-    @JsonIgnore
     private String avatarUrl;
     @JsonIgnore
     private boolean isVerify;
