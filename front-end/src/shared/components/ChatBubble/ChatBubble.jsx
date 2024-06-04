@@ -49,7 +49,7 @@ class ChatBubble extends Component {
               {/* Bạn có thể thêm các phần tử chat khác ở đây */}
             </div>
             <div className="chat-box-footer">
-              <input type="text" placeholder="Nhập tin nhắn..." />
+              <input className="chatBu" type="text" placeholder="Nhập tin nhắn..." />
               <button>
                 <FontAwesomeIcon icon={faPaperPlane} />
               </button>

@@ -113,7 +113,7 @@ const ChatAdmin = () => {
           </div>
         </div>
         <div className="chat-footer">
-          <input type="text" placeholder="Nhập tin nhắn..." />
+          <input className="chatAd" type="text" placeholder="Nhập tin nhắn..." />
           <button>
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>
