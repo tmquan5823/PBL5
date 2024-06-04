@@ -18,6 +18,7 @@ import Categories from "../models/Categories";
 import PieChart from "../components/ChartComponent/PieChart";
 import BarChart from "../components/ChartComponent/BarChart";
 import AreaChart from "../components/ChartComponent/AreaChart";
+import DatePickerComponent from "../../shared/components/FormElements/DatePickerComponent";
 
 
 const UserWalletDetail = props => {
@@ -29,6 +30,15 @@ const UserWalletDetail = props => {
     const [filterTransactions, setFilterTransactions] = useState([]);
     const [formShow, setFormShow] = useState(false);
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    const endOfMonth = new Date(startOfMonth);
+    endOfMonth.setMonth(endOfMonth.getMonth() + 1);
+    endOfMonth.setDate(0);
+    const [date, setDate] = useState({
+        startDate: startOfMonth,
+        endDate: endOfMonth
+    });
 
     useEffect(() => {
         async function fetchData() {
@@ -63,12 +73,21 @@ const UserWalletDetail = props => {
             setFilterTransactions([]);
         }
         else {
-            setFilterTransactions(filterData(transactions, auth.wallet.id, inputs.category.value, inputs.note.value));
+            setFilterTransactions(filterData(transactions, auth.wallet.id, inputs.category.value, inputs.note.value, date.startDate, date.endDate));
         }
     }
 
     function closeHandler() {
         setFormShow(false);
+    }
+
+    function dateChangeHandler(startDate, endDate) {
+        if (startDate && endDate) {
+            setDate({
+                startDate: startDate,
+                endDate: endDate
+            })
+        }
     }
 
     return <React.Fragment>
@@ -88,8 +107,15 @@ const UserWalletDetail = props => {
                     <span>{DateFormat(moment().format('DD/MM/YYYY'))}</span>
                     <button>&gt;</button>
                 </div>
+                <DatePickerComponent
+                    startDate={date.startDate}
+                    endDate={date.endDate}
+                    onChange={dateChangeHandler}
+                />
             </div>
             <FilterContainer
+                startDate={date.startDate}
+                endDate={date.endDate}
                 onChange={filterChangeHandler} />
             <ExpenseRow expense={expense} />
             <div className="charts-container">
@@ -105,13 +131,13 @@ const UserWalletDetail = props => {
                         data={dataAreaChart(filterTransactions, [auth.wallet])}
                     />
                 </div>}
-                {categories.filter(item => item.category.income).length > 0 && <div className="chart-item">
+                {filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
                     <PieChart
                         title="Thu nhập theo kì"
                         data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
                     />
                 </div>}
-                {categories.filter(item => !item.category.income).length > 0 && <div className="chart-item">
+                {filterTransactions.filter(item => item.amount < 0).length > 0 && <div className="chart-item">
                     <PieChart
                         title="Chi phí theo kì"
                         data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}

@@ -82,7 +82,7 @@ const dataAreaChart = (transactions, wallets) => {
 
     // Bước 2: Chuyển đổi ngày từ dạng mảng thành chuỗi ngày dạng "YYYY-MM-DD"
     const transactionsWithFormattedDate = transactions.map(transaction => {
-        const [year, month, day] = transaction.date_transaction;
+        const [year, month, day] = transaction.dateTransaction;
         return {
             ...transaction,
             formatted_date: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
@@ -117,7 +117,7 @@ const dataBarChart = (transactions) => {
 
     // Bước 1: Chuyển đổi ngày từ dạng mảng thành chuỗi ngày dạng "YYYY-MM-DD"
     const transactionsWithFormattedDate = transactions.map(transaction => {
-        const [year, month, day] = transaction.date_transaction;
+        const [year, month, day] = transaction.dateTransaction;
         return {
             ...transaction,
             formatted_date: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
@@ -146,7 +146,6 @@ const dataBarChart = (transactions) => {
         };
     });
 
-    console.log(formattedResult)
     return formattedResult;
 };
 
@@ -210,41 +209,40 @@ const dataDoughnutChart = (categories, transactions) => {
                 transactionTimes: categoryTransactions.length,
                 content: category.content // Add category content here
             });
-        }
-
-
+        })
+    }
     return { chartData: data, categoryData: categoryData };
-    };
+};
 
 
 
 
 
 
-    // Function to check if a date is after another date
-    const isDateAfter = (dateArray, comparisonDate) => {
-        if (dateArray && comparisonDate) {
-            const [year, month, day] = dateArray;
-            const [compYear, compMonth, compDay] = comparisonDate;
-            const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
-            const compDate = new Date(compYear, compMonth - 1, compDay);
-            return date >= compDate;
-        }
-        return false;
+// Function to check if a date is after another date
+const isDateAfter = (dateArray, comparisonDate) => {
+    if (dateArray && comparisonDate) {
+        const [year, month, day] = dateArray;
+        const [compYear, compMonth, compDay] = comparisonDate;
+        const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
+        const compDate = new Date(compYear, compMonth - 1, compDay);
+        return date >= compDate;
     }
+    return false;
+}
 
-    // Function to check if a date is before another date
-    const isDateBefore = (dateArray, comparisonDate) => {
-        if (dateArray && comparisonDate) {
-            const [year, month, day] = dateArray;
-            const [compYear, compMonth, compDay] = comparisonDate;
-            const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
-            const compDate = new Date(compYear, compMonth - 1, compDay);
-            return date <= compDate;
-        }
-        return false;
+// Function to check if a date is before another date
+const isDateBefore = (dateArray, comparisonDate) => {
+    if (dateArray && comparisonDate) {
+        const [year, month, day] = dateArray;
+        const [compYear, compMonth, compDay] = comparisonDate;
+        const date = new Date(year, month - 1, day); // Subtract 1 from month because JavaScript months are 0-indexed
+        const compDate = new Date(compYear, compMonth - 1, compDay);
+        return date <= compDate;
     }
+    return false;
+}
 
 
 
-    export { filterData, filterWallet, filterCategory, dataAreaChart, dataBarChart, dataDoughnutChart };
+export { filterData, filterWallet, filterCategory, dataAreaChart, dataBarChart, dataDoughnutChart };

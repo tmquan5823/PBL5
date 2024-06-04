@@ -7,8 +7,6 @@ class AreaChart extends React.Component {
     super(props);
     const processedData = props.data.map((point) => ({ x: point.name.toString(), y: point.amount }));
 
-    console.log(processedData)
-
     this.state = {
       series: [
         {

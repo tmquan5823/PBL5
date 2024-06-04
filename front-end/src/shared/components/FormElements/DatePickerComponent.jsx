@@ -31,8 +31,33 @@ const DatePickerComponent = props => {
         props.onChange(startDate, endDate);
     }, [startDate, endDate]);
 
+    function descMonthHandler() {
+        const newStartDate = new Date(startDate);
+        newStartDate.setMonth(newStartDate.getMonth() - 1);
+        newStartDate.setDate(1);
+        setStartDate(newStartDate);
+
+        const newEndDate = new Date(newStartDate);
+        newEndDate.setMonth(newEndDate.getMonth() + 1);
+        newEndDate.setDate(0);
+        setEndDate(newEndDate);
+    }
+
+    function ascMonthHandler() {
+        const newStartDate = new Date(startDate);
+        newStartDate.setMonth(newStartDate.getMonth() + 1);
+        newStartDate.setDate(1);
+        setStartDate(newStartDate);
+
+        const newEndDate = new Date(newStartDate);
+        newEndDate.setMonth(newEndDate.getMonth() + 1);
+        newEndDate.setDate(0);
+        setEndDate(newEndDate);
+    }
+
+
     return <div className="datepicker-component">
-        <button>&lt;</button>
+        <button onClick={descMonthHandler}>&lt;</button>
         <DatePicker
             selected={startDate}
             onChange={startDateChangeHandler} />
@@ -40,8 +65,8 @@ const DatePickerComponent = props => {
         <DatePicker
             selected={endDate}
             onChange={endDateChangeHandler} />
-        <button>&gt;</button>
-    </div>
+        <button onClick={ascMonthHandler} >&gt;</button>
+    </div >
 };
 
 export default DatePickerComponent;

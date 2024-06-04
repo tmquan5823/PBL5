@@ -7,4 +7,3 @@ export function totalAmount(transactions, isIncome) {
     }
     return 0;
 }
-

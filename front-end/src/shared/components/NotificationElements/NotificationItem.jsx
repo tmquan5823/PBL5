@@ -13,7 +13,6 @@ const NotificationItem = props => {
     var object = (JSON.parse(props.item.object));
     useEffect(() => {
         object = (JSON.parse(props.item.object));
-        console.log(object);
     }, [props.item]);
 
     async function clickHandler() {
@@ -61,7 +60,7 @@ const NotificationItem = props => {
                     backgroundColor: props.item.notificationType === 'TRANSACTION' && object.transaction.category.iconColor
                 }}
             >
-                <img src={`${props.item.notificationType === 'BUDGET' ? '/images/budgeting.png' : ""}${props.item.notificationType === 'TRANSACTION' ? object.transaction.category.iconUrl : ""} `} alt="" />
+                <img src={`${props.item.notificationType === 'BUDGET' ? '/images/budgeting.png' : ""}${props.item.notificationType === 'TRANSACTION' ? object.transaction.category.iconUrl : ""}${props.item.notificationType === 'CHAT' ? '/images/chat.png' : ""}`} alt="" />
             </div>
             <div className={`notification-item__content ${props.item.read && 'notification-item__read-content'}`}>
                 <span span className="main-content">

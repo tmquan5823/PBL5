@@ -39,6 +39,7 @@ function App() {
   const [avatarURL, setAvatarUrl] = useState(null);
   const [wallet, setWallet] = useState();
   const [role, setRole] = useState();
+  const [chatUser, setChatUser] = useState();
   const [userId, setUserId] = useState();
   const history = useHistory();
 
@@ -63,6 +64,10 @@ function App() {
 
   function setUserWallet(id) {
     setWallet(id);
+  }
+
+  function setAdminChatUser(user) {
+    setChatUser(user);
   }
 
   const adminRoutes = (
@@ -168,7 +173,9 @@ function App() {
           role: role,
           updateAvt: updateAvatarURL,
           wallet: wallet,
-          setWallet: setUserWallet
+          setWallet: setUserWallet,
+          chatUser: chatUser,
+          setChatUser: setAdminChatUser
         }}>
         <BrowserRouter>
           {routes}

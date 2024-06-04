@@ -52,9 +52,8 @@ const WalletContainer = props => {
                     <button onClick={showFormHandler}>Thêm ví mới</button>
                 </div>
                 {wallets && wallets.map(item => (
-                    <NavLink onClick={() => { onCickHandler(item.id) }} to={`/user/wallet/${item.id}`}>
+                    <NavLink key={item.id} onClick={() => { onCickHandler(item.id) }} to={`/user/wallet/${item.id}`}>
                         <Wallet
-                            key={item.id}
                             name={item.walletName}
                             money={item.moneyLeft}
                         />
