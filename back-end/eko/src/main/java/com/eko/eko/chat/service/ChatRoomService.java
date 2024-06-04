@@ -11,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ChatRoomService {
-
-    private ChatRoomRepository chatRoomRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     public Optional<String> getChatId(
             int senderId, int recipientId, boolean createIfNotExist) {

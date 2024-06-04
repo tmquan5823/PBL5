@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
@@ -113,14 +114,16 @@ public class TransactionService {
         }
 
         public void checkBudget(int userId, LocalDateTime dateTransaction) throws JsonProcessingException {
-                List<Budget> budgets = budgetRepository.findBudgetsContainingDateByUserId(dateTransaction, userId);
+                List<Budget> budgets = budgetRepository.findBudgetsContainingDateByUserId(dateTransaction,
+                                userId);
                 for (Budget budget : budgets) {
                         budget.setSpend(budgetService.reloadBudgetSpend(budget.getDateStart(), budget.getDateEnd(),
                                         userId));
-                        String findBudgetInNotification = "\"id\" : " + budget.getId();
+                        String findBudgetInNotification = "\"id\" : " + budget.getId() + ",";
                         if ((-budget.getSpend() > budget.getMoney()) || (1 >= -budget.getSpend() / budget.getMoney()
                                         && 0.8 <= -budget.getSpend() / budget.getMoney())) {
-                                var budgetNotif = notificationRepository.findByBudgetId(findBudgetInNotification);
+                                var budgetNotif = notificationRepository.findByIdAndType(findBudgetInNotification,
+                                                NotificationType.BUDGET);
                                 if (budgetNotif == null) {
                                         Notification notification = Notification.builder()
                                                         .isRead(false)
@@ -133,7 +136,8 @@ public class TransactionService {
                                 }
                         }
                         if (-budget.getSpend() > budget.getMoney()) {
-                                Notification notif = notificationRepository.findByBudgetId(findBudgetInNotification);
+                                Notification notif = notificationRepository.findByIdAndType(findBudgetInNotification,
+                                                NotificationType.BUDGET);
                                 notif.setContent("Bạn đã tiêu quá ngân sách " + budget.getName());
                                 notif.setTimeStamp(LocalDateTime.now());
                                 notif.setObject(jsonConverter.convertObjectToJson(budget));
@@ -141,7 +145,8 @@ public class TransactionService {
                                 notificationRepository.save(notif);
                         } else if (1 >= -budget.getSpend() / budget.getMoney()
                                         && 0.8 <= -budget.getSpend() / budget.getMoney()) {
-                                Notification notif = notificationRepository.findByBudgetId(findBudgetInNotification);
+                                Notification notif = notificationRepository.findByIdAndType(findBudgetInNotification,
+                                                NotificationType.BUDGET);
                                 notif.setContent("Bạn đã tiêu gần hết ngân sách " + budget.getName());
                                 notif.setTimeStamp(LocalDateTime.now());
                                 notif.setObject(jsonConverter.convertObjectToJson(budget));
@@ -181,6 +186,7 @@ public class TransactionService {
                         }
 
                         Wallet wallet = walletRepository.findById(transactionRequest.getWalletId()).orElseThrow();
+
                         CreateTransactionResponse response = CreateTransactionResponse.builder().state(true)
                                         .wallet(wallet)
                                         .message("Tạo giao dịch thành công!!!").build();
@@ -264,7 +270,7 @@ public class TransactionService {
                         walletRepository.save(wallet);
                         checkBudget(user.getId(), transaction.getDateTransaction());
                         return new ResponseEntity<>(response, HttpStatus.OK);
-                } catch (Exception e) {
+                } catch (JsonProcessingException e) {
                         return new ResponseEntity<>(CreateTransactionResponse.builder().state(false)
                                         .message("Lỗi tạo giao dịch!!!").build(),
                                         HttpStatus.OK);
