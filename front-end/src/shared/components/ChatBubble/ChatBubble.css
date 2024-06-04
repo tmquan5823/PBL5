@@ -134,7 +134,7 @@
   border-top: 1px solid #ccc;
 }
 
-.chat-box-footer input {
+.chat-box-footer .chatBu {
   flex: 1;
   padding: 7px 5px;
   border: 1px solid #ccc;

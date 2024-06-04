@@ -8,6 +8,11 @@ import Modal from "../../../shared/components/UIElements/Modal";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useForm } from "../../../shared/hooks/form-hook";
 import { VALIDATOR_REQUIRE } from "../../../shared/util/validators";
+import {
+  successNotification,
+  errorNotification,
+  warningNotification,
+} from "../../../shared/components/UIElements/Warning";
 
 const VerifyForm = (props) => {
   const [verifyState, setVerifyState] = useState(false);
@@ -21,6 +26,7 @@ const VerifyForm = (props) => {
   const location = useLocation();
   const history = useHistory();
   const msgError = "";
+  const [errorMsg, setErrorMsg] = useState("");
 
   const [formState, inputHandler] = useForm(
     {
@@ -46,7 +52,10 @@ const VerifyForm = (props) => {
     try {
       console.log("Email: ", email);
       console.log("Password: ", formState.inputs.passwordReVe.value);
-      if (formState.inputs.passwordReVe.value !== formState.inputs.confirmPasswordReVe.value) {
+      if (
+        formState.inputs.passwordReVe.value !==
+        formState.inputs.confirmPasswordReVe.value
+      ) {
         setPasswordMatchError(true); // Trùng mk
         return;
       }
@@ -87,6 +96,8 @@ const VerifyForm = (props) => {
       }
     } catch (err) {
       console.log(err);
+      history.push("/forgotpassword");
+      warningNotification("Không tồn tại email " + email + " !!");
     }
   }
 
@@ -112,14 +123,14 @@ const VerifyForm = (props) => {
     event.preventDefault();
     try {
       // quenpass ? /api/auth/verify-password?email= : /api/auth/verify-account?email=
-      const url = forgotPasswordParam ? "/api/auth/verify-password?email=" : "/api/auth/verify-account?email=";
+      const url = forgotPasswordParam
+        ? "/api/auth/verify-password?email="
+        : "/api/auth/verify-account?email=";
       const responseData = await sendRequest(
-        process.env.REACT_APP_URL +
-        url +
-        email +
-        "&otp=" +
-        verifyCode,
-        "POST", null, null
+        process.env.REACT_APP_URL + url + email + "&otp=" + verifyCode,
+        "POST",
+        null,
+        null
       );
       console.log(responseData);
       if (responseData.state) {
@@ -163,6 +174,7 @@ const VerifyForm = (props) => {
                 >
                   Xác thực email
                 </button>
+                {/* {errorMsg && <p className="error-msg">{errorMsg}</p>} */}
               </div>
             ) : (
               <form onSubmit={verifySubmitHandler} className="verify-form">
@@ -216,7 +228,9 @@ const VerifyForm = (props) => {
                         errorText="Invalid email!"
                         validators={[VALIDATOR_REQUIRE()]}
                       ></Input>
-                      {passwordMatchError && <p id="errVe">Mật khẩu không trùng khớp!</p>}
+                      {passwordMatchError && (
+                        <p id="errVe">Mật khẩu không trùng khớp!</p>
+                      )}
                       <button onClick={RecoverPass} id="buttonVe">
                         Xác nhận
                       </button>
