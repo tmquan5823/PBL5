@@ -8,12 +8,13 @@ import WalletContainer from "../components/OverviewComponents/WalletContainer";
 import FilterContainer from "../components/OverviewComponents/FilterContainer";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import { dataDoughnutChart, filterData, filterWallet } from "../../shared/util/chartCaculate";
+import { dataAreaChart, dataBarChart, dataDoughnutChart, filterData, filterWallet } from "../../shared/util/chartCaculate";
 import { totalAmount } from "../../shared/util/TransactionsCaculator";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import PieChart from "../components/ChartComponent/PieChart";
 import BarChart from "../components/ChartComponent/BarChart";
 import AreaChart from "../components/ChartComponent/AreaChart";
+import DatePickerComponent from "../../shared/components/FormElements/DatePickerComponent";
 
 
 const UserOverview = props => {
@@ -25,6 +26,15 @@ const UserOverview = props => {
     const [categories, setCategories] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [filterTransactions, setFilterTransactions] = useState([]);
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    const endOfMonth = new Date(startOfMonth);
+    endOfMonth.setMonth(endOfMonth.getMonth() + 1);
+    endOfMonth.setDate(0);
+    const [date, setDate] = useState({
+        startDate: startOfMonth,
+        endDate: endOfMonth
+    });
 
     useEffect(() => {
         async function fetchData() {
@@ -58,9 +68,18 @@ const UserOverview = props => {
     }, [filterTransactions, filterWallets]);
 
     const filterChangeHandler = useCallback((inputs) => {
-        setFilterTransactions(filterData(transactions, inputs.wallet.value, inputs.category.value, inputs.note.value));
+        setFilterTransactions(filterData(transactions, inputs.wallet.value, inputs.category.value, inputs.note.value, date.startDate, date.endDate));
         setFilterWallets(filterWallet(wallets, inputs.wallet.value));
-    }, [filterData, transactions, wallets]);
+    }, [filterData, transactions, wallets, date]);
+
+    function dateChangeHandler(startDate, endDate) {
+        if (startDate && endDate) {
+            setDate({
+                startDate: startDate,
+                endDate: endDate
+            })
+        }
+    }
 
     return <React.Fragment>
         {isLoading && <LoadingSpinner asOverlay />}
@@ -68,31 +87,38 @@ const UserOverview = props => {
             <WalletContainer wallets={wallets} />
             <div className="overview-content">
                 <h2>Tổng quan</h2>
+                <div className="overview-content__header">
+                    <DatePickerComponent
+                        onChange={dateChangeHandler}
+                    />
+                </div>
                 <FilterContainer
+                    startDate={date.startDate}
+                    endDate={date.endDate}
                     onChange={filterChangeHandler}
                 />
                 <ExpenseRow expense={expense} />
             </div>
             <div className="charts-container">
-                {/* <div className="chart-item">
-                    {categories && filterTransactions && <BarChart />}
-                </div>
-                <div className="chart-item">
-                    {categories && filterTransactions && <AreaChart />}
-                </div> */}
-                {categories.filter(item => item.category.income).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
-                    <AreaChart
-                    // title="Thu nhập theo kì"
-                    // data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
+                {filterTransactions.length > 0 && <div className="chart-item">
+                    <BarChart
+                        title="Giao dịch theo kì"
+                        data={dataBarChart(filterTransactions)}
                     />
                 </div>}
-                {categories.filter(item => item.category.income).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
+                {filterTransactions.length > 0 && filterWallets.length > 0 && <div className="chart-item">
+                    <AreaChart
+                        title="Thu chi theo kì"
+                        data={dataAreaChart(filterTransactions, filterWallets)}
+                    />
+                </div>}
+                {filterTransactions.filter(item => item.amount > 0).length > 0 && filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
                     <PieChart
                         title="Thu nhập theo kì"
                         data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
                     />
                 </div>}
-                {categories.length > 0 && filterTransactions.length > 0 && <div className="chart-item">
+                {filterTransactions.filter(item => item.amount < 0).length > 0 && <div className="chart-item">
                     <PieChart
                         title="Chi phí theo kì"
                         data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}

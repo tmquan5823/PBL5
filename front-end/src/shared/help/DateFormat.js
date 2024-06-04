@@ -79,3 +79,33 @@ export function dateToArray(date) {
   const day = date.getDate();
   return [year, month, day];
 };
+
+export function messageDateTimeFormat(timestamp) {
+  const date = new Date(
+    timestamp[0],          // year
+    timestamp[1] - 1,      // month (0-based index)
+    timestamp[2],          // day
+    timestamp[3],          // hours
+    timestamp[4],          // minutes
+    timestamp[5],          // seconds
+    Math.floor(timestamp[6] / 1000000)  // milliseconds
+  );
+  const today = new Date();
+  const isToday = date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate();
+
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const timeString = `${hours}:${minutes}`;
+
+  if (isToday) {
+    return timeString;
+  } else {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
+    return `${dateString} ${timeString}`;
+  }
+};

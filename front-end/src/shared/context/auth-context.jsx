@@ -10,5 +10,7 @@ export const AuthContext = createContext({
     logout: () => { },
     updateAvt: () => { },
     wallet: null,
-    setWallet: () => { }
+    setWallet: () => { },
+    chatUser: null,
+    setChatUser: () => { }
 })

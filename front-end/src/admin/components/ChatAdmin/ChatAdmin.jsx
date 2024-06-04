@@ -1,72 +1,140 @@
-import React, { useState } from "react";
-import { List, Input, Button } from "antd";
+import React, { useContext, useEffect, useState } from "react";
+import { List, Input, Button, message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import "./ChatAdmin.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import UserChatItem from "./UserChatItem";
+import { chatsData } from "./ChatsData";
+import ScrollToBottom from 'react-scroll-to-bottom';
+import { useHttpClient } from "../../../shared/hooks/http-hook";
+import { AuthContext } from "../../../shared/context/auth-context";
+import { messageDateTimeFormat } from "../../../shared/help/DateFormat";
 
+var stompClient = null;
 const ChatAdmin = () => {
-  // Data for user list
-  const userListData = [
-    { key: "1", name: "User 1", messages: ["Hello from User 1!"] },
-    { key: "2", name: "User 2", messages: ["Hi there! How are you?"] },
-    {
-      key: "3",
-      name: "User 3",
-      messages: ["Hey User 3!", "Nice to meet you!"],
-    },
-    {
-      key: "4",
-      name: "User 4",
-      messages: ["Hey User 4!", "Nice to meet you!"],
-    },
-    {
-      key: "5",
-      name: "User 5",
-      messages: ["Hey User 5!", "Nice to meet you!"],
-    },
-    {
-      key: "6",
-      name: "User 6",
-      messages: ["Hey User 6!", "Nice to meet you!"],
-    },
-    {
-      key: "7",
-      name: "User 7",
-      messages: ["Hey User 7!", "Nice to meet you!"],
-    },
-    {
-      key: "8",
-      name: "User 8",
-      messages: ["Hey User 8!", "Nice to meet you!"],
-    },
-    { key: "9", name: "User 9", messages: ["Hello from User 9!"] },
-    { key: "10", name: "User 10", messages: ["Hello from User 10!"] },
-    { key: "11", name: "User 11", messages: ["Hello from User 11!"] },
-    { key: "12", name: "User 12", messages: ["Hello from User 12!"] },
-    { key: "13", name: "User 13", messages: ["Hello from User 13!"] },
-    { key: "14", name: "User 14", messages: ["Hello from User 14!"] },
-    { key: "15", name: "User 15", messages: ["Hello from User 15!"] },
-    { key: "16", name: "User 16", messages: ["Hello from User 16!"] },
-    { key: "17", name: "User 17", messages: ["Hello from User 17!"] },
-    { key: "18", name: "User 18", messages: ["Hello from User 18!"] },
-    { key: "19", name: "User 19", messages: ["Hello from User 19!"] },
-    { key: "20", name: "User 20", messages: ["Hello from User 20!"] },
-  ];
-
-  // State for managing current user and search value
+  const [text, setText] = useState("");
+  const [contacts, setContacts] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState();
   const [currentUser, setCurrentUser] = useState(null);
   const [searchValue, setSearchValue] = useState("");
+  const [messageHover, setMessageHover] = useState();
+  const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  // Function to handle user click
+  const loadContacts = async () => {
+    console.log(currentUser)
+    try {
+      const resData = await sendRequest(process.env.REACT_APP_URL + `/api/chat/chatroom/${auth.userID}`, 'GET', null, null)
+      if (resData.state) {
+        setContacts(resData.chatRooms);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const connect = async () => {
+    try {
+      const Stomp = require("stompjs");
+      var SockJS = require("sockjs-client");
+      SockJS = new SockJS(process.env.REACT_APP_URL + "/ws");
+      stompClient = Stomp.over(SockJS);
+      await new Promise((resolve, reject) => {
+        stompClient.connect({}, resolve, reject);
+      });
+      onConnected();
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
+  useEffect(() => {
+    connect();
+    loadContacts();
+  }, []);
+
+  useEffect(() => {
+    console.log(newMessage)
+    if (currentUser && newMessage && newMessage.senderId === currentUser.recipient.id) {
+      findChatMessage(currentUser.recipient.id);
+    }
+  }, [newMessage]);
+
+  useEffect(() => {
+    if (currentUser) {
+      findChatMessage(currentUser.recipient.id);
+    }
+  }, [currentUser]);
+
+  const onConnected = () => {
+    stompClient.subscribe(
+      "/user/" + auth.userID + "/queue/messages",
+      onMessageReceived
+    );
+  };
+
+  const onMessageReceived = (msg) => {
+    const notification = JSON.parse(msg.body);
+    setNewMessage(notification);
+    loadContacts();
+  };
+
+  const findChatMessage = async (recipientId) => {
+    try {
+      console.log("id: " + recipientId);
+      const resData = await sendRequest(process.env.REACT_APP_URL + `/api/chat/messages/${auth.userID}/${recipientId}`, 'GET', null, null)
+      if (resData) {
+        setMessages(resData);
+        loadContacts();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const sendMessage = (msg) => {
+    if (msg.trim() !== "") {
+      const message = {
+        senderId: auth.userID,
+        recipientId: currentUser.recipient.id,
+        content: msg,
+        timestamp: new Date(),
+      };
+      try {
+        if (stompClient && stompClient.connected) {
+          stompClient.send("/app/chat", {}, JSON.stringify(message));
+        } else {
+          console.log("WebSocket connection is not established yet.");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+
+      const newMessages = [...messages];
+      newMessages.push(message);
+      setMessages(newMessages);
+      loadContacts();
+    }
+  };
+
   const handleUserClick = (record) => {
     setCurrentUser(record);
   };
 
-  // Filter user list based on search value
-  const filteredUserList = userListData.filter((user) =>
-    user.name.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredUserList = contacts.filter((contact) =>
+    (contact.recipient.firstname + " " + contact.recipient.lastname).toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  const mouseEnterMessage = () => {
+
+  }
+
+
+  const mouseLeaveMessage = () => {
+
+  }
 
   return (
     <div className="chat-containerAd">
@@ -83,42 +151,74 @@ const ChatAdmin = () => {
             dataSource={filteredUserList}
             renderItem={(item) => (
               <List.Item
-                className="user-item"
+                key={item.chatRoom.id}
+                className={`user-item 
+                ${currentUser && currentUser.recipient.id === item.recipient.id && 'selected-contact'}
+                ${item.chatRoom.haveUnreadMessage && 'unread-message'}`}
                 onClick={() => handleUserClick(item)}
               >
-                {item.name}
+                <UserChatItem
+                  avatar={item.recipient.avatarUrl}
+                  name={item.recipient.firstname + " " + item.recipient.lastname}
+                  message={item.chatRoom.content}
+                />
               </List.Item>
             )}
           />
         </div>
       </div>
-      <div className="chat-boxAd">
+      {currentUser ? <div className="chat-boxAd">
         <div className="chat-header">
-          <span style={{ padding: 10 }}>
-            {currentUser ? `${currentUser.name}` : "Select a user to chat"}
-          </span>
+          {currentUser ? <UserChatItem
+            avatar={currentUser.recipient.avatarUrl}
+            name={currentUser.recipient.firstname + " " + currentUser.recipient.lastname}
+          /> : "Select a user to chat"}
         </div>
-        <div className="chat-body">
+        <ScrollToBottom className="chat-body">
           <div className="messages-wrapper">
-            {currentUser &&
-              currentUser.messages.map((message, index) => (
+            {messages && messages.map((message, index) => {
+              return <div className={`message-bot__container ${message.senderId !== 8 ? 'user-message' : 'admin-message'}`}>
+                <div className="user-message__avatar">
+                  {(message.senderId !== auth.userID && (!messages[index + 1] || messages[index + 1].senderId !== message.senderId)) &&
+                    <img src={currentUser.recipient.avatarUrl} alt="" />
+                  }
+                </div>
                 <div
                   className="message-bot"
-                  style={{ width: `${Math.min((index + 1) * 10, 70)}%` }}
-                  key={index}
+                  onMouseEnter={mouseEnterMessage}
+                  onMouseLeave={mouseLeaveMessage}
                 >
-                  <span>{message}</span>
+                  {message.content}
+                  {/* {true && <div className="message-bot__message-time">{messageDateTimeFormat(message.timestamp)}</div>} */}
                 </div>
-              ))}
+              </div>
+            })}
           </div>
-        </div>
+        </ScrollToBottom>
         <div className="chat-footer">
-          <input className="chatAd" type="text" placeholder="Nhập tin nhắn..." />
-          <button>
+          <input
+            type="text"
+            value={text}
+            onChange={(event) => {
+              setText(event.target.value)
+            }}
+            onKeyPress={(event) => {
+              if (event.key === "Enter") {
+                sendMessage(text);
+                setText("");
+              }
+            }}
+            placeholder="Nhập tin nhắn..."
+          />
+          <button onClick={() => {
+            setText("");
+            sendMessage(text);
+          }}>
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>
         </div>
       </div>
+        : ""}
     </div>
   );
 };

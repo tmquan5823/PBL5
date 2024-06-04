@@ -105,11 +105,6 @@ const UserBudgetDetail = props => {
                 onClose={closeHandler} />}
         </Modal>
         {budget ? <React.Fragment>
-            <div className="calendar-container">
-                <button>&lt;</button>
-                <span>{formatArrayDate2(budget.dateStart)} - {formatArrayDate2(budget.dateEnd)}</span>
-                <button>&gt;</button>
-            </div>
             <div className="budget-detail__header">
                 <div className="budget-detail__header-link">
                     <Link to="/user/budget"><h3 className="budget-detail__title">Ngân sách</h3></Link>

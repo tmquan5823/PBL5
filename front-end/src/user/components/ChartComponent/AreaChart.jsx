@@ -1,66 +1,101 @@
-import React, { Component } from "react";
-import Chart from "chart.js/auto";
+import React from "react";
+import ReactApexChart from "react-apexcharts";
+import "./AreaChart.css";
 
-class AreaChart extends Component {
-  chart = null; // Thêm thuộc tính để lưu trữ biểu đồ
+class AreaChart extends React.Component {
+  constructor(props) {
+    super(props);
+    const processedData = props.data.map((point) => ({ x: point.name.toString(), y: point.amount }));
 
-  async fetchData() {
-    let data = await fetch("https://disease.sh/v3/covid-19/historical/vn?lastdays=all");
-    let jsondata = await data.json();
-    let cases = jsondata.timeline.cases;
-    let time = Object.keys(cases);
-    let value = time.map(date => cases[date]);
-    return { time, value };
-  }
-
-  componentDidMount() {
-    this.fetchData().then(({ time, value }) => {
-      this.createChart(time, value);
-    });
-  }
-
-  componentDidUpdate() {
-    this.fetchData().then(({ time, value }) => {
-      this.createChart(time, value);
-    });
-  }
-
-  createChart(labels, data) {
-    const canvas = document.getElementById('canvas');
-
-    // Hủy biểu đồ nếu đã tồn tại
-    if (this.chart) {
-      this.chart.destroy();
-    }
-
-    this.chart = new Chart(canvas, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Thu nhập',
-            backgroundColor: "blue",
-            borderColor: 'blue',
-            data: data,
-            tension: 0.4
-          }
-        ]
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    this.state = {
+      series: [
+        {
+          name: "Chi tieu",
+          data: processedData,
+        },
+      ],
+      options: {
+        chart: {
+          type: "area",
+          height: 350,
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "smooth",
+          colors: ["#00ff00"],
+        },
+        yaxis: {
+          tickAmount: 4,
+          floating: false,
+          labels: {
+            style: {
+              colors: "#8e8da4",
+            },
+            offsetY: -7,
+            offsetX: 0,
+          },
+          axisBorder: {
+            show: false,
+          },
+          axisTicks: {
+            show: false,
+          },
+        },
+        fill: {
+          opacity: 0.5,
+          colors: ["#00ff00"],
+        },
+        tooltip: {
+          x: {
+            format: "yyyy",
+          },
+          fixed: {
+            enabled: false,
+            position: "topRight",
+          },
+        },
+        grid: {
+          yaxis: {
+            lines: {
+              offsetX: -30,
+            },
+          },
+          padding: {
+            left: 20,
+          },
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+    };
   }
 
   render() {
     return (
-      <div className="container">
-        <h3></h3>
-        <canvas id="canvas"></canvas>
+      <div className="area-chart"
+        style={{
+          padding: "0 10px"
+        }}>
+        <h3>{this.props.title}</h3>
+        <style>
+          {`
+            .apexcharts-toolbar {
+              display: none !important;
+            }
+          `}
+        </style>
+        <div id="chart">
+          <ReactApexChart
+            options={this.state.options}
+            series={this.state.series}
+            type="area"
+            height={350}
+            width={1000}
+          />
+        </div>
       </div>
     );
   }

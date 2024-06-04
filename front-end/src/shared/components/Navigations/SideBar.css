@@ -9,10 +9,11 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    background-color: #fff;
 }
 
 .admin-sidebar {
-    background-color: #fff;
+    background-color: #d3e7dd;
 }
 
 .signout-btn {

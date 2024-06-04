@@ -137,10 +137,6 @@ const UserTransaction = props => {
         }
     };
 
-    useEffect(() => {
-
-    }, [date.startDate, date.endDate]);
-
     function dateChangeHandler(startDate, endDate) {
         if (startDate && endDate) {
             setDate({

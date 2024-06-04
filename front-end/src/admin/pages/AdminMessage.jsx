@@ -5,7 +5,10 @@ import ChatAdmin from "../components/ChatAdmin/ChatAdmin";
 
 const AdminMessage = (props) => {
   return (
-    <PageContent title="Nhắn tin">
+    <PageContent
+      overflow="hidden"
+      title="Nhắn tin"
+      nopadding>
       <ChatAdmin />
     </PageContent>
   );
