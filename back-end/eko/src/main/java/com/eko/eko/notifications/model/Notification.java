@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,8 +32,11 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int recipientId;
+    private int senderId;
+    private int chatId;
     private String object;
     private String content;
+    @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
     private boolean isRead;
     private LocalDateTime timeStamp;

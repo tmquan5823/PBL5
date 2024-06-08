@@ -14,8 +14,10 @@ import com.eko.eko.money.dto.ListCategoriesResponse;
 import com.eko.eko.money.dto.ListCategoriesResponse.CategoryWithTransactionTimes;
 import com.eko.eko.money.model.Category;
 import com.eko.eko.money.model.Transaction;
+import com.eko.eko.money.model.Wallet;
 import com.eko.eko.money.repository.CategoryRepository;
 import com.eko.eko.money.repository.TransactionRepository;
+import com.eko.eko.money.repository.WalletRepository;
 import com.eko.eko.user.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +28,21 @@ import lombok.RequiredArgsConstructor;
 public class CategoryService {
         private final CategoryRepository categoryRepository;
         private final TransactionRepository transactionRepository;
+        private final WalletRepository walletRepository;
         private final JwtService jwtService;
+
+        public List<Transaction> getAllTransactionByWalletId(int walletId) {
+                return transactionRepository.findAllByWalletIdReloadMoney(walletId);
+        }
+
+        public float reloadWalletMoneyLeft(int walletId) {
+                List<Transaction> transactions = this.getAllTransactionByWalletId(walletId);
+                float spend = 0;
+                for (Transaction transaction : transactions) {
+                        spend += transaction.getAmount();
+                }
+                return spend;
+        }
 
         public ResponseEntity<ListCategoriesResponse> getAllCategories(HttpServletRequest request) {
                 try {
@@ -119,6 +135,12 @@ public class CategoryService {
                         category.setIconUrl(categoryRequest.getIconUrl());
                         category.setIncome(categoryRequest.isIncome());
                         categoryRepository.save(category);
+                        List<Wallet> wallets = walletRepository.findAllByUserId(user.getId());
+                        for (Wallet wallet : wallets) {
+                                wallet.setMoneyLeft(
+                                                this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
+                                walletRepository.save(wallet);
+                        }
                         return new ResponseEntity<>(CategoryResponse.builder()
                                         .categoryId(category.getId())
                                         .content(category.getContent())
@@ -152,6 +174,12 @@ public class CategoryService {
                         }
                         Category category = categoryRepository.findById(categoryId).orElseThrow();
                         categoryRepository.delete(category);
+                        List<Wallet> wallets = walletRepository.findAllByUserId(user.getId());
+                        for (Wallet wallet : wallets) {
+                                wallet.setMoneyLeft(
+                                                this.reloadWalletMoneyLeft(wallet.getId()) + wallet.getMoneyAtFirst());
+                                walletRepository.save(wallet);
+                        }
                         return new ResponseEntity<>(CategoryResponse.builder().state(true)
                                         .message("Xóa danh mục thành công!!!").build(), HttpStatus.OK);
 

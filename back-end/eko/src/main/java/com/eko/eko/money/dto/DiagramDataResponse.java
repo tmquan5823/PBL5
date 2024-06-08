@@ -36,7 +36,7 @@ public class DiagramDataResponse {
     public static class DataDiagram {
         @JsonProperty("id")
         private int id;
-        @JsonProperty("date_transaction")
+        @JsonProperty("dateTransaction")
         private LocalDate dateTransaction;
         @JsonProperty("amount")
         private float amount;

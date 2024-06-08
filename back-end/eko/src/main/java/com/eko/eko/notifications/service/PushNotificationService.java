@@ -28,7 +28,7 @@ public class PushNotificationService {
     public Flux<ServerSentEvent<List<Notification>>> getNotificationsByUserToID(int userID) {
 
         if (userID > 0) {
-            return Flux.interval(Duration.ofSeconds(3))
+            return Flux.interval(Duration.ofSeconds(1))
                     .publishOn(Schedulers.boundedElastic())
                     .map(sequence -> ServerSentEvent.<List<Notification>>builder().id(String.valueOf(sequence))
                             .event("user-list-event").data(getNotifs(userID))
