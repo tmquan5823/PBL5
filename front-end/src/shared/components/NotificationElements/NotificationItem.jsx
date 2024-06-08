@@ -49,6 +49,11 @@ const NotificationItem = props => {
             auth.setWallet();
             history.push("/user/budget/" + object.id);
         }
+        if (props.item.notificationType === 'CHAT' && auth.role === 'ADMIN') {
+            auth.setWallet();
+            history.push("/admin/message");
+        }
+        props.onNotiClick();
     }
 
     return <React.Fragment>

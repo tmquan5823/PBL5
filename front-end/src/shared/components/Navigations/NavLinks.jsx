@@ -5,16 +5,16 @@ import "./NavLinks.css";
 const NavLinks = props => {
     return <ul className="nav-links">
         <li>
-            <NavLink to="/">About</NavLink>
+            <a href="#about">About</a>
         </li>
         <li>
-            <NavLink to="/">Blog</NavLink>
+            <a href="#content">Blog</a>
         </li>
         <li>
-            <NavLink to="/">Careers</NavLink>
+            <a href="#history">Careers</a>
         </li>
         <li>
-            <NavLink to="/">Support</NavLink>
+            <a href="#feature">Support</a>
         </li>
     </ul>
 };

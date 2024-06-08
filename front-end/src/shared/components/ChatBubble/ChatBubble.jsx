@@ -123,7 +123,9 @@ const ChatBubble = (props) => {
               />
             </button>
           </div>
-          <ScrollToBottom className="chat-box-body">
+          <ScrollToBottom
+            className="chat-box-body"
+            initialScrollBehavior="auto">
             {messages ? messages.map((message, index) =>
               <div className={`message-container ${message.senderId !== 8 ? 'user-message' : 'admin-message'}`}>
                 <div className="message bot">

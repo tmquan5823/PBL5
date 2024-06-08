@@ -24,7 +24,7 @@ const BudgetAddCard = props => {
         </Modal>
         <div className="budget-add-card">
             <p>Kiểm soát chi phí của bạn và tiết kiệm nhiều hơn bằng cách lập ngân sách!</p>
-            <button onClick={createButtonHandler}>Create a New Budget</button>
+            <button onClick={createButtonHandler}>Tạo ngân sách</button>
         </div>
     </React.Fragment>
 };

@@ -65,6 +65,9 @@ const InfoHeader = props => {
         setUserWallet(auth.wallet);
     }, [auth.wallet]);
 
+    function notiClickHandler() {
+        setIsHovered(false)
+    }
 
 
     return <div className={`info-header ${auth.role === 'ADMIN' && 'info-header--admin'}`}>
@@ -92,6 +95,7 @@ const InfoHeader = props => {
             >
                 <img src={`/images/${notificationState ? 'notification.gif' : 'notification.png'}`} alt="" />
                 {isHovered && <NotificationContainer
+                    onNotiClick={notiClickHandler}
                     notifications={allDeliveredNotifs}
                 />}
             </div>

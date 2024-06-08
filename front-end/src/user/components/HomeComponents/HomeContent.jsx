@@ -7,10 +7,18 @@ import HomePrFeature from "./HomePrFeature";
 
 const HomeContent = props => {
     return <div className="home-content">
-        <HomeImage />
-        <PrPointContent />
-        <PrPointHistory />
-        <HomePrFeature />
+        <div id="about">
+            <HomeImage />
+        </div>
+        <div id="content">
+            <PrPointContent />
+        </div>
+        <div id="history">
+            <PrPointHistory />
+        </div>
+        <div id="feature">
+            <HomePrFeature />
+        </div>
     </div>
 };
 

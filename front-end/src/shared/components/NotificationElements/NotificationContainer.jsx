@@ -10,6 +10,7 @@ const NotificationContainer = props => {
         <span className="notification__title">Thông báo</span>
         {props.notifications.length > 0 ? props.notifications.map(item => {
             return <NotificationItem
+                onNotiClick={props.onNotiClick}
                 item={item}
             />
         }) :

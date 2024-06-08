@@ -2,3 +2,7 @@
     margin-top: 54px;
     background-color: #fff;
 }
+
+.home-content>div {
+    padding: 20px 0;
+}
