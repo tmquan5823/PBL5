@@ -49,13 +49,32 @@ function App() {
     setAvatarUrl(url);
     setRole(role);
     setUserId(userId);
+    Cookies.set('token', token, { expires: 1 });
+    Cookies.set('avatar', url, { expires: 1 });
+    Cookies.set('role', role, { expires: 1 });
+    Cookies.set('userId', userId, { expires: 1 });
   }, []);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    const url = Cookies.get('avatar');
+    const role = Cookies.get('role');
+    const userId = Cookies.get('userId');
+
+    if (token && url && role && userId) {
+      login(token, url, role, userId);
+    }
+  }, [login]);
 
   const logout = useCallback(() => {
     setLoginState(false);
     setToken(null);
     setAvatarUrl(null);
     setRole(null);
+    Cookies.remove('token');
+    Cookies.remove('avatar');
+    Cookies.remove('role');
+    Cookies.remove('userId');
   }, []);
 
   function updateAvatarURL(url) {

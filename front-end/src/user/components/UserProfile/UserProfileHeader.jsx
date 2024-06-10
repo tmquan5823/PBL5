@@ -3,7 +3,6 @@ import "./UserProfileHeader.css";
 import { AuthContext } from "../../../shared/context/auth-context";
 import { useForm } from "../../../shared/hooks/form-hook";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
-import axios from "axios"
 import LoadingSpinner from "../../../shared/components/UIElements/LoadingSpinner";
 import Cookies from "js-cookie";
 
@@ -31,6 +30,7 @@ const UserProfileHeader = props => {
             });
             console.log(resData);
             auth.updateAvt(resData.avatar);
+            Cookies.set('avatar', resData.avatar, { expires: 1 });
         } catch (err) {
             console.log(err);
         }

@@ -2,6 +2,7 @@ import { dateToArray } from "../help/DateFormat";
 
 const filterData = (transactions, walletIds, categoryIds, note, dateStart, dateEnd, type) => {
     if (transactions && transactions.length > 0) {
+        console.log(transactions)
         return transactions.filter(item => {
             // Check walletId
             if (walletIds && walletIds.length >= 0 && !walletIds.includes(item.wallet_id)) {

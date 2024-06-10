@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "./UserWalletDetail.css";
 import InfoHeader from "../../shared/components/UIElements/InfoHeader";
 import Modal from "../../shared/components/UIElements/Modal";
@@ -66,16 +66,14 @@ const UserWalletDetail = props => {
         { title: 'Tổng Thu Nhập Theo Kì', money: totalAmount(filterTransactions, true) }]);
     }, [filterTransactions, auth.wallet]);
 
-    function filterChangeHandler(inputs) {
-        console.log(inputs.user.value);
-
+    const filterChangeHandler = useCallback((inputs) => {
         if (inputs.user.value && inputs.user.value.length <= 0) {
             setFilterTransactions([]);
         }
         else {
             setFilterTransactions(filterData(transactions, auth.wallet.id, inputs.category.value, inputs.note.value, date.startDate, date.endDate));
         }
-    }
+    }, [setFilterTransactions, filterData, transactions, auth.wallet.id, date])
 
     function closeHandler() {
         setFormShow(false);

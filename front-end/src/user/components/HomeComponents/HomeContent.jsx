@@ -10,13 +10,13 @@ const HomeContent = props => {
         <div id="about">
             <HomeImage />
         </div>
-        <div id="content">
+        <div classname='home-content__item' id="content">
             <PrPointContent />
         </div>
-        <div id="history">
+        <div classname='home-content__item' id="history">
             <PrPointHistory />
         </div>
-        <div id="feature">
+        <div classname='home-content__item' id="feature">
             <HomePrFeature />
         </div>
     </div>

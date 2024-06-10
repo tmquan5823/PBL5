@@ -153,7 +153,6 @@ const AddCategoryForm = props => {
                 }
             );
             if (resData.state) {
-                resetData();
                 props.onAdd({
                     category: {
                         "id": resData.category_id,
@@ -164,6 +163,7 @@ const AddCategoryForm = props => {
                     },
                     transaction_times: 0
                 });
+                resetData();
             }
         } catch (err) {
             console.log(err);
@@ -211,6 +211,7 @@ const AddCategoryForm = props => {
                         id='name'
                         onChange={categoryNameChangeHandler}
                         type="text"
+                        value={selectState.inputs.name.value}
                         className="category-name" />
                 </div>
                 <div className="add-category__item category-type__container">

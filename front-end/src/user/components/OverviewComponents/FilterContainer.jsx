@@ -35,6 +35,10 @@ const FilterContainer = props => {
     }, isValid);
 
     useEffect(() => {
+        props.onChange && props.onChange(formState.inputs);
+    }, [formState.inputs, props.onChange]);
+
+    useEffect(() => {
         async function fetchData() {
             try {
                 const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user/transactions", "GET", null, {
@@ -66,9 +70,7 @@ const FilterContainer = props => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        props.onChange && props.onChange(formState.inputs);
-    }, [formState.inputs, props.onChange]);
+
 
     useEffect(() => {
         console.log(props.newWallet)

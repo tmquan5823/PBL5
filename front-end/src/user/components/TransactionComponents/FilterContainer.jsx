@@ -40,7 +40,7 @@ const FilterContainer = props => {
     }, [formState.inputs, props.startDate, props.endDate]);
 
     useEffect(() => {
-        console.log(props.newCategory)
+        console.log(1)
         if (props.newCategory) {
             setCategories(val => [...val, {
                 label: <Category
@@ -74,7 +74,7 @@ const FilterContainer = props => {
             }
         };
         fetchData();
-    }, [sendRequest]);
+    }, [sendRequest, auth.wallet.id, auth.token]);
 
     useEffect(() => {
         async function fetchData() {
@@ -85,6 +85,7 @@ const FilterContainer = props => {
                 if (resData.state) {
                     setCategories(resData.list_categories.map(item => {
                         return {
+                            key: item.category.iconUrl,
                             label: <Category
                                 icon={item.category.iconUrl}
                                 color={item.category.iconColor}
@@ -101,7 +102,7 @@ const FilterContainer = props => {
             }
         };
         fetchData();
-    }, [sendRequest]);
+    }, [sendRequest, auth.token, auth.wallet]);
 
     function filterResetHandler() {
         if (inputRef[0].current) {

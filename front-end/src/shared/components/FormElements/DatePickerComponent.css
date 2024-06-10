@@ -11,7 +11,7 @@
     background-color: #fff;
 }
 
-.datepicker-component button {
+.datepicker-component .dpc__button {
     padding: 10px;
     height: 100%;
     border: none;
@@ -19,9 +19,6 @@
     color: #000;
 }
 
-.datepicker-component span {}
-
-.react-datepicker__input-container {}
 
 .react-datepicker__input-container input {
     height: 100%;

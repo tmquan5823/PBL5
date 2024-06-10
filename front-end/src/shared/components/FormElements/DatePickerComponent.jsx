@@ -57,15 +57,20 @@ const DatePickerComponent = props => {
 
 
     return <div className="datepicker-component">
-        <button onClick={descMonthHandler}>&lt;</button>
+        <button className="dpc__button" onClick={descMonthHandler}>&lt;</button>
         <DatePicker
             selected={startDate}
-            onChange={startDateChangeHandler} />
+            onChange={startDateChangeHandler}
+            dateFormat="dd/MM/yyyy"
+            shouldCloseOnSelect
+        />
         <span>-</span>
         <DatePicker
             selected={endDate}
-            onChange={endDateChangeHandler} />
-        <button onClick={ascMonthHandler} >&gt;</button>
+            onChange={endDateChangeHandler}
+            dateFormat="dd/MM/yyyy"
+            shouldCloseOnSelect />
+        <button className="dpc__button" onClick={ascMonthHandler} >&gt;</button>
     </div >
 };
 
