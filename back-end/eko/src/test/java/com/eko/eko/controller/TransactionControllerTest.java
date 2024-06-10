@@ -109,8 +109,6 @@ class TransactionControllerTest {
 
         @Test
         void testGetAllTransactionByWalletId() throws Exception {
-                // List<TransactionResponse> transactions = new ArrayList<>();
-
                 ListAllTransactionResponse response = ListAllTransactionResponse.builder()
                                 .state(true)
                                 .message("Lấy danh sách giao dịch theo ví thành công!!!")
@@ -128,9 +126,6 @@ class TransactionControllerTest {
 
         @Test
         void testGetDiagramDataByUserId() throws Exception {
-                // List<DiagramDataResponse> data = new ArrayList<>(); // Replace DataObject
-                // with your actual data type
-
                 DiagramDataResponse response = DiagramDataResponse.builder()
                                 .state(true)
                                 .message("Lấy dữ liệu biểu đồ thành công!!!")

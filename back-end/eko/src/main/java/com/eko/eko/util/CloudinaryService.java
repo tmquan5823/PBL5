@@ -33,11 +33,8 @@ public class CloudinaryService {
     }
 
     public String uploadImage(MultipartFile image) throws IOException {
-        // Thực hiện upload ảnh lên Cloudinary
         Map<?, ?> result = cloudinary.uploader().upload(image.getBytes(), null);
-        // Trích xuất URL của ảnh từ kết quả upload
         String imageUrl = (String) result.get("secure_url");
-        // Trả về URL của ảnh đã upload
         return imageUrl;
     }
 

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TransactionDTONotif {
     private Transaction transaction;
-    private Wallet wallet; // Thêm thuộc tính walletId
+    private Wallet wallet;
 
     public TransactionDTONotif(Transaction transaction) {
         this.transaction = transaction;
