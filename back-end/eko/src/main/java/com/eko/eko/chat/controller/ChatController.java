@@ -71,8 +71,6 @@ public class ChatController {
                                         .chatId(saved.getId())
                                         .content("Có " + chatMessageService.countNewMessages(saved.getSenderId(),
                                                         saved.getRecipientId()) + " tin nhắn mới từ ")
-                                        // findById
-                                        // get name ra
                                         .object(jsonConverter.convertObjectToJson(
                                                         userRepository.findById(saved.getRecipientId()).orElseThrow()))
                                         .notificationType(NotificationType.CHAT)
@@ -97,8 +95,6 @@ public class ChatController {
                                                 + senderUser.getLastname() + "!!!");
                         notificationRepository.save(notif);
                 }
-
-                // Lưu thông báo vào cơ sở dữ liệu
                 messagingTemplate.convertAndSendToUser(
                                 Integer.toString(chatMessage.getRecipientId()), "/queue/messages",
                                 chatMessage);

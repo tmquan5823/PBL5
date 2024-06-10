@@ -10,8 +10,6 @@ import org.springframework.data.repository.query.Param;
 import com.eko.eko.money.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-        // List<Transaction> findAllByUserId(@Param("userId") int userId);
-
         @Query("SELECT t FROM Transaction t JOIN t.wallet w JOIN w.user u WHERE u.id = :userId ORDER BY t.dateTransaction ASC")
         List<Transaction> findTransactionsByUserId(@Param("userId") int userId);
 
@@ -34,30 +32,10 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
         @Query("SELECT t FROM Transaction t WHERE DATE(t.dateTransaction) = CURRENT_DATE AND t.cycle IS NOT NULL")
         List<Transaction> findAllVerifyTransaction();
 
-        // @Query("SELECT t FROM Transaction t WHERE t.cycle IS NOT NULL AND
-        // t.dateTransaction BETWEEN CURRENT_DATE AND CURRENT_DATE + 1")
-        // List<Transaction> findAllVerifyTransaction();
-
         @Query("SELECT t FROM Transaction t " +
                         "JOIN t.wallet w " +
                         "JOIN w.user u " +
                         "WHERE t.dateTransaction BETWEEN :dateStart AND :dateEnd " +
                         "AND u.id = :userId")
         List<Transaction> findAllBetweenDates(LocalDateTime dateStart, LocalDateTime dateEnd, int userId);
-
-        // List<Transaction> findAllByCategoryId(@Param("categoryId") int categoryId);
-
-        // List<Transaction> findAllByUserIdNow(@Param("userId") int userId);
-
-        // List<Transaction> findAllByWalletIdNow(@Param("walletId") int walletId);
-
-        // List<Transaction> findAllByCategoryIdNow(@Param("categoryId") int
-        // categoryId);
-
-        // List<Transaction> findAllByUserIdFuture(@Param("userId") int userId);
-
-        // List<Transaction> findAllByWalletIdFuture(@Param("walletId") int walletId);
-
-        // List<Transaction> findAllByCategoryIdFuture(@Param("categoryId") int
-        // categoryId);
 }

@@ -104,26 +104,6 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.state").value(response.isState()));
     }
 
-    // @Test
-    // void testUpdateAvatar() throws Exception {
-    // Map<String, Object> responseMap = new HashMap<>();
-    // responseMap.put("message", "Update user's avatar success!!");
-    // responseMap.put("state", true);
-
-    // MultipartFile image = null; // Mock your MultipartFile as needed
-
-    // when(userService.updateAvatar(any(MultipartFile.class),
-    // any(HttpServletRequest.class)))
-    // .thenReturn(ResponseEntity.ok(responseMap));
-
-    // mockMvc.perform(put("/api/user/avatar")
-    // .header("Authorization", "Bearer token")
-    // .param("image", "image"))
-    // .andExpect(status().isOk())
-    // .andExpect(jsonPath("$.message").value(responseMap.get("message")))
-    // .andExpect(jsonPath("$.state").value(responseMap.get("state")));
-    // }
-
     @Test
     void testDeleteAvatar() throws Exception {
         Map<String, Object> responseMap = new HashMap<>();

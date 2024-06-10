@@ -15,7 +15,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-//import org.springframework.web.client.RestTemplate;
 
 import com.eko.eko.config.JwtService;
 import com.eko.eko.money.model.Category;
@@ -109,7 +108,6 @@ public class AuthenticationService {
                                         new UsernamePasswordAuthenticationToken(request.getEmail(),
                                                         request.getPassword()));
                 } catch (BadCredentialsException ex) {
-                        // Xử lý khi xác thực thất bại (sai email hoặc mật khẩu)
                         return new ResponseEntity<>(AuthenticationResponse.builder()
                                         .message("Sai mật khẩu hoặc mail!!")
                                         .state(false)
@@ -268,8 +266,6 @@ public class AuthenticationService {
                         responseMap.put("state", false);
                         return ResponseEntity.ok(responseMap);
                 }
-
-                // Trả về map mới nếu không tìm thấy người dùng
                 responseMap.put("message", "Không tìm thấy người dùng với mail này: " + email);
                 responseMap.put("state", false);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
@@ -295,7 +291,6 @@ public class AuthenticationService {
                         return new ResponseEntity<>(responseMap, HttpStatus.OK);
                 }
 
-                // Trả về map mới nếu không tìm thấy người dùng
                 responseMap.put("message", "Không tìm thấy người dùng với email này: " + email);
                 responseMap.put("state", false);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);

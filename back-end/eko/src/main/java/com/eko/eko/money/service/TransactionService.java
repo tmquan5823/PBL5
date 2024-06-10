@@ -5,9 +5,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Comparator;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,8 +64,6 @@ public class TransactionService {
                 System.out.println("CHECK SHCHEDULE123");
                 List<Transaction> transactions = transactionRepository.findAllVerifyTransaction();
                 for (Transaction transaction : transactions) {
-                        // checkBudget(transaction.getCategory().getUser().getId(),
-                        // transaction.getDateTransaction());
                         TransactionDTONotif transactionNotif = new TransactionDTONotif(transaction);
                         notificationService.save(Notification.builder()
                                         .content("Giao dịch " + transaction.getCategory().getContent()
@@ -226,7 +226,6 @@ public class TransactionService {
                                 long numOfLoop = days / (transaction.getCycle().getMonths() * 30
                                                 + transaction.getCycle().getDays());
                                 LocalDateTime checkDate = transaction.getDateTransaction();
-                                // ham them ngay tu qua khu den hien tai
                                 for (int i = 1; i <= numOfLoop; i++) {
                                         checkDate = checkDate.plus(transaction.getCycle());
                                         Transaction temp = Transaction.builder()
@@ -261,8 +260,6 @@ public class TransactionService {
                                         checkBudget(user.getId(), futureTransaction.getDateTransaction());
                                         response.setTransactionFuture(futureTransaction);
                                 }
-                                // xet xem co tuong lai hay khong, neu co thi them tuong lai
-
                         }
                         response.setListTransactionPresent(transactions);
                         transactionRepository.save(transaction);
@@ -447,13 +444,13 @@ public class TransactionService {
                                                 HttpStatus.OK);
                         }
                         List<Transaction> transactions = transactionRepository.findAllByWalletIdASC(walletId);
-                        // List<Category> categories = categoryRepository.findAllByUserId(user.getId());
-                        Set<Category> uniqueCategories = new HashSet<>();
+                        Set<Category> uniqueCategories = new LinkedHashSet<>();
                         for (Transaction transaction : transactions) {
                                 uniqueCategories.add(transaction.getCategory());
                         }
                         List<CategoryWithTransactionTimes> transactionTimes = new ArrayList<>();
                         List<Category> categories = new ArrayList<>(uniqueCategories);
+                        categories.sort(Comparator.comparingInt(Category::getId));
                         for (Category category : categories) {
                                 List<Transaction> transactions1 = transactionRepository
                                                 .findAllByCategoryId(category.getId());

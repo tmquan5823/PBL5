@@ -56,7 +56,6 @@ public class ChatMessageService {
 
     public void updateStatuses(int senderId, int recipientId, MessageStatus status) {
         List<ChatMessage> messages = repository.findBySenderIdAndRecipientId(senderId, recipientId);
-        // System.out.println("CHECK" + messages.get(0).getContent());
         messages.forEach(message -> {
             message.setStatus(status);
             repository.save(message);
