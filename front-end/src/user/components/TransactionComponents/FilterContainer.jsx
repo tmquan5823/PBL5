@@ -40,6 +40,21 @@ const FilterContainer = props => {
     }, [formState.inputs, props.startDate, props.endDate]);
 
     useEffect(() => {
+        console.log(props.newCategory)
+        if (props.newCategory) {
+            setCategories(val => [...val, {
+                label: <Category
+                    icon={props.newCategory.category.iconUrl}
+                    color={props.newCategory.category.iconColor}
+                    content={props.newCategory.category.content}
+
+                />,
+                value: props.newCategory.category.id,
+            }])
+        }
+    }, [props.newCategory]);
+
+    useEffect(() => {
         async function fetchData() {
             try {
                 const resData = await sendRequest(process.env.REACT_APP_URL + "/api/user", "GET", null, {

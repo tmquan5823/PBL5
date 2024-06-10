@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./AdminMainInformation.css";
 import { useForm } from "../../../shared/hooks/form-hook";
 import Input from "../../../shared/components/FormElements/Input";
-import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL } from "../../../shared/util/validators";
+import { VALIDATOR_REQUIRE, VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_MIN, VALIDATOR_START_WITH } from "../../../shared/util/validators";
 import DatePicker from 'react-datepicker';
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import { AuthContext } from "../../../shared/context/auth-context";
@@ -183,6 +183,38 @@ const AdminMainInformation = props => {
             });
             console.log(responseData);
             if (responseData.state) {
+                let birthday;
+                if (!formState.inputs.date_of_birth.value) {
+                    birthday = new Date();
+                } else {
+                    birthday = new Date(formState.inputs.date_of_birth.value);
+                }
+                setUserinfo({
+                    first_name: {
+                        value: formState.inputs.first_name.value,
+                        isValid: true
+                    },
+                    last_name: {
+                        value: formState.inputs.last_name.value,
+                        isValid: true
+                    },
+                    email: {
+                        value: formState.inputs.email.value,
+                        isValid: true
+                    },
+                    phone_num: {
+                        value: formState.inputs.phone_num.value || "",
+                        isValid: true
+                    },
+                    date_of_birth: {
+                        value: birthday,
+                        isValid: true
+                    },
+                    address: {
+                        value: formState.inputs.address.value || "",
+                        isValid: true
+                    },
+                });
                 setUpdateState(false);
             }
         } catch (err) {
@@ -243,6 +275,7 @@ const AdminMainInformation = props => {
                     numberOnly
                     onInput={inputChangeHandler}
                     width="48%"
+                    validators={[VALIDATOR_MINLENGTH(10), VALIDATOR_START_WITH('0')]}
                     value={formState.inputs.phone_num.value}
                     initialIsValid={true} />
             </div>

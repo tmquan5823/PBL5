@@ -95,7 +95,7 @@ const AddTransactionForm = props => {
             if (resData.state) {
                 props.onClose();
                 console.log(formState.inputs.start_date.value);
-                props.onAdd(resData.list_transaction_present);
+                props.onAdd(categoryValue);
                 auth.setWallet(resData.wallet);
             }
         } catch (err) {
@@ -193,9 +193,9 @@ const AddTransactionForm = props => {
                     </Select>
                 </div>
                 <button
-                    disabled={!(formState.isValid && new Date(formState.inputs.start_date.value) < new Date(formState.inputs.end_date.value)) || isLoading}
+                    disabled={!(categoryValue && formState.isValid && new Date(formState.inputs.start_date.value) <= new Date(formState.inputs.end_date.value)) || isLoading}
                     onClick={addTransactionHandler}
-                    className={`add-btn ${!(formState.isValid && (formState.isValid && new Date(formState.inputs.start_date.value) < new Date(formState.inputs.end_date.value))) && 'disabled-btn'} 
+                    className={`add-btn ${!(categoryValue && formState.isValid && (formState.isValid && new Date(formState.inputs.start_date.value) <= new Date(formState.inputs.end_date.value))) && 'disabled-btn'} 
                     ${isLoading && 'isLoading-btn'}`}>
                     Thêm giao dịch
                 </button>

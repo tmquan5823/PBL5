@@ -69,7 +69,7 @@ const UserBudgetDetail = props => {
             setExpense([{ title: 'Ngân sách ban đầu', money: budget.money },
             { title: 'Số tiền đã chi', money: budget.spend },
             { title: 'Ngân sách còn lại', money: budget.money + budget.spend },
-            { title: 'Số tiền có thể dùng', money: (budget.money + budget.spend > 0) ? (budget.money + budget.spend) / dateCaculate(new Date, budget.dateEnd) : '0', no_mark: true, perDay: true }]);
+            { title: 'Số tiền có thể dùng', money: (budget.money + budget.spend > 0) ? (budget.money + budget.spend) / dateCaculate(budget.dateStart, budget.dateEnd) : '0', no_mark: true, perDay: true }]);
         }
         console.log(dataDoughnutChart(categories.filter(item => item.category.income), transactions.filter(item => item.amount >= 0)))
     }, [budget]);

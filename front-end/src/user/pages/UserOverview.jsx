@@ -114,12 +114,12 @@ const UserOverview = props => {
                         data={dataBarChart(filterTransactions)}
                     />
                 </div>}
-                {filterTransactions.length > 0 && filterWallets.length > 0 && <div className="chart-item">
+                {/* {filterTransactions.length > 0 && filterWallets.length > 0 && <div className="chart-item">
                     <AreaChart
                         title="Thu chi theo kì"
                         data={dataAreaChart(filterTransactions, filterWallets)}
                     />
-                </div>}
+                </div>} */}
                 {filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item doughnut-chart">
                     <PieChart
                         title="Thu nhập theo kì"

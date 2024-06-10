@@ -182,8 +182,39 @@ const UserMainInformation = props => {
                 'Content-Type': 'application/json',
                 'Authorization': "Bearer " + auth.token
             });
-            console.log(responseData);
             if (responseData.state) {
+                let birthday;
+                if (!formState.inputs.date_of_birth.value) {
+                    birthday = new Date();
+                } else {
+                    birthday = new Date(formState.inputs.date_of_birth.value);
+                }
+                setUserinfo({
+                    first_name: {
+                        value: formState.inputs.first_name.value,
+                        isValid: true
+                    },
+                    last_name: {
+                        value: formState.inputs.last_name.value,
+                        isValid: true
+                    },
+                    email: {
+                        value: formState.inputs.email.value,
+                        isValid: true
+                    },
+                    phone_num: {
+                        value: formState.inputs.phone_num.value || "",
+                        isValid: true
+                    },
+                    date_of_birth: {
+                        value: birthday,
+                        isValid: true
+                    },
+                    address: {
+                        value: formState.inputs.address.value || "",
+                        isValid: true
+                    },
+                });
                 setUpdateState(false);
             }
         } catch (err) {

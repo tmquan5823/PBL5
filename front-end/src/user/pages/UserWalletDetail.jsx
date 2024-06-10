@@ -125,19 +125,19 @@ const UserWalletDetail = props => {
                         data={dataBarChart(filterTransactions)}
                     />
                 </div>}
-                {filterTransactions.length > 0 && <div className="chart-item">
+                {/* {filterTransactions.length > 0 && <div className="chart-item">
                     <AreaChart
                         title="Thu chi theo kì"
                         data={dataAreaChart(filterTransactions, [auth.wallet])}
                     />
-                </div>}
-                {filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item">
+                </div>} */}
+                {filterTransactions.filter(item => item.amount > 0).length > 0 && <div className="chart-item  doughnut-chart">
                     <PieChart
                         title="Thu nhập theo kì"
                         data={dataDoughnutChart(categories.filter(item => item.category.income), filterTransactions.filter(item => item.amount > 0))}
                     />
                 </div>}
-                {filterTransactions.filter(item => item.amount < 0).length > 0 && <div className="chart-item">
+                {filterTransactions.filter(item => item.amount < 0).length > 0 && <div className="chart-item doughnut-chart">
                     <PieChart
                         title="Chi phí theo kì"
                         data={dataDoughnutChart(categories.filter(item => !item.category.income), filterTransactions.filter(item => item.amount < 0))}

@@ -108,7 +108,7 @@ const FilterContainer = props => {
                     initialIsValid={true}
                     width="20%"
                     options={wallets}
-                    content="nguời dùng"
+                    content="ví"
                     ref={inputRef[0]}
                 />
                 <Input id="category"

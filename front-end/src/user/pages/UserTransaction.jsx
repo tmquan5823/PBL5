@@ -24,6 +24,7 @@ const UserTransaction = props => {
     const [filterTransactions, setFilterTransactions] = useState();
     const [futureTransactions, setFutureTransactions] = useState();
     const [transactionsInDate, setTransactionsInDate] = useState();
+    const [newCategory, setNewCategory] = useState();
     const [expense, setExpense] = useState();
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
@@ -126,7 +127,8 @@ const UserTransaction = props => {
 
     const AddTransactionHandler = useCallback((item) => {
         fetchData();
-    }, [fetchData]);
+        setNewCategory(item);
+    }, [fetchData, setNewCategory]);
 
     const filterChangeHandler = (inputs) => {
         if (!auth.wallet || (inputs.user.value && inputs.user.value.length <= 0)) {
@@ -171,6 +173,7 @@ const UserTransaction = props => {
                     />
                 </div>
                 <FilterContainer
+                    newCategory={newCategory}
                     startDate={date.startDate}
                     endDate={date.endDate}
                     onChange={filterChangeHandler}

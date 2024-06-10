@@ -136,6 +136,7 @@ const ChatBubble = (props) => {
           </ScrollToBottom>
           <div className="chat-box-footer">
             <input
+              className="chatBu"
               type="text"
               placeholder="Nhập tin nhắn..."
               value={text}
